@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
@@ -32,9 +33,13 @@ public class UserBusinessServiceImpl implements UserBusinessService {
         return null;
     }
 
-
+@Override
+@Transactional
     public void registration(String email, String password , String firstName, String middleName, String lastName, String phoneNumber) {
         User user= new User(email, password , firstName, middleName, lastName, phoneNumber);
+        user.setDiscount(3);
+        user.setMoney(new BigDecimal(2000.0));
+
         userDao.addUser(user);
     }
 

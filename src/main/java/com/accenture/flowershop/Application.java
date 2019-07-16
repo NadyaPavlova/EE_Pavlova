@@ -1,5 +1,5 @@
 
-package com.accenture.flowershop.be;
+package com.accenture.flowershop;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
