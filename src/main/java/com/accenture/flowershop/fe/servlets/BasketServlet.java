@@ -1,6 +1,8 @@
 package com.accenture.flowershop.fe.servlets;
 
 import com.accenture.flowershop.be.business.flower.FlowerBusinessService;
+import com.accenture.flowershop.fe.dto.BasketDTO;
+import com.accenture.flowershop.fe.dto.FlowerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -10,15 +12,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
-
-@WebServlet(urlPatterns = "/catalog")
-public class CatalogFlowersServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/user/BasketServlet")
+public class BasketServlet extends HttpServlet {
 
     @Autowired
-    private FlowerBusinessService fbs;
+    FlowerBusinessService fbs;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -29,14 +31,16 @@ public class CatalogFlowersServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Long flower_id = Long.parseLong(req.getParameter("id_flower"));
+        FlowerDTO flower= new FlowerDTO(fbs.getFlowerById(flower_id));
+        HttpSession session = req.getSession(false);
+        BasketDTO basket = (BasketDTO)session.getAttribute("basket");
+        basket.addBasket(flower);
+        session.setAttribute("basket",basket);
         req.setAttribute("flowers", fbs.getAllFlowers());
+        req.getRequestDispatcher("/personalAccount.jsp").forward(req, resp);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("flowers", fbs.getAllFlowers());
-        String id_flower = req.getParameter("button");
-        String quantity = req.getParameter("quantity" + id_flower);
-    }
+
 }

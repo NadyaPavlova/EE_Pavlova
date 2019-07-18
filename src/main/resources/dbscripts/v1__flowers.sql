@@ -1,6 +1,6 @@
 create sequence seq_flower;
 create table FLOWERS(
-id_flower number(10, 0) PRIMARY KEY,
+id_flower LONG PRIMARY KEY,
 name_flower varchar2,
 price decimal(15,9),
 qty_stock number(10,0)

@@ -1,11 +1,13 @@
 package com.accenture.flowershop.be.business.flower;
 
 import com.accenture.flowershop.be.access.flower.FlowerDAO;
-import com.accenture.flowershop.be.access.flower.FlowerDAOImpl;
+import com.accenture.flowershop.be.entity.flower.Flower;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class FlowerBusinessServiceImpl implements FlowerBusinessService {
@@ -16,5 +18,14 @@ public class FlowerBusinessServiceImpl implements FlowerBusinessService {
 
     public FlowerBusinessServiceImpl() {
         LOG.info("CREATE:"+this.getClass()+";");
+    }
+    @Override
+    public List<Flower> getAllFlowers() {
+        return flowerDao.getAllFlowers();
+    }
+
+    @Override
+    public Flower getFlowerById(Long id){
+        return flowerDao.getFlowerById(id);
     }
 }

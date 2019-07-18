@@ -4,12 +4,13 @@ import javax.persistence.*;
 
 import java.math.BigDecimal;
 
-@Entity(name = "Flowers")
+@Entity(name = "Flower")
 @Table(name = "Flowers")
 public class Flower {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id")
-    @SequenceGenerator(name="id", sequenceName = "seq_flowers")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_flower")
+    @SequenceGenerator(name="id_flower", sequenceName = "seq_flower")
+    @Column(name="id_flower")
     private Long id_flower;
 
     @Column(name = "NAME_FLOWER")
@@ -55,12 +56,14 @@ public class Flower {
         this.price = price;
     }
 
-    public Integer getQty() {
+    public Integer getQty_stock() {
         return qty_stock;
     }
 
-    public void setQty(Integer qty) {
+    public void setQty_stock(Integer qty) {
         this.qty_stock = qty;
     }
+
+
 }
 

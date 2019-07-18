@@ -1,10 +1,14 @@
 package com.accenture.flowershop.fe.servlets;
 
+import com.accenture.flowershop.be.business.flower.FlowerBusinessService;
 import com.accenture.flowershop.be.business.user.UserBusinessService;
-import com.accenture.flowershop.be.business.user.UserBusinessServiceImpl;
 import com.accenture.flowershop.be.entity.user.User;
+import com.accenture.flowershop.fe.dto.BasketDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,12 +18,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @WebServlet(name = "loginServlet",urlPatterns = "/user/login")
 public class LoginServlet extends HttpServlet {
 
+    @Autowired
+    private FlowerBusinessService fbs;
     @Autowired
     private UserBusinessService ubs;
 
@@ -51,19 +55,16 @@ public class LoginServlet extends HttpServlet {
         }
 
         LOG.info("USER "+ session.getAttribute("user") + " LOGGED IN.");
-        req.setAttribute("firstName", currentUser.getFirstName());
-        req.setAttribute("middleName", currentUser.getMiddleName());
-        req.setAttribute("lastName", currentUser.getLastName());
-        req.setAttribute("phoneNumber", currentUser.getPhoneNumber());
-        req.setAttribute("email", currentUser.getEmail());
-        req.setAttribute("money", currentUser.getMoney());
-        req.setAttribute("discount", currentUser.getDiscount());
         if(currentUser.isAdmin()==1) {
-            req.setAttribute("role", "Admin");
+            session.setAttribute("role", "Admin");
         }
         else{
-            req.setAttribute("role", "User");
+            session.setAttribute("role", "User");
         }
+        req.setAttribute("flowers", fbs.getAllFlowers());
+
+        BasketDTO basketDto = new BasketDTO();
+        session.setAttribute("basket", basketDto);
         req.getRequestDispatcher("/personalAccount.jsp").forward(req, resp);
 
     }
