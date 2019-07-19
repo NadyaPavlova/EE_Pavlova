@@ -8,44 +8,44 @@ import java.math.BigDecimal;
 @Table(name = "Flowers")
 public class Flower {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_flower")
-    @SequenceGenerator(name="id_flower", sequenceName = "seq_flower")
-    @Column(name="id_flower")
-    private Long id_flower;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idFlower")
+    @SequenceGenerator(name="idFlower", sequenceName = "seq_flower")
+    @Column(name="idFlower")
+    private Long idFlower;
 
-    @Column(name = "NAME_FLOWER")
-    private String name_flower;
+    @Column(name = "nameFlower")
+    private String nameFlower;
 
-    @Column (name = "PRICE")
+    @Column (name = "price")
     private BigDecimal price;
 
-    @Column (name = "QTY_STOCK")
-    private Integer qty_stock;
+    @Column (name = "qtyStock")
+    private Integer qtyStock;
 
     public Flower() {
     }
 
-    public Flower(Long id_flower, String name_flower, BigDecimal price, Integer qty) {
-        this.id_flower = id_flower;
-        this.name_flower = name_flower;
+    public Flower(Long idFlower, String nameFlower, BigDecimal price, Integer qty) {
+        this.idFlower = idFlower;
+        this.nameFlower = nameFlower;
         this.price = price;
-        this.qty_stock = qty;
+        this.qtyStock = qty;
     }
 
-    public Long getId_flower() {
-        return id_flower;
+    public Long getIdFlower() {
+        return idFlower;
     }
 
-    public void setId_flower(Long id_flower) {
-        this.id_flower = id_flower;
+    public void setIdFlower(Long idFlower) {
+        this.idFlower = idFlower;
     }
 
-    public String getName_flower() {
-        return name_flower;
+    public String getNameFlower() {
+        return nameFlower;
     }
 
-    public void setName_flower(String name_flower) {
-        this.name_flower = name_flower;
+    public void setNameFlower(String nameFlower) {
+        this.nameFlower = nameFlower;
     }
 
     public BigDecimal getPrice() {
@@ -56,12 +56,12 @@ public class Flower {
         this.price = price;
     }
 
-    public Integer getQty_stock() {
-        return qty_stock;
+    public Integer getQtyStock() {
+        return qtyStock;
     }
 
-    public void setQty_stock(Integer qty) {
-        this.qty_stock = qty;
+    public void setQtyStock(Integer qty) {
+        this.qtyStock = qty;
     }
 
 

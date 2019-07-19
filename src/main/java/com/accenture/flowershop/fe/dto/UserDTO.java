@@ -5,7 +5,7 @@ import com.accenture.flowershop.be.entity.user.User;
 import java.math.BigDecimal;
 
 public class UserDTO {
-    private Long id_user;
+    private Long idUser;
     private String login;
     private String lastName;
     private String firstName;
@@ -112,12 +112,12 @@ public class UserDTO {
         this.admin = admin;
     }
 
-    public Long getId_user() {
-        return id_user;
+    public Long getIdUser() {
+        return idUser;
     }
 
-    public void setId_user(Long id_user) {
-        this.id_user = id_user;
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
     }
 
     public Integer getAdmin() {

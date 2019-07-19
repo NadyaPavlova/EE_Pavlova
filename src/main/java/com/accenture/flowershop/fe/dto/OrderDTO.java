@@ -9,7 +9,7 @@ public class OrderDTO {
 
     private UserDTO userDTO;
 
-    private List<Order_itemDTO> orderFlowersList;
+    private List<OrderItemDTO> orderFlowersList;
 
     private String status;
 
@@ -19,14 +19,6 @@ public class OrderDTO {
 
     OrderDTO(){}
 
-    public OrderDTO(Long id, UserDTO userDTO, List<Order_itemDTO> orderFlowersList, String status, Integer discount, BigDecimal finalPrice) {
-        this.id = id;
-        this.userDTO = userDTO;
-        this.orderFlowersList = orderFlowersList;
-        this.status = status;
-        this.discount = discount;
-        this.finalPrice = finalPrice;
-    }
 
     public Long getId() {
         return id;
@@ -44,11 +36,11 @@ public class OrderDTO {
         this.userDTO = userDTO;
     }
 
-    public List<Order_itemDTO> getOrderFlowersList() {
+    public List<OrderItemDTO> getOrderFlowersList() {
         return orderFlowersList;
     }
 
-    public void setOrderFlowersList(List<Order_itemDTO> orderFlowersList) {
+    public void setOrderFlowersList(List<OrderItemDTO> orderFlowersList) {
         this.orderFlowersList = orderFlowersList;
     }
 

@@ -1,6 +1,5 @@
 package com.accenture.flowershop.be.access.user;
 
-import com.accenture.flowershop.be.business.user.UserBusinessServiceImpl;
 import com.accenture.flowershop.be.entity.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +12,7 @@ import javax.persistence.TypedQuery;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
-    private static final Logger LOG = LoggerFactory.getLogger(UserBusinessServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UserDAOImpl.class);
     @PersistenceContext
     private EntityManager entityManager;
 

@@ -7,39 +7,39 @@ import java.math.BigDecimal;
 @Table(name = "Users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_user")
-    @SequenceGenerator(name="id_user", sequenceName = "seq_user")
-    @Column(name="id_user")
-    private Long id_user;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idUser")
+    @SequenceGenerator(name="idUser", sequenceName = "seq_user")
+    @Column(name="idUser")
+    private Long idUser;
 
-    @Column(name = "LOGIN")
+    @Column(name = "login")
     private String  login;
 
-    @Column(name = "PASSWORD")
+    @Column(name = "password")
     private String password;
 
-    @Column (name = "LAST_NAME")
+    @Column (name = "lastName")
     private String lastName;
 
-    @Column (name = "FIRST_NAME")
+    @Column (name = "firstName")
     private String firstName;
 
-    @Column (name = "MIDDLE_NAME")
+    @Column (name = "middleName")
     private String middleName;
 
-    @Column (name = "EMAIL")
+    @Column (name = "email")
     private String email;
 
-    @Column (name = "PHONE_NUMBER")
+    @Column (name = "phoneNumber")
     private String phoneNumber;
 
-    @Column (name = "MONEY")
+    @Column (name = "money")
     private BigDecimal money;
 
-    @Column (name = "DISCOUNT")
+    @Column (name = "discount")
     private Integer discount;
 
-    @Column (name = "ADMIN")
+    @Column (name = "admin")
     private Integer admin;
 
 
@@ -144,12 +144,12 @@ public class User {
         this.admin = admin;
     }
 
-    public Long getId_user() {
-        return id_user;
+    public Long getIdUser() {
+        return idUser;
     }
 
-    public void setId_user(Long id_user) {
-        this.id_user = id_user;
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
     }
 
     public Integer getAdmin() {

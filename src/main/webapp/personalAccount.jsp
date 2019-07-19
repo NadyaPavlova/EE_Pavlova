@@ -30,11 +30,11 @@
                </tr>
                <c:forEach items = "${flowers}" var="iterator">
                    <tr style="border:2px solid black;background-color:rgb(342, 169, 169)" class="col-md-12 col-sm-4 grid-item">
-                       <td>${iterator.id_flower}</td>
-                       <td>${iterator.name_flower}</td>
+                       <td>${iterator.idFlower}</td>
+                       <td>${iterator.nameFlower}</td>
                        <td>${iterator.price}</td>
-                       <td>${iterator.qty_stock}</td>
-                       <td><button  type="submit" name="id_flower" value="${iterator.id_flower}"  > Buy </button>
+                       <td>${iterator.qtyStock}</td>
+                       <td><button  type="submit" name="idFlower" value="${iterator.idFlower}"  > Buy </button>
                        </td>
                    </tr>
                </c:forEach>
@@ -51,14 +51,15 @@
                 </tr>
                 <c:forEach items = "${basket.basketList}" var="iterator">
                     <tr  style="border:2px solid black;background-color: rgb(204, 140, 203)" class="col-md-12 col-sm-4 grid-item">
-                        <td>${iterator.id_flower}</td>
-                        <td>${iterator.name_flower}</td>
-                        <td>${iterator.qty_fl}</td>
-                        <td><button type="submit" name="id_flower" value="${iterator.id_flower}"> Delete </button>
+                        <td>${iterator.idFlower}</td>
+                        <td>${iterator.nameFlower}</td>
+                        <td>${iterator.qtyFlower}</td>
+                        <td><button type="submit" name="idFlower" value="${iterator.idFlower}"> Delete </button>
                         </td>
                     </tr>
                 </c:forEach>
             </table>
+             <p style="color: red"> ${count} </p>
         </form>
 </body>
 </html>

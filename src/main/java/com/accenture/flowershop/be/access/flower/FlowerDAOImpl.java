@@ -1,6 +1,5 @@
 package com.accenture.flowershop.be.access.flower;
 
-import com.accenture.flowershop.be.business.flower.FlowerBusinessServiceImpl;
 import com.accenture.flowershop.be.entity.flower.Flower;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +16,7 @@ public class FlowerDAOImpl implements FlowerDAO {
     @PersistenceContext
     EntityManager entityManager;
 
-    private static final Logger LOG = LoggerFactory.getLogger(FlowerBusinessServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FlowerDAOImpl.class);
 
     public FlowerDAOImpl() {
         LOG.info("CREATE:" + this.getClass() + ".");
@@ -30,7 +29,7 @@ public class FlowerDAOImpl implements FlowerDAO {
 
     @Override
     public Flower getFlowerByName(String name) {
-        TypedQuery<Flower> q = entityManager.createQuery("select f from Flower where f.name_flower = :name", Flower.class);
+        TypedQuery<Flower> q = entityManager.createQuery("select f from Flower where f.nameFlower = :name", Flower.class);
         q.setParameter("name", name);
         return q.getSingleResult();
     }

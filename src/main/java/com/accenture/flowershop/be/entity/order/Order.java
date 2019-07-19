@@ -1,6 +1,6 @@
 package com.accenture.flowershop.be.entity.order;
 
-import com.accenture.flowershop.be.entity.order_item.Order_item;
+import com.accenture.flowershop.be.entity.orderItem.OrderItem;
 import com.accenture.flowershop.be.entity.user.User;
 
 import javax.persistence.*;
@@ -10,30 +10,30 @@ import java.util.List;
 @Table(name = "ORDERS")
 public class Order {
     @Id
-    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "id_order")
-    @SequenceGenerator(name="id_order", sequenceName = "seq_order")
-    @Column(name="id_order")
-    private Long id_order;
+    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "idOrder")
+    @SequenceGenerator(name="idOrder", sequenceName = "seq_order")
+    @Column(name="idOrder")
+    private Long idOrder;
 
     @OneToOne
-    @JoinColumn(name = "id_user")
+    @JoinColumn(name = "idUser")
     private User user;
 
     @Column
-    private BigDecimal price_sum;
+    private BigDecimal priceSum;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.ALL)
-    private List <Order_item> itemList;
+    private List <OrderItem> itemList;
 
     public Order() {
     }
 
-    public Long getId_order() {
-        return id_order;
+    public Long getIdOrder() {
+        return idOrder;
     }
 
-    public void setId_order(Long id_order) {
-        this.id_order = id_order;
+    public void setIdOrder(Long idOrder) {
+        this.idOrder = idOrder;
     }
 
     public User getUser() {
@@ -44,19 +44,19 @@ public class Order {
         this.user = user;
     }
 
-    public BigDecimal getPrice_sum() {
-        return price_sum;
+    public BigDecimal getPriceSum() {
+        return priceSum;
     }
 
-    public void setPrce_sum(BigDecimal price_sum) {
-        this.price_sum = price_sum;
+    public void setPrce_sum(BigDecimal priceSum) {
+        this.priceSum = priceSum;
     }
 
-    public List<Order_item> getItemList() {
+    public List<OrderItem> getItemList() {
         return itemList;
     }
 
-    public void setItemList(List<Order_item> itemList) {
+    public void setItemList(List<OrderItem> itemList) {
         this.itemList = itemList;
     }
 }

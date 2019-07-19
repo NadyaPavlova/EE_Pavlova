@@ -1,39 +1,50 @@
 package com.accenture.flowershop.fe.dto;
 
+import com.accenture.flowershop.be.business.flower.FlowerBusinessService;
 import com.accenture.flowershop.be.entity.flower.Flower;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 
 public class FlowerDTO {
-    private Long id_flower;
-    private String name_flower;
+    private Long idFlower;
+    private String nameFlower;
     private BigDecimal price;
+    private Integer qtyStock;
 
-    public FlowerDTO(Long id_flower, String name_flower, BigDecimal price) {
-        this.id_flower = id_flower;
-        this.name_flower = name_flower;
-        this.price = price;
+    @Autowired
+    private FlowerBusinessService fbs;
+
+
+    public FlowerDTO() {
     }
 
-    public FlowerDTO(Flower flower) {
-        this.id_flower = flower.getId_flower();
-        this.name_flower = flower.getName_flower();
-        this.price = flower.getPrice();
-    }
-    public Long getId_flower() {
-        return id_flower;
+    public Integer getQtyStock() {
+        return qtyStock;
     }
 
-    public void setId_flower(Long id_flower) {
-        this.id_flower = id_flower;
+    public void setQtyStock(Integer qtyStock) {
+        this.qtyStock = qtyStock;
     }
 
-    public String getName_flower() {
-        return name_flower;
+    public Flower getFlowerById(Long id){
+        return fbs.getFlowerById(id);
     }
 
-    public void setName_flower(String name_flower) {
-        this.name_flower = name_flower;
+    public Long getIdFlower() {
+        return idFlower;
+    }
+
+    public void setIdFlower(Long idFlower) {
+        this.idFlower = idFlower;
+    }
+
+    public String getNameFlower() {
+        return nameFlower;
+    }
+
+    public void setNameFlower(String nameFlower) {
+        this.nameFlower = nameFlower;
     }
 
     public BigDecimal getPrice() {
