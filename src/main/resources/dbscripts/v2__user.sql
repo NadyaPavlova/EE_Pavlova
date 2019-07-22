@@ -9,7 +9,7 @@ firstName varchar2,
 middleName varchar2,
 email varchar2,
 phoneNumber varchar2,
-money decimal(15,9),
+money decimal(15,2),
 discount number(3, 0),
 admin bit,
 unique(login)

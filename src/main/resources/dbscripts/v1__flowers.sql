@@ -2,7 +2,7 @@ create sequence seq_flower;
 create table FLOWERS(
 idFlower LONG PRIMARY KEY,
 nameFlower varchar2,
-price decimal(15,9),
+price decimal(15,2),
 qtyStock number(10,0)
 );
 

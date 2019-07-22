@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "loginServlet",urlPatterns = "/user/login")
+@WebServlet(name = "loginServlet", urlPatterns = "/user/login")
 public class LoginServlet extends HttpServlet {
 
     @Autowired
@@ -38,7 +38,7 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost( HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         req.setCharacterEncoding("utf-8");
         resp.setCharacterEncoding("utf-8");
@@ -47,18 +47,16 @@ public class LoginServlet extends HttpServlet {
         String password = req.getParameter("password");
         HttpSession session = req.getSession(true);
         User currentUser;
-        if((currentUser = ubs.login(login, password)) != null) {
+        if ((currentUser = ubs.login(login, password)) != null) {
             session.setAttribute("user", currentUser);
-        }
-        else {
+        } else {
             throw new ServletException("You shall not pass!");
         }
 
-        LOG.info("USER "+ session.getAttribute("user") + " LOGGED IN.");
-        if(currentUser.isAdmin()==1) {
+        LOG.info("USER " + session.getAttribute("user") + " LOGGED IN.");
+        if (currentUser.isAdmin() == 1) {
             session.setAttribute("role", "Admin");
-        }
-        else{
+        } else {
             session.setAttribute("role", "User");
         }
         req.setAttribute("flowers", fbs.getAllFlowers());

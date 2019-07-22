@@ -1,64 +1,69 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="UTF-8"%>
 
-<%@ taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>FlowerShop</title>
+    <title>Цветочнный магазин</title>
 </head>
 <body>
     <form method = "get">
-        <h1 style="color: red">Personal Account</h1>
+        <h1 style="color: red">Личный кабинет</h1>
         <div>
             <p> ${role} </p>
-            <p>Name: ${user.lastName} ${user.firstName} ${user.middleName}</p>
-            <p>Address: ${user.email} </p>
-            <p>phoneNumber: ${user.phoneNumber} </p>
-            <p>Money: ${user.money}</p>
-            <p>Discount: ${user.discount}%</p>
+            <p>Ф.И.О: ${user.lastName} ${user.firstName} ${user.middleName}</p>
+            <p>Электронный адрес: ${user.email} </p>
+            <p>Номер телефона: ${user.phoneNumber} </p>
+            <p>Счет: ${user.money} руб.</p>
+            <p>Скидка: ${user.discount}%</p>
             </div>
     </form>
-   <form method="post"  action = "/flowershop/user/BasketServlet">
-   <h2 style="color: rgb(393, 9, 100)">Catalog flowers</h2>
-           <table>
+   <h2 style="color: rgb(393, 9, 100)">Каталог</h2>
+           <table style="align:center; width:50%; vertical-align:middle">
                <tr style="background-color:rgb(342, 94, 125)">
                    <td>Id</td>
-                   <td>Name</td>
-                   <td>Price</td>
-                   <td>Qty</td>
+                   <td>Название</td>
+                   <td>Цена</td>
+                   <td>Кол-во на складе</td>
                </tr>
                <c:forEach items = "${flowers}" var="iterator">
-                   <tr style="border:2px solid black;background-color:rgb(342, 169, 169)" class="col-md-12 col-sm-4 grid-item">
+                   <tr style="background-color:rgb(342, 169, 169)">
                        <td>${iterator.idFlower}</td>
                        <td>${iterator.nameFlower}</td>
-                       <td>${iterator.price}</td>
+                       <td>${iterator.price} руб.</td>
                        <td>${iterator.qtyStock}</td>
-                       <td><button  type="submit" name="idFlower" value="${iterator.idFlower}"  > Buy </button>
-                       </td>
+                       <form method="post"  action = "/flowershop/user/BasketAddServlet">
+                           <td style="align:center; width:10%;"><input type="text" name="quantity" placeholder="quantity"></td>
+                           <td style="background-color: rgb(255, 255, 255)"><button type="submit" name="idFlower" value="${iterator.idFlower}">В корзину</button></td>
+                       </form>
                    </tr>
                </c:forEach>
            </table>
-       </form>
 
-<h2 style="color: rgb(139, 20, 155)">Basket</h2>
+
+<h2 style="color: rgb(139, 20, 155)">Корзина</h2>
         <form method="post" action="/flowershop/user/BasketDeleteServlet">
-            <table>
+            <table style="width:50%;" >
                 <tr style="background-color:rgb(162, 77, 147)">
                     <td>Id</td>
-                    <td>Name</td>
-                    <td>Quantity</td>
+                    <td>Название</td>
+                    <td>Кол-во</td>
+                    <td>Цена</td>
                 </tr>
                 <c:forEach items = "${basket.basketList}" var="iterator">
-                    <tr  style="border:2px solid black;background-color: rgb(204, 140, 203)" class="col-md-12 col-sm-4 grid-item">
+                    <tr style="background-color: rgb(204, 140, 203)">
                         <td>${iterator.idFlower}</td>
                         <td>${iterator.nameFlower}</td>
                         <td>${iterator.qtyFlower}</td>
-                        <td><button type="submit" name="idFlower" value="${iterator.idFlower}"> Delete </button>
+                        <td>${iterator.priceFlower} руб.</td>
+                        <td style="background-color: rgb(255, 255, 255)">
+                            <button type="submit" name="idFlower" value="${iterator.idFlower}"> Удалить </button>
                         </td>
                     </tr>
                 </c:forEach>
             </table>
+             <p>Сумма заказа: ${basket.priceSum} руб.</p>
              <p style="color: red"> ${count} </p>
         </form>
 </body>
