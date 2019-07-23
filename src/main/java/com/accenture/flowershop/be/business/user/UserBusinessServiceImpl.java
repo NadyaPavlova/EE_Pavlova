@@ -19,7 +19,6 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 
     public UserBusinessServiceImpl() {
         LOG.info("CREATE:" + this.getClass() + ";");
-
     }
 
     @Override
@@ -33,8 +32,8 @@ public class UserBusinessServiceImpl implements UserBusinessService {
         return null;
     }
 
-@Override
-@Transactional
+    @Override
+    @Transactional
     public void registration(String email, String password , String firstName, String middleName, String lastName, String phoneNumber) {
         User user = new User(email, password , firstName, middleName, lastName, phoneNumber);
         user.setDiscount(3);
@@ -45,5 +44,17 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 
     public void logout() {
 
+    }
+
+    @Override
+    public User getUserByLogin(String login){
+        return userDao.getUserByLogin(login);
+    }
+
+    @Override
+    @Transactional
+    public void payOrder(User user, BigDecimal price) {
+        user.setMoney(user.getMoney().subtract(price));
+        userDao.updateMoney(user);
     }
 }

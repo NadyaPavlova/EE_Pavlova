@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,5 +29,12 @@ public class FlowerBusinessServiceImpl implements FlowerBusinessService {
     @Override
     public Flower getFlowerById(Long id){
         return flowerDao.getFlowerById(id);
+    }
+
+    @Override
+    @Transactional
+    public void countingFlowers(Flower flower, int qty){
+        flower.setQtyStock(flower.getQtyStock()- qty);
+        flowerDao.updateQtyStock(flower);
     }
 }

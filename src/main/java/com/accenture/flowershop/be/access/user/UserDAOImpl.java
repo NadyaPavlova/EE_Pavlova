@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 @Repository
@@ -38,4 +39,13 @@ public class UserDAOImpl implements UserDAO {
         entityManager.flush();
     }
 
+    @Override
+    @Transactional
+    public void updateMoney(User user){
+            Query q = entityManager.createQuery("update User u set u.money = :balance where u.idUser = :id");
+            q.setParameter("id", user.getIdUser());
+            q.setParameter("balance", user.getMoney());
+            q.executeUpdate();
+            entityManager.flush();
+    }
 }

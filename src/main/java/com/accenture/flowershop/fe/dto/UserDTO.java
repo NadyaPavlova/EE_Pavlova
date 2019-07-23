@@ -1,7 +1,5 @@
 package com.accenture.flowershop.fe.dto;
 
-import com.accenture.flowershop.be.entity.user.User;
-
 import java.math.BigDecimal;
 
 public class UserDTO {
@@ -17,29 +15,9 @@ public class UserDTO {
     private Integer admin;
 
 
-    public UserDTO(String email, String firstName, String middleName, String lastName, String phoneNumber, BigDecimal money, Integer discount, Integer admin ){
-        this.login = email;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.money = money;
-        this.discount = discount;
-        this.admin = admin;
+    public UserDTO(){
     }
 
-    public UserDTO(User user){
-        this.login = user.getEmail();
-        this.firstName = user.getFirstName();
-        this.middleName = user.getMiddleName();
-        this.lastName = user.getLastName();
-        this.email = user.getEmail();
-        this.phoneNumber = user.getPhoneNumber();
-        this.money = user.getMoney();
-        this.discount = user.getDiscount();
-        this.admin = user.getAdmin();
-    }
     public String getLogin() {
         return login;
     }

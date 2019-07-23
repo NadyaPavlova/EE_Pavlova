@@ -17,9 +17,6 @@
 <form method = "link" action = "/flowershop/registration.jsp">
     <button type = "submit">Registration</button>
 </form>
-<form method = "link" action = "/flowershop/catalog.jsp">
-    <button type = "submit">Catalog</button>
-</form>
 
 
 </body>

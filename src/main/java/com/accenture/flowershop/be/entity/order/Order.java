@@ -6,24 +6,28 @@ import com.accenture.flowershop.be.entity.user.User;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
-@Entity(name = "ORDER")
+@Entity
 @Table(name = "ORDERS")
 public class Order {
     @Id
     @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "idOrder")
-    @SequenceGenerator(name="idOrder", sequenceName = "seq_order")
+    @SequenceGenerator(name="idOrder", sequenceName = "seq_order", allocationSize = 1, initialValue = 1)
     @Column(name="idOrder")
     private Long idOrder;
 
-    @OneToOne
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "idUser")
     private User user;
 
     @Column
     private BigDecimal priceSum;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", orphanRemoval = true, fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     private List <OrderItem> itemList;
+
+    @Column
+    private String status;
+
 
     public Order() {
     }
@@ -48,7 +52,7 @@ public class Order {
         return priceSum;
     }
 
-    public void setPrce_sum(BigDecimal priceSum) {
+    public void setPriceSum(BigDecimal priceSum) {
         this.priceSum = priceSum;
     }
 
@@ -59,4 +63,13 @@ public class Order {
     public void setItemList(List<OrderItem> itemList) {
         this.itemList = itemList;
     }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
 }

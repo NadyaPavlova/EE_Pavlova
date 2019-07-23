@@ -3,28 +3,19 @@ package com.accenture.flowershop.fe.dto;
 import java.math.BigDecimal;
 
 public class OrderItemDTO {
-    private Long idFlower;
-    private String nameFlower;
+    private FlowerDTO flowerDTO;
     private BigDecimal priceFlower;
     private int qtyFlower;
 
     public OrderItemDTO() {
     }
 
-    public Long getIdFlower() {
-        return idFlower;
+    public FlowerDTO getFlowerDTO() {
+        return flowerDTO;
     }
 
-    public void setIdFlower(Long idFlower) {
-        this.idFlower = idFlower;
-    }
-
-    public String getNameFlower() {
-        return nameFlower;
-    }
-
-    public void setNameFlower(String nameFlower) {
-        this.nameFlower = nameFlower;
+    public void setFlowerDTO(FlowerDTO flowerDTO) {
+        this.flowerDTO = flowerDTO;
     }
 
     public BigDecimal getPriceFlower() {

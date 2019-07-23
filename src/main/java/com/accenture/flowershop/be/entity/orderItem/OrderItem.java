@@ -4,13 +4,17 @@ import com.accenture.flowershop.be.entity.flower.Flower;
 import com.accenture.flowershop.be.entity.order.Order;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+
 @Entity(name = "OrderItem")
-@Table(name = "ORDER_ITEM")
+@Table(name = "ORDERITEM")
 public class OrderItem {
+
     @Id
-    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "idOrderIt")
-    @SequenceGenerator(name="idOrderIt", sequenceName = "seq_order_item")
-    private Long idOrderIt;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_item_seq")
+    @SequenceGenerator(name = "order_item_seq", sequenceName = "seq_order_item", allocationSize = 1)
+    @Column(name = "idItemOrder")
+    private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "idOrder")
@@ -20,18 +24,29 @@ public class OrderItem {
     @JoinColumn(name = "idFlower")
     private Flower flower;
 
-    @Column
+    @Column(name = "qty")
     private Integer qtyFlower;
 
+    @Column(name = "price")
+    private BigDecimal price;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
     public OrderItem() {
-    }
-
-    public Long getIdOrderIt() {
-        return idOrderIt;
-    }
-
-    public void setIdOrderIt(Long idOrderIt) {
-        this.idOrderIt = idOrderIt;
     }
 
     public Order getOrder() {

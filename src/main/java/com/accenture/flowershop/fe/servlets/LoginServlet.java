@@ -1,9 +1,12 @@
 package com.accenture.flowershop.fe.servlets;
 
+import com.accenture.flowershop.be.business.Mapper;
 import com.accenture.flowershop.be.business.flower.FlowerBusinessService;
+import com.accenture.flowershop.be.business.order.OrderBusinessService;
 import com.accenture.flowershop.be.business.user.UserBusinessService;
 import com.accenture.flowershop.be.entity.user.User;
-import com.accenture.flowershop.fe.dto.BasketDTO;
+import com.accenture.flowershop.fe.dto.OrderDTO;
+import com.accenture.flowershop.fe.dto.UserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,8 @@ public class LoginServlet extends HttpServlet {
     private FlowerBusinessService fbs;
     @Autowired
     private UserBusinessService ubs;
+    @Autowired
+    private OrderBusinessService obs;
 
     private static final Logger LOG = LoggerFactory.getLogger(LoginServlet.class);
 
@@ -48,21 +53,23 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = req.getSession(true);
         User currentUser;
         if ((currentUser = ubs.login(login, password)) != null) {
-            session.setAttribute("user", currentUser);
+            UserDTO userDTO = Mapper.mapper(currentUser);
+            session.setAttribute("user", userDTO);
         } else {
             throw new ServletException("You shall not pass!");
         }
-
         LOG.info("USER " + session.getAttribute("user") + " LOGGED IN.");
         if (currentUser.isAdmin() == 1) {
             session.setAttribute("role", "Admin");
         } else {
             session.setAttribute("role", "User");
         }
-        req.setAttribute("flowers", fbs.getAllFlowers());
+        session.setAttribute("flowers", fbs.getAllFlowers());
+       // session.setAttribute("orders", Mapper.mapper(obs.getAllOrders()));
 
-        BasketDTO basketDto = new BasketDTO();
-        session.setAttribute("basket", basketDto);
+        OrderDTO orderDto = new OrderDTO();
+        session.setAttribute("basket", orderDto);
+        req.setAttribute("orders", Mapper.mapper(obs.getAllOrders()));
         req.getRequestDispatcher("/personalAccount.jsp").forward(req, resp);
 
     }

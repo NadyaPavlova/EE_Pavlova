@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Цветочнный магазин</title>
+    <title>Цветочный магазин</title>
 </head>
 <body>
     <form method = "get">
@@ -20,15 +20,15 @@
             </div>
     </form>
    <h2 style="color: rgb(393, 9, 100)">Каталог</h2>
-           <table style="align:center; width:50%; vertical-align:middle">
-               <tr style="background-color:rgb(342, 94, 125)">
+           <table style="text-align:center; width:50%;">
+               <tr style="background-color:rgb(255, 94, 125)">
                    <td>Id</td>
                    <td>Название</td>
                    <td>Цена</td>
                    <td>Кол-во на складе</td>
                </tr>
                <c:forEach items = "${flowers}" var="iterator">
-                   <tr style="background-color:rgb(342, 169, 169)">
+                   <tr style="background-color:rgb(255, 169, 169)">
                        <td>${iterator.idFlower}</td>
                        <td>${iterator.nameFlower}</td>
                        <td>${iterator.price} руб.</td>
@@ -42,9 +42,9 @@
            </table>
 
 
-<h2 style="color: rgb(139, 20, 155)">Корзина</h2>
+        <h2 style="color: rgb(139, 20, 155)">Корзина</h2>
         <form method="post" action="/flowershop/user/BasketDeleteServlet">
-            <table style="width:50%;" >
+            <table style=" text-align:center; width:50%;" >
                 <tr style="background-color:rgb(162, 77, 147)">
                     <td>Id</td>
                     <td>Название</td>
@@ -53,18 +53,44 @@
                 </tr>
                 <c:forEach items = "${basket.basketList}" var="iterator">
                     <tr style="background-color: rgb(204, 140, 203)">
-                        <td>${iterator.idFlower}</td>
-                        <td>${iterator.nameFlower}</td>
+                        <td>${iterator.flowerDTO.idFlower}</td>
+                        <td>${iterator.flowerDTO.nameFlower}</td>
                         <td>${iterator.qtyFlower}</td>
                         <td>${iterator.priceFlower} руб.</td>
                         <td style="background-color: rgb(255, 255, 255)">
-                            <button type="submit" name="idFlower" value="${iterator.idFlower}"> Удалить </button>
+                            <button type="submit" name="idFlower" value="${iterator.flowerDTO.idFlower}"> Удалить </button>
                         </td>
                     </tr>
                 </c:forEach>
             </table>
-             <p>Сумма заказа: ${basket.priceSum} руб.</p>
-             <p style="color: red"> ${count} </p>
         </form>
+        <form method="post"  action = "/flowershop/user/OrderService">
+            <p>Сумма заказа: ${basket.priceSum} руб.</p>
+            <p style="color: red"> ${count} </p>
+            <button type="submit"> Оформить заказ </button>
+        </form>
+
+    <h2 style="color: rgb(71, 160, 240)">Заказы</h2>
+    <c:forEach items = "${orders}" var="i">
+        <p>Заказ №${i.idOrder}</p>
+         <table style="text-align:center; width:50%;" >
+             <tr style="background-color:rgb(98, 192, 237)">
+                <td>Id</td>
+                <td>Название</td>
+                <td>Кол-во</td>
+                <td>Цена</td>
+             </tr>
+
+            <c:forEach items = "${i.basketList}" var="iterator">
+                <tr style="background-color:rgb(165, 212, 255)">
+                    <td>${iterator.flowerDTO.idFlower}</td>
+                    <td>${iterator.flowerDTO.nameFlower}</td>
+                    <td>${iterator.qtyFlower}</td>
+                    <td>${iterator.priceFlower} руб.</td>
+                </tr>
+             </c:forEach>
+         </table>
+         <p> Сумма заказа: ${i.priceSum}</p>
+    </c:forEach>
 </body>
 </html>

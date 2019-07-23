@@ -44,7 +44,7 @@ public class User {
 
 
     public User(){
-        money = new BigDecimal(2000);
+        money = new BigDecimal(3000);
         discount = 3;
         admin = 0;
     }

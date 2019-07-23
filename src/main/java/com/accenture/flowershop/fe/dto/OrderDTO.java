@@ -1,70 +1,44 @@
 package com.accenture.flowershop.fe.dto;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDTO {
 
-    private Long id;
+    private Long idOrder;
 
-    private UserDTO userDTO;
+    private List<OrderItemDTO> basketList = new ArrayList<>();
 
-    private List<OrderItemDTO> orderFlowersList;
-
-    private String status;
-
-    private Integer discount;
-
-    private BigDecimal finalPrice;
-
-    OrderDTO(){}
+    private BigDecimal priceSum;
 
 
-    public Long getId() {
-        return id;
+    public OrderDTO() {
+    }
+    public Long getIdOrder() { return idOrder; }
+    public void setIdOrder(Long idOrder) {
+        this.idOrder = idOrder;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public List<OrderItemDTO> getBasketList() {
+        return basketList;
     }
 
-    public UserDTO getUserDTO() {
-        return userDTO;
+    public void setBasketList(List<OrderItemDTO> basketList) {
+        this.basketList = basketList;
     }
 
-    public void setUserDTO(UserDTO userDTO) {
-        this.userDTO = userDTO;
+    public OrderDTO(List<OrderItemDTO> basketList) {
+        this.basketList = basketList;
     }
 
-    public List<OrderItemDTO> getOrderFlowersList() {
-        return orderFlowersList;
+    public BigDecimal getPriceSum() {
+        return priceSum;
     }
 
-    public void setOrderFlowersList(List<OrderItemDTO> orderFlowersList) {
-        this.orderFlowersList = orderFlowersList;
+    public void setPriceSum(BigDecimal priceSum) {
+        this.priceSum = priceSum;
     }
 
-    public String getStatus() {
-        return status;
-    }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Integer getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(Integer discount) {
-        this.discount = discount;
-    }
-
-    public BigDecimal getFinalPrice() {
-        return finalPrice;
-    }
-
-    public void setFinalPrice(BigDecimal finalPrice) {
-        this.finalPrice = finalPrice;
-    }
 }

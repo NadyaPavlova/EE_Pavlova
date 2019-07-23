@@ -7,4 +7,5 @@ import java.util.List;
 public interface FlowerBusinessService {
      List<Flower> getAllFlowers();
      Flower getFlowerById(Long id);
+     void countingFlowers(Flower flower, int qty);
 }

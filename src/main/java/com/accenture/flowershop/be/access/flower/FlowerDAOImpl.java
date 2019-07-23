@@ -4,9 +4,11 @@ import com.accenture.flowershop.be.entity.flower.Flower;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -38,5 +40,15 @@ public class FlowerDAOImpl implements FlowerDAO {
     public List<Flower> getAllFlowers() {
         TypedQuery<Flower> q = entityManager.createQuery("select f from Flower f", Flower.class);
         return q.getResultList();
+    }
+
+    @Override
+    @Transactional
+    public void updateQtyStock(Flower flower){
+        Query q = entityManager.createQuery("update Flower f set f.qtyStock = :qty where f.idFlower = :id");
+        q.setParameter("id", flower.getIdFlower());
+        q.setParameter("qty", flower.getQtyStock());
+        q.executeUpdate();
+        entityManager.flush();
     }
 }
