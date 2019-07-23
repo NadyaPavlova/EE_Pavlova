@@ -69,7 +69,7 @@ public class LoginServlet extends HttpServlet {
 
         OrderDTO orderDto = new OrderDTO();
         session.setAttribute("basket", orderDto);
-        req.setAttribute("orders", Mapper.mapper(obs.getAllOrders()));
+        session.setAttribute("orders", Mapper.mapper(obs.getAllOrders()));
         req.getRequestDispatcher("/personalAccount.jsp").forward(req, resp);
 
     }

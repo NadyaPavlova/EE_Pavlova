@@ -26,6 +26,7 @@
                    <td>Название</td>
                    <td>Цена</td>
                    <td>Кол-во на складе</td>
+                   <td>Кол-во для покупки</td>
                </tr>
                <c:forEach items = "${flowers}" var="iterator">
                    <tr style="background-color:rgb(255, 169, 169)">

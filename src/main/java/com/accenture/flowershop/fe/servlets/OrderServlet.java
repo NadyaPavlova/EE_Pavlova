@@ -43,6 +43,8 @@ public class OrderServlet extends HttpServlet {
         session.removeAttribute("basket");
         OrderDTO orderDto = new OrderDTO();
         session.setAttribute("basket", orderDto);
+        session.setAttribute("flowers", fbs.getAllFlowers());
+        session.setAttribute("orders", Mapper.mapper(obs.getAllOrders()));
         req.getRequestDispatcher("/personalAccount.jsp").forward(req, resp);
     }
 
