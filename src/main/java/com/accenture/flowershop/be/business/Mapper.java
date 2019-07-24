@@ -33,6 +33,7 @@ public class Mapper {
         order.setUser(mapper(userDTO));
         order.setItemList(mapper(orderDTO.getBasketList(),order));
         order.setPriceSum(orderDTO.getPriceSum());
+        order.setStatus(orderDTO.getStatus());
         return order;
     }
 
@@ -96,6 +97,7 @@ public class Mapper {
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setPriceSum(order.getPriceSum());
         orderDTO.setIdOrder(order.getIdOrder());
+        orderDTO.setStatus(order.getStatus());
         for (OrderItem orderItem: order.getItemList()) {
             orderDTO.getBasketList().add(mapper(orderItem));
         }

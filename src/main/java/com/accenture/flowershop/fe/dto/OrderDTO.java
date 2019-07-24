@@ -10,12 +10,15 @@ public class OrderDTO {
 
     private List<OrderItemDTO> basketList = new ArrayList<>();
 
+    private  String status;
+
     private BigDecimal priceSum;
 
 
     public OrderDTO() {
     }
     public Long getIdOrder() { return idOrder; }
+
     public void setIdOrder(Long idOrder) {
         this.idOrder = idOrder;
     }
@@ -30,6 +33,14 @@ public class OrderDTO {
 
     public OrderDTO(List<OrderItemDTO> basketList) {
         this.basketList = basketList;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public BigDecimal getPriceSum() {

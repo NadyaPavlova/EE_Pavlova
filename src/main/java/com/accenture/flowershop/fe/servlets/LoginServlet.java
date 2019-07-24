@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.math.BigDecimal;
 
 @WebServlet(name = "loginServlet", urlPatterns = "/user/login")
 public class LoginServlet extends HttpServlet {
@@ -47,7 +47,6 @@ public class LoginServlet extends HttpServlet {
 
         req.setCharacterEncoding("utf-8");
         resp.setCharacterEncoding("utf-8");
-        PrintWriter pw = resp.getWriter();
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         HttpSession session = req.getSession(true);
@@ -56,7 +55,7 @@ public class LoginServlet extends HttpServlet {
             UserDTO userDTO = Mapper.mapper(currentUser);
             session.setAttribute("user", userDTO);
         } else {
-            throw new ServletException("You shall not pass!");
+            throw new ServletException("Ошибка в логине и/или пароле!");
         }
         LOG.info("USER " + session.getAttribute("user") + " LOGGED IN.");
         if (currentUser.isAdmin() == 1) {
@@ -64,11 +63,11 @@ public class LoginServlet extends HttpServlet {
         } else {
             session.setAttribute("role", "User");
         }
-        session.setAttribute("flowers", fbs.getAllFlowers());
-       // session.setAttribute("orders", Mapper.mapper(obs.getAllOrders()));
 
-        OrderDTO orderDto = new OrderDTO();
-        session.setAttribute("basket", orderDto);
+        req.setAttribute("flowers", fbs.getAllFlowers());
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setPriceSum(BigDecimal.ZERO);
+        session.setAttribute("basket", orderDTO);
         session.setAttribute("orders", Mapper.mapper(obs.getAllOrders()));
         req.getRequestDispatcher("/personalAccount.jsp").forward(req, resp);
 

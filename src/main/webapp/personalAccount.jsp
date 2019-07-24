@@ -67,13 +67,26 @@
         </form>
         <form method="post"  action = "/flowershop/user/OrderService">
             <p>Сумма заказа: ${basket.priceSum} руб.</p>
-            <p style="color: red"> ${count} </p>
-            <button type="submit"> Оформить заказ </button>
+            <p style="color: red"> ${errCount} </p>
+            <p style="color: red"> ${errPrice} </p>
+            <c:if test = "${errCount eq ''}">
+                <c:if test = "${errPrice eq ''}">
+                    <button type="submit"> Оформить заказ </button>
+                 </c:if>
+            </c:if>
         </form>
 
     <h2 style="color: rgb(71, 160, 240)">Заказы</h2>
     <c:forEach items = "${orders}" var="i">
         <p>Заказ №${i.idOrder}</p>
+        <p>Статус ${i.status}
+        <c:if test = "${i.status eq 'generated'}">
+            <form method="post"  action = "/flowershop/user/OrderPayService">
+                <button type="submit" name="idOrder" value="${i.idOrder}"> Оплатить заказ </button>
+            </form>
+        </c:if>
+
+        </p>
          <table style="text-align:center; width:50%;" >
              <tr style="background-color:rgb(98, 192, 237)">
                 <td>Id</td>

@@ -33,6 +33,11 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     }
 
     @Override
+    public Order getOrderById(Long id){
+        return orderDao.getOrderById(id);
+    }
+
+    @Override
     public List<Order> getAllOrders() {
         return orderDao.getAllOrders();
     }
@@ -40,10 +45,21 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     @Override
     @Transactional
     public void addOrder(Order order){
+       // ubs.payOrder(order.getUser(), order.getPriceSum());
+      /*  for (OrderItem orderItem: order.getItemList()) {
+            fbs.countingFlowers(orderItem.getFlower(),orderItem.getQtyFlower());
+        }*/
+        orderDao.saveOrder(order);
+    }
+
+    @Override
+    @Transactional
+    public void payOrder(Order order){
         ubs.payOrder(order.getUser(), order.getPriceSum());
         for (OrderItem orderItem: order.getItemList()) {
             fbs.countingFlowers(orderItem.getFlower(),orderItem.getQtyFlower());
         }
-        orderDao.saveOrder(order);
+        order.setStatus("paid");
+        orderDao.updateStatus(order);
     }
 }

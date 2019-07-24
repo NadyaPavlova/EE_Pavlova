@@ -7,4 +7,6 @@ import java.util.List;
 public interface OrderDAO {
     void saveOrder(Order order);
     List<Order> getAllOrders();
+    void updateStatus(Order order);
+    Order getOrderById(Long id);
 }
