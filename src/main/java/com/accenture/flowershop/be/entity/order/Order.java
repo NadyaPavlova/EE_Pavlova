@@ -5,6 +5,7 @@ import com.accenture.flowershop.be.entity.user.User;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 @Entity
 @Table(name = "ORDERS")
@@ -24,6 +25,12 @@ public class Order {
 
     @OneToMany(mappedBy = "order", orphanRemoval = true, fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     private List <OrderItem> itemList;
+
+    @Column
+    private Date creationDate;
+
+    @Column
+    private Date closingDate;
 
     @Column
     private String status;
@@ -62,6 +69,22 @@ public class Order {
 
     public void setItemList(List<OrderItem> itemList) {
         this.itemList = itemList;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getClosingDate() {
+        return closingDate;
+    }
+
+    public void setClosingDate(Date closingDate) {
+        this.closingDate = closingDate;
     }
 
     public String getStatus() {

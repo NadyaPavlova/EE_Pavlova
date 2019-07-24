@@ -63,13 +63,9 @@ public class LoginServlet extends HttpServlet {
         } else {
             session.setAttribute("role", "User");
         }
-
-        req.setAttribute("flowers", fbs.getAllFlowers());
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setPriceSum(BigDecimal.ZERO);
         session.setAttribute("basket", orderDTO);
-        session.setAttribute("orders", Mapper.mapper(obs.getAllOrders()));
-        req.getRequestDispatcher("/personalAccount.jsp").forward(req, resp);
-
+        req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
     }
 }

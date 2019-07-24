@@ -8,4 +8,5 @@ public interface FlowerBusinessService {
      List<Flower> getAllFlowers();
      Flower getFlowerById(Long id);
      void countingFlowers(Flower flower, int qty);
+     List<Flower> searchFlower(String request);
 }

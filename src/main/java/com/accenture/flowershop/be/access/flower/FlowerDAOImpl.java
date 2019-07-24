@@ -51,4 +51,10 @@ public class FlowerDAOImpl implements FlowerDAO {
         q.executeUpdate();
         entityManager.flush();
     }
+
+    @Override
+    public List<Flower> searchFlower(String request) {
+        TypedQuery<Flower> q = entityManager.createQuery( request, Flower.class);
+        return q.getResultList();
+    }
 }

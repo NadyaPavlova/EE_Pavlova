@@ -1,14 +1,13 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="calendar" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 
 <head>
     <meta charset="UTF-8">
     <title>Цветочный магазин</title>
 </head>
 <body>
-    <div style="width: 600px; position: absolute; left: 30%; margin: 0 0 0 0;">
         <h1 style="color: red">Личный кабинет</h1>
         <div>
             <p> ${role} </p>
@@ -17,11 +16,11 @@
             <p>Номер телефона: ${user.phoneNumber} </p>
             <p>Счет: ${user.money} руб.</p>
             <p>Скидка: ${user.discount}%</p>
-        </div>
+            </div>
 
    <h2 style="color: rgb(393, 9, 100)">Каталог</h2>
    <form method="post"  action = "/flowershop/user/FilterServer">
-    <table style="width:100%;">
+    <table style="width:50%;">
       <tr>
           <td><input type="text" name="nameFlower" placeholder="nameFlower"></input></td>
           <td><input type="text" name="minPrice" placeholder="minPrice"></input></td>
@@ -30,7 +29,7 @@
       </tr>
       <br>
    </form>
-           <table style="text-align:center;  width:100%;">
+           <table style="text-align:center; width:50%;">
                <tr style="background-color:rgb(255, 94, 125)">
                    <td>Id</td>
                    <td>Название</td>
@@ -52,10 +51,10 @@
                </c:forEach>
            </table>
 
-        <c:if test = "${role eq 'User'}">
+
         <h2 style="color: rgb(139, 20, 155)">Корзина</h2>
         <form method="post" action="/flowershop/user/BasketDeleteServlet">
-            <table style=" text-align:center; width:100%;" >
+            <table style=" text-align:center; width:50%;" >
                 <tr style="background-color:rgb(162, 77, 147)">
                     <td>Id</td>
                     <td>Название</td>
@@ -85,39 +84,19 @@
                  </c:if>
             </c:if>
         </form>
-        </c:if>
+
     <h2 style="color: rgb(71, 160, 240)">Заказы</h2>
     <c:forEach items = "${orders}" var="i">
+        <p>Заказ №${i.idOrder}</p>
+        <p>Статус ${i.status}
+        <c:if test = "${i.status eq 'paid'}">
+            <form method="post"  action = "/flowershop/user/OrderClosedService">
+                <button type="submit" name="idOrder" value="${i.idOrder}"> Закрыть заказ </button>
+            </form>
+        </c:if>
 
-
-    <table style="text-align:center; width:100%;">
-        <tr style="background-color:rgb(26, 180, 253)">
-            <td> Заказ №${i.idOrder}</td>
-            <td> Статус: ${i.status} </td>
-            <td> Создан:<calendar:formatDate  value="${i.creationDate}" pattern="dd-MM-yyyy"/></td>
-            <td>
-                <c:if test = "${i.status eq 'closed'}">
-                     Закрыт:<calendar:formatDate  value="${i.closingDate}" pattern="dd-MM-yyyy"/>
-                </c:if>
-            </td>
-            <c:if test = "${role eq 'User'}">
-                <c:if test = "${i.status eq 'generated'}">
-                    <form method="post"  action = "/flowershop/user/OrderPayService">
-                        <td style="background-color:rgb(255, 255, 255)"><button type="submit" name="idOrder" value="${i.idOrder}"> Оплатить заказ </button></td>
-                    </form>
-                </c:if>
-            </c:if>
-            <c:if test = "${role eq 'Admin'}">
-                <c:if test = "${i.status eq 'paid'}">
-                    <form method="post"  action = "/flowershop/user/OrderClosedService">
-                        <td style="background-color:rgb(255, 255, 255)"><button type="submit" name="idOrder" value="${i.idOrder}"> Закрыть заказ </button></td>
-                    </form>
-                </c:if>
-            </c:if>
-        </tr>
-    </table>
-
-         <table style="text-align:center; width:100%;" >
+        </p>
+         <table style="text-align:center; width:50%;" >
              <tr style="background-color:rgb(98, 192, 237)">
                 <td>Id</td>
                 <td>Название</td>
@@ -133,20 +112,8 @@
                     <td>${iterator.priceFlower} руб.</td>
                 </tr>
              </c:forEach>
-             <tr>
-                <td> </td>
-                <td> </td>
-                <td style="background-color:rgb(165, 212, 255)">Сумма заказа:</td>
-                <td style="background-color:rgb(165, 212, 255)">${i.priceSum} руб.</td>
-             </tr>
          </table>
-         <br><hr><br>
+         <p> Сумма заказа: ${i.priceSum}</p>
     </c:forEach>
-
-   <form method="post"  action = "/flowershop/personalAccountServlet">
-        <button type="submit"> Обновить данные </button>
-   </form>
-   </div>
-
 </body>
 </html>

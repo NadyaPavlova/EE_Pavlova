@@ -98,6 +98,8 @@ public class Mapper {
         orderDTO.setPriceSum(order.getPriceSum());
         orderDTO.setIdOrder(order.getIdOrder());
         orderDTO.setStatus(order.getStatus());
+        orderDTO.setCreationDate(order.getCreationDate());
+        orderDTO.setClosingDate(order.getClosingDate());
         for (OrderItem orderItem: order.getItemList()) {
             orderDTO.getBasketList().add(mapper(orderItem));
         }

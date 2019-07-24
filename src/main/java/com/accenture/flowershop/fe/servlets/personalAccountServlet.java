@@ -50,12 +50,20 @@ public class personalAccountServlet extends HttpServlet {
         session.setAttribute("errPrice", checkBasketPrice(basket, userDTO.getMoney()));
         session.setAttribute("basket", basket);
 
-        //обновление заказов
-        req.setAttribute("orders", Mapper.mapper(orderBusinessService.getAllOrders()));
 
         //обновление цветов
-        req.setAttribute("flowers", flowerBusinessService.getAllFlowers());
-
+        if(req.getAttribute("flowerStockFilter")!= null){
+            req.setAttribute("flowers", req.getAttribute("flowerStockFilter"));
+        }
+        else {
+        req.setAttribute("flowers", flowerBusinessService.getAllFlowers());}
+        if(session.getAttribute("role").equals("Admin")){
+            req.setAttribute("orders", Mapper.mapper(orderBusinessService.getAllOrders()));
+        }
+        else {
+            //обновление заказов
+            req.setAttribute("orders", Mapper.mapper(orderBusinessService.getAllOrdersUser(userDTO.getIdUser())));
+        }
         req.getRequestDispatcher("/personalAccount.jsp").forward(req, resp);
 
 

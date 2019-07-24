@@ -37,4 +37,10 @@ public class FlowerBusinessServiceImpl implements FlowerBusinessService {
         flower.setQtyStock(flower.getQtyStock()- qty);
         flowerDao.updateQtyStock(flower);
     }
+
+    @Override
+    public List<Flower> searchFlower(String request){
+        return flowerDao.searchFlower(request);
+    }
+
 }

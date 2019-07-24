@@ -38,6 +38,13 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
+    public List<Order> getAllOrdersUser(Long id) {
+        TypedQuery<Order> q = entityManager.createQuery("select o from Order o where o.user.idUser = :id", Order.class);
+        q.setParameter("id", id);
+        return q.getResultList();
+    }
+
+    @Override
     public Order getOrderById(Long id) {
         TypedQuery<Order> q = entityManager.createQuery("select o from Order o where o.idOrder = :id", Order.class);
         q.setParameter("id", id);
@@ -50,6 +57,16 @@ public class OrderDAOImpl implements OrderDAO {
         Query q = entityManager.createQuery("update Order o set o.status = :st where o.idOrder = :id");
         q.setParameter("id", order.getIdOrder());
         q.setParameter("st",order.getStatus());
+        q.executeUpdate();
+        entityManager.flush();
+    }
+
+    @Override
+    @Transactional
+    public void updateClosingDate (Order order){
+        Query q = entityManager.createQuery("update Order o set o.closingDate = :date where o.idOrder = :id");
+        q.setParameter("id", order.getIdOrder());
+        q.setParameter("date",order.getClosingDate());
         q.executeUpdate();
         entityManager.flush();
     }

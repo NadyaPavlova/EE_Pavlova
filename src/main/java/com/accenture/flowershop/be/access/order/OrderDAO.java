@@ -9,4 +9,6 @@ public interface OrderDAO {
     List<Order> getAllOrders();
     void updateStatus(Order order);
     Order getOrderById(Long id);
+    List<Order> getAllOrdersUser(Long id);
+    void updateClosingDate (Order order);
 }

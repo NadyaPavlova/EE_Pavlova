@@ -9,5 +9,6 @@ public interface FlowerDAO {
     Flower getFlowerByName(String name);
     List<Flower> getAllFlowers();
     void updateQtyStock(Flower flower);
+    List<Flower> searchFlower(String request);
 }
 

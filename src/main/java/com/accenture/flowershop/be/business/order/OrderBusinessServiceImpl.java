@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -43,12 +45,15 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     }
 
     @Override
+    public List<Order> getAllOrdersUser(Long id) {
+        return orderDao.getAllOrdersUser(id);
+    }
+
+    @Override
     @Transactional
     public void addOrder(Order order){
-       // ubs.payOrder(order.getUser(), order.getPriceSum());
-      /*  for (OrderItem orderItem: order.getItemList()) {
-            fbs.countingFlowers(orderItem.getFlower(),orderItem.getQtyFlower());
-        }*/
+        order.setCreationDate(new Date(Calendar.getInstance().getTime().getTime()));
+        order.setStatus("generated");
         orderDao.saveOrder(order);
     }
 
@@ -62,4 +67,14 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
         order.setStatus("paid");
         orderDao.updateStatus(order);
     }
+
+    @Override
+    @Transactional
+    public void closedOrder(Order order){
+        order.setStatus("closed");
+        order.setClosingDate(new Date(Calendar.getInstance().getTime().getTime()));
+        orderDao.updateStatus(order);
+        orderDao.updateClosingDate(order);
+    }
+
 }

@@ -34,8 +34,8 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 
     @Override
     @Transactional
-    public void registration(String email, String password , String firstName, String middleName, String lastName, String phoneNumber) {
-        User user = new User(email, password , firstName, middleName, lastName, phoneNumber);
+    public void registration(String email, String password , String lastName, String firstName, String middleName, String phoneNumber) {
+        User user = new User(email, password, lastName , firstName, middleName, phoneNumber);
         user.setDiscount(3);
         user.setMoney(new BigDecimal(2000.0));
 
