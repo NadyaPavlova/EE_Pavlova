@@ -1,5 +1,6 @@
 package com.accenture.flowershop.fe.dto;
 
+import com.accenture.flowershop.be.business.InternalException;
 import com.accenture.flowershop.be.business.flower.FlowerBusinessService;
 import com.accenture.flowershop.be.entity.flower.Flower;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,13 @@ public class FlowerDTO {
         this.qtyStock = qtyStock;
     }
 
-    public Flower getFlowerById(Long id){
-        return fbs.getFlowerById(id);
+    public Flower getFlowerById(Long id) throws InternalException{
+        try {
+            return fbs.getFlowerById(id);
+        }
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_DAO_FLOWERS_FIND, new Throwable(e));
+        }
     }
 
     public Long getIdFlower() {

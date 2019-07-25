@@ -73,5 +73,13 @@
         </property>
     </bean>
 
+    <bean id="XMLConverter" class="com.accenture.flowershop.be.business.XMLConverter">
+        <property name="marshaller" ref="castorMarshaller" />
+        <property name="unmarshaller" ref="castorMarshaller" />
+    </bean>
+
+    <bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller"/>
+
+    <context:property-placeholder location = "classpath:conf.properties"/>
     <tx:annotation-driven/>
 </beans>

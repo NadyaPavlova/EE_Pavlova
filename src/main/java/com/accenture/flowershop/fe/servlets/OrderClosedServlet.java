@@ -28,7 +28,11 @@ public class OrderClosedServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        obs.closedOrder(obs.getOrderById(Long.parseLong(req.getParameter("idOrder"))));
-        req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
+        try {
+            obs.closedOrder(obs.getOrderById(Long.parseLong(req.getParameter("idOrder"))));
+            req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
+        }
+        catch (Exception e){
+        }
     }
 }

@@ -34,12 +34,12 @@ public class Filter {
             if(!request.isEmpty()) {
                 request += " and ";
             }
-            request += "f.price > " + minPrice;
+            request += "f.price >= " + minPrice;
         } else if(minPrice.isEmpty() && !maxPrice.isEmpty()){
             if(!request.isEmpty()) {
                 request += " and ";
             }
-            request += "f.price < "+maxPrice;
+            request += "f.price <= "+maxPrice;
         }
 
         if(request.isEmpty()){

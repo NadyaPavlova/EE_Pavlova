@@ -26,10 +26,15 @@ public class FilterServer extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            Filter filter = new Filter(req.getParameter("nameFlower"), req.getParameter("minPrice"), req.getParameter("maxPrice"));
+            String str = filter.toString();
+            req.setAttribute("flowerStockFilter", flowerBusinessService.searchFlower(str));
+            req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
 
-        Filter filter = new Filter(req.getParameter("nameFlower"), req.getParameter("minPrice"), req.getParameter("maxPrice"));
-        String str = filter.toString();
-        req.setAttribute("flowerStockFilter", flowerBusinessService.searchFlower(str));
-        req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
+        }
+        catch (Exception e) {
+            req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
+        }
     }
 }

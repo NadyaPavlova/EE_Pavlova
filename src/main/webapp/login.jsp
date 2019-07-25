@@ -8,7 +8,8 @@
     </head>
     <body>
         <div style="width: 250px;  height: 250px; position: absolute; top: 50%; left: 50%; margin: -125px 0 0 -125px;">
-        <form method = "post" action = "user/login">
+        <form method = "post" action = "/flowershop/user/login">
+        <p style="color: red">${errorLoginPassword}</p>
             <table>
                 <tr><td>Логин:</td><td><input type = "text" name = "login"></input></td></tr>
                 <tr><td>Пароль:</td><td><input type = "password" name = "password"></input></td></tr>

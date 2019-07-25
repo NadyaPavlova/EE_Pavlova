@@ -1,6 +1,7 @@
 package com.accenture.flowershop.be.access.user;
 
 import com.accenture.flowershop.be.entity.user.User;
+import com.accenture.flowershop.be.business.InternalException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -17,35 +18,51 @@ public class UserDAOImpl implements UserDAO {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public UserDAOImpl() {
+    public UserDAOImpl() throws InternalException {
 
         LOG.info("CREATE:" + this.getClass() + ".");
     }
 
 
   @Override
-   public User getUserByLogin(String login) {
-      TypedQuery<User> q;
-      q = entityManager.createQuery("Select u from User u where u.login = :login", User.class);
-      q.setParameter("login", login);
-      return q.getSingleResult();
+   public User getUserByLogin(String login) throws InternalException{
+        try {
+            TypedQuery<User> q;
+            q = entityManager.createQuery("Select u from User u where u.login = :login", User.class);
+            q.setParameter("login", login);
+            return q.getSingleResult();
+        }
+        catch (Exception e) {
+            throw new InternalException(InternalException.ERROR_DAO_USER_FIND, new Throwable(e));
+        }
     }
 
 
     @Override
     @Transactional
-    public void addUser(User user){
-        entityManager.persist(user);
-        entityManager.flush();
+    public void addUser(User user) throws InternalException {
+        try {
+            entityManager.persist(user);
+            entityManager.flush();
+        }
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_DAO_USER, new Throwable(e));
+        }
     }
 
     @Override
     @Transactional
-    public void updateMoney(User user){
+    public void updateMoney(User user) throws InternalException{
+        try {
             Query q = entityManager.createQuery("update User u set u.money = :balance where u.idUser = :id");
             q.setParameter("id", user.getIdUser());
             q.setParameter("balance", user.getMoney());
             q.executeUpdate();
             entityManager.flush();
+        }
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_DAO_USER_UPDATE, new Throwable(e));
+        }
+
     }
 }

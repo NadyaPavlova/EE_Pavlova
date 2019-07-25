@@ -34,28 +34,34 @@ public class BasketAddServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Long flowerId = Long.parseLong(req.getParameter("idFlower"));
-        FlowerDTO flowerDTO = Mapper.mapper(fbs.getFlowerById(flowerId));
-        HttpSession session = req.getSession(false);
-        OrderDTO basket = (OrderDTO) session.getAttribute("basket");
-        UserDTO userDTO = (UserDTO) session.getAttribute("user");
+        try {
+            Long flowerId = Long.parseLong(req.getParameter("idFlower"));
+            FlowerDTO flowerDTO = Mapper.mapper(fbs.getFlowerById(flowerId));
+            HttpSession session = req.getSession(false);
+            OrderDTO basket = (OrderDTO) session.getAttribute("basket");
+            UserDTO userDTO = (UserDTO) session.getAttribute("user");
 
-        //определяем количество цветов для отправки в корзину, если строка пустая помещаем один цветок
-        int qty;
-        if (req.getParameter("quantity") == "") {
-            qty = 1;
-        } else {
-            qty = Integer.parseInt(req.getParameter("quantity"));
+            //определяем количество цветов для отправки в корзину, если строка пустая помещаем один цветок
+            int qty;
+            if (req.getParameter("quantity") == "") {
+                qty = 1;
+            } else {
+                qty = Integer.parseInt(req.getParameter("quantity"));
+            }
+
+            //добавляем цветы в корзну
+            addBasket(basket, flowerDTO, qty);
+
+            //считаем сумму корзины
+            priceBasket(basket, userDTO.getDiscount());
+
+            session.setAttribute("basket", basket);
+            req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
+        }catch (Exception e) {
+            req.setAttribute("errorAddBasket","Ошибка при добавление товара в корзину!");
+            req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
         }
 
-        //добавляем цветы в корзну
-        addBasket(basket, flowerDTO, qty);
-
-        //считаем сумму корзины
-        priceBasket(basket, userDTO.getDiscount());
-
-        session.setAttribute("basket", basket);
-        req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
     }
 
 

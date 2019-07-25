@@ -1,5 +1,6 @@
 package com.accenture.flowershop.be.access.flower;
 
+import com.accenture.flowershop.be.business.InternalException;
 import com.accenture.flowershop.be.entity.flower.Flower;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,31 +31,52 @@ public class FlowerDAOImpl implements FlowerDAO {
     }
 
     @Override
-    public Flower getFlowerByName(String name) {
-        TypedQuery<Flower> q = entityManager.createQuery("select f from Flower where f.nameFlower = :name", Flower.class);
-        q.setParameter("name", name);
-        return q.getSingleResult();
+    public Flower getFlowerByName(String name)throws InternalException {
+        try {
+            TypedQuery<Flower> q = entityManager.createQuery("select f from Flower where f.nameFlower = :name", Flower.class);
+            q.setParameter("name", name);
+            return q.getSingleResult();
+        }
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_DAO_FLOWERS_FIND, new Throwable(e));
+        }
+
     }
 
     @Override
-    public List<Flower> getAllFlowers() {
-        TypedQuery<Flower> q = entityManager.createQuery("select f from Flower f", Flower.class);
-        return q.getResultList();
+    public List<Flower> getAllFlowers() throws InternalException {
+        try {
+            TypedQuery<Flower> q = entityManager.createQuery("select f from Flower f", Flower.class);
+            return q.getResultList();
+        }
+       catch (Exception e){
+           throw new InternalException(InternalException.ERROR_DAO_FLOWERS_FIND, new Throwable(e));
+       }
     }
 
     @Override
     @Transactional
-    public void updateQtyStock(Flower flower){
-        Query q = entityManager.createQuery("update Flower f set f.qtyStock = :qty where f.idFlower = :id");
-        q.setParameter("id", flower.getIdFlower());
-        q.setParameter("qty", flower.getQtyStock());
-        q.executeUpdate();
-        entityManager.flush();
+    public void updateQtyStock(Flower flower)throws InternalException{
+        try {
+            Query q = entityManager.createQuery("update Flower f set f.qtyStock = :qty where f.idFlower = :id");
+            q.setParameter("id", flower.getIdFlower());
+            q.setParameter("qty", flower.getQtyStock());
+            q.executeUpdate();
+            entityManager.flush();
+        }
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_DAO_FLOWERS_UPDATE, new Throwable(e));
+        }
     }
 
     @Override
-    public List<Flower> searchFlower(String request) {
-        TypedQuery<Flower> q = entityManager.createQuery( request, Flower.class);
-        return q.getResultList();
+    public List<Flower> searchFlower(String request)throws InternalException {
+        try {
+            TypedQuery<Flower> q = entityManager.createQuery( request, Flower.class);
+            return q.getResultList();
+        }
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_DAO_FLOWERS_FIND, new Throwable(e));
+        }
     }
 }

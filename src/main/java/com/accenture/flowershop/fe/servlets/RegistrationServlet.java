@@ -44,10 +44,14 @@ public class RegistrationServlet extends HttpServlet {
             String password = req.getParameter("password");
             ubs.registration(email, password, lastName, firstName, middleName, phoneNumber);
             LOG.info("USER "+email+" CREATED.");
-            resp.sendRedirect("login.jsp");}
-        catch (IOException e){
-            new ServletException("You shall not registration!");
-
+            req.getRequestDispatcher("/login.jsp").forward(req, resp);}
+        catch (Exception e){
+            req.setAttribute("errorRegistration","Ошибка при регистрации, проверьте данные!");
+            req.getRequestDispatcher("/registration.jsp").forward(req, resp);
         }
+/*        catch (JdbcSQLException e){
+            req.setAttribute("errorLogin","Пользователь с такой почтой уже зарегистрирован!");
+            req.getRequestDispatcher("/registration.jsp").forward(req, resp);
+        }*/
     }
 }

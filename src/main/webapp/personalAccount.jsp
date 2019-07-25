@@ -8,7 +8,7 @@
     <title>Цветочный магазин</title>
 </head>
 <body>
-    <div style="width: 600px; position: absolute; left: 30%; margin: 0 0 0 0;">
+    <div style="width: 600px; position: absolute; left: 27%; margin: 0 0 0 0;">
         <h1 style="color: red">Личный кабинет</h1>
         <div>
             <p> ${role} </p>
@@ -80,8 +80,11 @@
             <p style="color: red"> ${errCount} </p>
             <p style="color: red"> ${errPrice} </p>
             <c:if test = "${errCount eq ''}">
-                <c:if test = "${errPrice eq ''}">
-                    <button type="submit"> Оформить заказ </button>
+                 <c:if test = "${errPrice eq ''}">
+                 <fmt:formatNumber value="${basket.priceSum}" pattern="0.00" var="totalAmountApplied" />
+                     <c:if test = "${basket.priceSum eq '0.00'}">
+                        <button type="submit"> Оформить заказ </button>
+                     </c:if>
                  </c:if>
             </c:if>
         </form>

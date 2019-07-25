@@ -50,22 +50,26 @@ public class LoginServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         HttpSession session = req.getSession(true);
-        User currentUser;
-        if ((currentUser = ubs.login(login, password)) != null) {
+        try {
+            User currentUser;
+            currentUser = ubs.login(login, password);
             UserDTO userDTO = Mapper.mapper(currentUser);
             session.setAttribute("user", userDTO);
-        } else {
-            throw new ServletException("Ошибка в логине и/или пароле!");
+            LOG.info("USER " + session.getAttribute("user") + " LOGGED IN.");
+            if (currentUser.isAdmin() == 1) {
+                session.setAttribute("role", "Admin");
+            } else {
+                session.setAttribute("role", "User");
+            }
+            OrderDTO orderDTO = new OrderDTO();
+            orderDTO.setPriceSum(BigDecimal.ZERO);
+            session.setAttribute("basket", orderDTO);
+            req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
         }
-        LOG.info("USER " + session.getAttribute("user") + " LOGGED IN.");
-        if (currentUser.isAdmin() == 1) {
-            session.setAttribute("role", "Admin");
-        } else {
-            session.setAttribute("role", "User");
+        catch (Exception e){
+            req.setAttribute("errorLoginPassword","Ошибка в логине и/или пароле!");
+            req.getRequestDispatcher("/login.jsp").forward(req, resp);
         }
-        OrderDTO orderDTO = new OrderDTO();
-        orderDTO.setPriceSum(BigDecimal.ZERO);
-        session.setAttribute("basket", orderDTO);
-        req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
+
     }
 }

@@ -28,7 +28,12 @@ public class OrderPayServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        obs.payOrder(obs.getOrderById(Long.parseLong(req.getParameter("idOrder"))));
-        req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
+        try {
+            obs.payOrder(obs.getOrderById(Long.parseLong(req.getParameter("idOrder"))));
+            req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
+        }
+        catch (Exception e){
+
+        }
     }
 }

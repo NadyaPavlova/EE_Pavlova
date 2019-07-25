@@ -36,37 +36,42 @@ public class personalAccountServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession(false);
-        UserDTO userDTO = (UserDTO) session.getAttribute("user");
-        //обновляем данные пользователя
-        userDTO = Mapper.mapper(userBusinessService.getUserByLogin(userDTO.getLogin()));
-        session.setAttribute("user", userDTO);
+
+        try{
+            HttpSession session = req.getSession(false);
+
+            UserDTO userDTO = (UserDTO) session.getAttribute("user");
+            //обновляем данные пользователя
+            userDTO = Mapper.mapper(userBusinessService.getUserByLogin(userDTO.getLogin()));
+            session.setAttribute("user", userDTO);
 
 
-        OrderDTO basket = (OrderDTO) session.getAttribute("basket");
+            OrderDTO basket = (OrderDTO) session.getAttribute("basket");
 
-        //Проверка на кол-во доступных товаров и доступных средст у покупателя
-        session.setAttribute("errCount", stockAvailability(basket));
-        session.setAttribute("errPrice", checkBasketPrice(basket, userDTO.getMoney()));
-        session.setAttribute("basket", basket);
+            //Проверка на кол-во доступных товаров и доступных средст у покупателя
+            session.setAttribute("errCount", stockAvailability(basket));
+            session.setAttribute("errPrice", checkBasketPrice(basket, userDTO.getMoney()));
+            session.setAttribute("basket", basket);
 
 
-        //обновление цветов
-        if(req.getAttribute("flowerStockFilter")!= null){
-            req.setAttribute("flowers", req.getAttribute("flowerStockFilter"));
+            //обновление цветов
+            if(req.getAttribute("flowerStockFilter")!= null){
+                req.setAttribute("flowers", req.getAttribute("flowerStockFilter"));
+            }
+            else {
+            req.setAttribute("flowers", flowerBusinessService.getAllFlowers());}
+            if(session.getAttribute("role").equals("Admin")){
+                req.setAttribute("orders", Mapper.mapper(orderBusinessService.getAllOrders()));
+            }
+            else {
+                //обновление заказов
+                req.setAttribute("orders", Mapper.mapper(orderBusinessService.getAllOrdersUser(userDTO.getIdUser())));
+            }
+            req.getRequestDispatcher("/personalAccount.jsp").forward(req, resp);
         }
-        else {
-        req.setAttribute("flowers", flowerBusinessService.getAllFlowers());}
-        if(session.getAttribute("role").equals("Admin")){
-            req.setAttribute("orders", Mapper.mapper(orderBusinessService.getAllOrders()));
-        }
-        else {
-            //обновление заказов
-            req.setAttribute("orders", Mapper.mapper(orderBusinessService.getAllOrdersUser(userDTO.getIdUser())));
-        }
-        req.getRequestDispatcher("/personalAccount.jsp").forward(req, resp);
+        catch (Exception e){
 
-
+        }
 
 
      /*   if(userDto.getRole().equals("user")) {

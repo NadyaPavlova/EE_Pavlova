@@ -37,7 +37,10 @@ public class OrderServlet extends HttpServlet {
         HttpSession session = req.getSession(false);
         OrderDTO orderDTO = (OrderDTO) session.getAttribute("basket");
         //Перевод в сущность и запись в БД
-        obs.addOrder(Mapper.mapper((UserDTO)session.getAttribute("user"), orderDTO));
+        try{
+            obs.addOrder(Mapper.mapper((UserDTO)session.getAttribute("user"), orderDTO));
+        }
+        catch (Exception e){}
         //очистка корзины
         orderDTO = new OrderDTO();
         orderDTO.setPriceSum(BigDecimal.ZERO);

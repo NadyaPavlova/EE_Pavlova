@@ -1,6 +1,7 @@
 package com.accenture.flowershop.be.business.flower;
 
 import com.accenture.flowershop.be.access.flower.FlowerDAO;
+import com.accenture.flowershop.be.business.InternalException;
 import com.accenture.flowershop.be.entity.flower.Flower;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +23,14 @@ public class FlowerBusinessServiceImpl implements FlowerBusinessService {
     }
 
     @Override
-    public List<Flower> getAllFlowers() {
-        return flowerDao.getAllFlowers();
+    public List<Flower> getAllFlowers() throws InternalException{
+
+        try {
+            return flowerDao.getAllFlowers();
+        }
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_DAO_FLOWERS_FIND, new Throwable(e));
+        }
     }
 
     @Override
@@ -33,14 +40,25 @@ public class FlowerBusinessServiceImpl implements FlowerBusinessService {
 
     @Override
     @Transactional
-    public void countingFlowers(Flower flower, int qty){
-        flower.setQtyStock(flower.getQtyStock()- qty);
-        flowerDao.updateQtyStock(flower);
+    public void countingFlowers(Flower flower, int qty)throws InternalException{
+
+        try {
+            flower.setQtyStock(flower.getQtyStock()- qty);
+            flowerDao.updateQtyStock(flower);
+        }
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_DAO_FLOWERS_UPDATE, new Throwable(e));
+        }
     }
 
     @Override
-    public List<Flower> searchFlower(String request){
-        return flowerDao.searchFlower(request);
+    public List<Flower> searchFlower(String request)throws InternalException{
+        try {
+            return flowerDao.searchFlower(request);
+        }
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_DAO_FLOWERS_UPDATE, new Throwable(e));
+        }
     }
 
 }
