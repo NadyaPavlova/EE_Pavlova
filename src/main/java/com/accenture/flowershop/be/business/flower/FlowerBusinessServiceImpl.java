@@ -61,4 +61,9 @@ public class FlowerBusinessServiceImpl implements FlowerBusinessService {
         }
     }
 
+    @Override
+    public void addFlowerQTY(Integer flowerQTY){
+            flowerDao.addFlowerQTY(flowerQTY);
+    }
+
 }

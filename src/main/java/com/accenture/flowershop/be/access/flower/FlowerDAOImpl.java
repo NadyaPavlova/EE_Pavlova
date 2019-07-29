@@ -31,19 +31,6 @@ public class FlowerDAOImpl implements FlowerDAO {
     }
 
     @Override
-    public Flower getFlowerByName(String name)throws InternalException {
-        try {
-            TypedQuery<Flower> q = entityManager.createQuery("select f from Flower where f.nameFlower = :name", Flower.class);
-            q.setParameter("name", name);
-            return q.getSingleResult();
-        }
-        catch (Exception e){
-            throw new InternalException(InternalException.ERROR_DAO_FLOWERS_FIND, new Throwable(e));
-        }
-
-    }
-
-    @Override
     public List<Flower> getAllFlowers() throws InternalException {
         try {
             TypedQuery<Flower> q = entityManager.createQuery("select f from Flower f", Flower.class);
@@ -78,5 +65,13 @@ public class FlowerDAOImpl implements FlowerDAO {
         catch (Exception e){
             throw new InternalException(InternalException.ERROR_DAO_FLOWERS_FIND, new Throwable(e));
         }
+    }
+
+    @Override
+    public void addFlowerQTY(Integer flowerQTY){
+        Query q = entityManager.createQuery("update Flower f set f.qtyStock = f.qtyStock + :qty");
+        q.setParameter("qty", flowerQTY);
+        q.executeUpdate();
+        entityManager.flush();
     }
 }

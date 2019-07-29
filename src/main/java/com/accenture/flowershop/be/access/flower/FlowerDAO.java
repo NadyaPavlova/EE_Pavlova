@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface FlowerDAO {
     Flower getFlowerById(Long id);
-    Flower getFlowerByName(String name) throws InternalException;
     List<Flower> getAllFlowers() throws InternalException;
     void updateQtyStock(Flower flower) throws InternalException;
     List<Flower> searchFlower(String request) throws InternalException;
+    public void addFlowerQTY(Integer flowerQTY);
 }
 
