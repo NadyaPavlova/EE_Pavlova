@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idUser")
-    @SequenceGenerator(name="idUser", sequenceName = "seq_user")
+    @SequenceGenerator(name="idUser", sequenceName = "seq_user", allocationSize = 1, initialValue = 1)
     @Column(name="idUser")
     private Long idUser;
 

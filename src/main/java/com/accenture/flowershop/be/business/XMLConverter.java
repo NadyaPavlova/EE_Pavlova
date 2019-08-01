@@ -57,16 +57,6 @@ public class XMLConverter {
         }
         return null;
     }
-    public Object doUnMarshaling(String file) {
-
-        try {
-            unmarshaller.supports(DiscountRequest.class);
-            return unmarshaller.unmarshal(new StreamSource(properyPath + file));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     public Marshaller getMarshaller() {
         return marshaller;

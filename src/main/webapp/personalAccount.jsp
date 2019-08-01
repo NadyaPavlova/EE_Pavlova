@@ -96,8 +96,8 @@
         </form>
    </c:if>
     <h2 style="color: rgb(71, 160, 240)">Заказы</h2>
+    <p style="color: red"> ${ErrorPay} </p>
     <c:forEach items = "${orders}" var="i">
-
 
     <table style="text-align:center; width:100%;">
         <tr style="background-color:rgb(26, 180, 253)">
