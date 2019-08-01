@@ -65,4 +65,15 @@ public class UserDAOImpl implements UserDAO {
         }
 
     }
+
+    @Override
+    @Transactional
+    public void updateDiscount(Long idUser, Integer discount){
+
+            Query q = entityManager.createQuery("update User u set u.discount = :discountnew where u.idUser = :id");
+            q.setParameter("id", idUser);
+            q.setParameter("discountnew", discount);
+            q.executeUpdate();
+            entityManager.flush();
+        }
 }

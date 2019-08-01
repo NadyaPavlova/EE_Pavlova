@@ -67,7 +67,9 @@
 
     <context:property-placeholder location = "classpath:conf.properties"/>
 
-    <bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller"/>
+    <bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller" >
+        <property name="mappingLocation" value="classpath:mapping.xml" />
+    </bean>
 
     <bean id="XMLConverter" class="com.accenture.flowershop.be.business.XMLConverter">
         <property name="marshaller" ref="castorMarshaller" />

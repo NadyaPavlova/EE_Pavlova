@@ -10,4 +10,5 @@ public interface UserBusinessService {
     void registration(String email, String middleName, String firstName, String lastName, String phoneNumber, String password) throws InternalException;
     User getUserByLogin(String login) throws InternalException;
     void payOrder(User user, BigDecimal price) throws InternalException;
+    void setDiscount(Long idUser, Integer discount);
 }

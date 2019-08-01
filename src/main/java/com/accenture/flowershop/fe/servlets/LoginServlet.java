@@ -62,7 +62,7 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("role", "User");
             }
             OrderDTO orderDTO = new OrderDTO();
-            orderDTO.setPriceSum(BigDecimal.ZERO);
+            orderDTO.setPriceSum(BigDecimal.ZERO.setScale(2));
             session.setAttribute("basket", orderDTO);
             req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
         }

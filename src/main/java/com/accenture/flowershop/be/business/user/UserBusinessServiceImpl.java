@@ -2,11 +2,13 @@ package com.accenture.flowershop.be.business.user;
 
 import com.accenture.flowershop.be.access.user.UserDAO;
 import com.accenture.flowershop.be.business.InternalException;
+import com.accenture.flowershop.be.business.JmsConfig;
 import com.accenture.flowershop.be.business.XMLConverter;
 import com.accenture.flowershop.be.entity.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,11 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     @Autowired
     private XMLConverter xmlConverter;
 
+    @Autowired
+    private JmsConfig jmsConfig;
+
+    @Value("${exportPath}")
+    String properyPath;
     private static final Logger LOG = LoggerFactory.getLogger(UserDAO.class);
 
     public UserBusinessServiceImpl() {
@@ -52,7 +59,11 @@ public class UserBusinessServiceImpl implements UserBusinessService {
             user.setDiscount(3);
             user.setMoney(new BigDecimal(2000.0));
             userDao.addUser(user);
+            // отправляем пользователя в очередь и сохроняем его в xml
             xmlConverter.convertFromObjectToXML(getUserByLogin(email), "user" + getUserByLogin(email).getIdUser() + ".xml");
+            jmsConfig.sendInOutQueue("user" + getUserByLogin(email).getIdUser() + ".xml");
+            /*jmsConfig.connectionFactory();
+            jmsConfig.containerFactory(getUnmarshaller());*/
         }
         catch (Exception e){
             throw new InternalException(InternalException.ERROR_DAO_USER_FIND, new Throwable(e));
@@ -80,5 +91,9 @@ public class UserBusinessServiceImpl implements UserBusinessService {
         catch (Exception e){
             throw new InternalException(InternalException.ERROR_DAO_USER_UPDATE, new Throwable(e));
         }
+    }
+    @Override
+    public void setDiscount(Long idUser, Integer discount){
+        userDao.updateDiscount(idUser,discount);
     }
 }

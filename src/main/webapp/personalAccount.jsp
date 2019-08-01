@@ -18,41 +18,47 @@
             <p>Счет: ${user.money} руб.</p>
             <p>Скидка: ${user.discount}%</p>
         </div>
-
+        <form method="post"  action = "/flowershop/exit">
+            <button type="submit"> Выход </button>
+        </form>
    <h2 style="color: rgb(393, 9, 100)">Каталог</h2>
    <form method="post"  action = "/flowershop/user/FilterServer">
-    <table style="width:100%;">
-      <tr>
-          <td><input type="text" name="nameFlower" placeholder="nameFlower"></input></td>
-          <td><input type="text" name="minPrice" placeholder="minPrice"></input></td>
-          <td><input type="text" name="maxPrice" placeholder="maxPrice"></input></td>
-          <td><button type="submit"> Поиск </button></td>
-      </tr>
-      <br>
+        <table style="width:100%;">
+            <tr>
+                <td><input type="text" name="nameFlower" placeholder="nameFlower"></input></td>
+                <td><input type="text" name="minPrice" placeholder="minPrice"></input></td>
+                <td><input type="text" name="maxPrice" placeholder="maxPrice"></input></td>
+                <td><button type="submit"> Поиск </button></td>
+            </tr>
+        </table>
    </form>
-           <table style="text-align:center;  width:100%;">
-               <tr style="background-color:rgb(255, 94, 125)">
-                   <td>Id</td>
-                   <td>Название</td>
-                   <td>Цена</td>
-                   <td>Кол-во на складе</td>
-                   <td>Кол-во для покупки</td>
-               </tr>
-               <c:forEach items = "${flowers}" var="iterator">
-                   <tr style="background-color:rgb(255, 169, 169)">
-                       <td>${iterator.idFlower}</td>
-                       <td>${iterator.nameFlower}</td>
-                       <td>${iterator.price} руб.</td>
-                       <td>${iterator.qtyStock}</td>
-                       <form method="post"  action = "/flowershop/user/BasketAddServlet">
-                           <td style="align:center; width:10%;"><input type="text" name="quantity" placeholder="quantity"></input></td>
-                           <td style="background-color: rgb(255, 255, 255)"><button type="submit" name="idFlower" value="${iterator.idFlower}">В корзину</button></td>
-                       </form>
-                   </tr>
-               </c:forEach>
-           </table>
+   <table style="text-align:center;  width:100%;">
+       <tr style="background-color:rgb(255, 94, 125)">
+            <td>Id</td>
+            <td>Название</td>
+            <td>Цена</td>
+            <td>Кол-во на складе</td>
+            <c:if test = "${role eq 'User'}">
+                <td>Кол-во для покупки</td>
+             </c:if>
+       </tr>
+        <c:forEach items = "${flowers}" var="iterator">
+            <tr style="background-color:rgb(255, 169, 169)">
+                <td>${iterator.idFlower}</td>
+                <td>${iterator.nameFlower}</td>
+                <td>${iterator.price} руб.</td>
+                <td>${iterator.qtyStock}</td>
+                <c:if test = "${role eq 'User'}">
+                    <form method="post"  action = "/flowershop/user/BasketAddServlet">
+                        <td style="align:center; width:10%;"><input type="text" name="quantity" placeholder="quantity"></input></td>
+                        <td style="background-color: rgb(255, 255, 255)"><button type="submit" name="idFlower" value="${iterator.idFlower}">В корзину</button></td>
+                    </form>
+                </c:if>
+            </tr>
+        </c:forEach>
+   </table>
 
-        <c:if test = "${role eq 'User'}">
+   <c:if test = "${role eq 'User'}">
         <h2 style="color: rgb(139, 20, 155)">Корзина</h2>
         <form method="post" action="/flowershop/user/BasketDeleteServlet">
             <table style=" text-align:center; width:100%;" >
@@ -80,15 +86,15 @@
             <p style="color: red"> ${errCount} </p>
             <p style="color: red"> ${errPrice} </p>
             <c:if test = "${errCount eq ''}">
-                 <c:if test = "${errPrice eq ''}">
-                 <fmt:formatNumber value="${basket.priceSum}" pattern="0.00" var="totalAmountApplied" />
-                     <c:if test = "${basket.priceSum eq '0.00'}">
+                <c:if test = "${errPrice eq ''}">
+                    <fmt:formatNumber value="${basket.priceSum}" pattern="0.00" var="totalAmountApplied" />
+                    <c:if test = "${basket.priceSum ne '0.00'}">
                         <button type="submit"> Оформить заказ </button>
-                     </c:if>
-                 </c:if>
+                    </c:if>
+                </c:if>
             </c:if>
         </form>
-        </c:if>
+   </c:if>
     <h2 style="color: rgb(71, 160, 240)">Заказы</h2>
     <c:forEach items = "${orders}" var="i">
 

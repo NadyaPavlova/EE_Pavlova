@@ -1,0 +1,15 @@
+<mapping>
+    <class name="com.accenture.flowershop.fe.dto.DiscountRequest">
+
+        <map-to xml="DiscountRequest" />
+
+        <field name="customerId" type="long">
+            <bind-xml name="customerId" node="element" />
+        </field>
+
+        <field name="newDiscount" type="integer">
+            <bind-xml name="newDiscount" node="element" />
+        </field>
+
+    </class>
+</mapping>

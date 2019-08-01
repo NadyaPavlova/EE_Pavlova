@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 @WebServlet(urlPatterns = "/personalAccountServlet")
-public class personalAccountServlet extends HttpServlet {
+public class PersonalAccountServlet extends HttpServlet {
     @Autowired
     private UserBusinessService userBusinessService;
     @Autowired
@@ -59,7 +59,7 @@ public class personalAccountServlet extends HttpServlet {
                 req.setAttribute("flowers", req.getAttribute("flowerStockFilter"));
             }
             else {
-            req.setAttribute("flowers", flowerBusinessService.getAllFlowers());}
+                req.setAttribute("flowers", flowerBusinessService.getAllFlowers());}
             if(session.getAttribute("role").equals("Admin")){
                 req.setAttribute("orders", Mapper.mapper(orderBusinessService.getAllOrders()));
             }

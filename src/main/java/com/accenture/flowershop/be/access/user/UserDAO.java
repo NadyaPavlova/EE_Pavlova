@@ -7,4 +7,5 @@ public interface UserDAO {
     public User getUserByLogin(String login) throws InternalException;
     public void addUser(User user) throws InternalException;
     void updateMoney(User user) throws InternalException;
+    void updateDiscount(Long idUser, Integer discount);
 }
