@@ -10,6 +10,6 @@ public interface FlowerDAO {
     List<Flower> getAllFlowers() throws InternalException;
     void updateQtyStock(Flower flower) throws InternalException;
     List<Flower> searchFlower(String request) throws InternalException;
-    public void addFlowerQTY(Integer flowerQTY);
+    void addFlowerQTY(Integer flowerQTY);
 }
 

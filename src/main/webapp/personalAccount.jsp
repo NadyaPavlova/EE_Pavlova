@@ -1,7 +1,6 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="calendar" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <head>
     <meta charset="UTF-8">
@@ -84,14 +83,11 @@
         <form method="post"  action = "/flowershop/user/OrderService">
             <p>Сумма заказа: ${basket.priceSum} руб.</p>
             <p style="color: red"> ${errCount} </p>
-            <p style="color: red"> ${errPrice} </p>
             <c:if test = "${errCount eq ''}">
-                <c:if test = "${errPrice eq ''}">
                     <fmt:formatNumber value="${basket.priceSum}" pattern="0.00" var="totalAmountApplied" />
                     <c:if test = "${basket.priceSum ne '0.00'}">
                         <button type="submit"> Оформить заказ </button>
                     </c:if>
-                </c:if>
             </c:if>
         </form>
    </c:if>
@@ -102,22 +98,23 @@
     <table style="text-align:center; width:100%;">
         <tr style="background-color:rgb(26, 180, 253)">
             <td> Заказ №${i.idOrder}</td>
-            <td> Статус: ${i.status} </td>
-            <td> Создан:<calendar:formatDate  value="${i.creationDate}" pattern="dd-MM-yyyy"/></td>
+            <td>${i.userDTO.lastName} ${i.userDTO.firstName}</td>
+            <td> ${i.status} </td>
+            <td> Создан:< value="${i.creationDate}"></td>
             <td>
-                <c:if test = "${i.status eq 'closed'}">
-                     Закрыт:<calendar:formatDate  value="${i.closingDate}" pattern="dd-MM-yyyy"/>
+                <c:if test = "${i.status eq 'CLOSED'}">
+                     Закрыт:<value="${i.closingDate}"/>
                 </c:if>
             </td>
             <c:if test = "${role eq 'User'}">
-                <c:if test = "${i.status eq 'generated'}">
+                <c:if test = "${i.status eq 'GENERATED'}">
                     <form method="post"  action = "/flowershop/user/OrderPayService">
                         <td style="background-color:rgb(255, 255, 255)"><button type="submit" name="idOrder" value="${i.idOrder}"> Оплатить заказ </button></td>
                     </form>
                 </c:if>
             </c:if>
             <c:if test = "${role eq 'Admin'}">
-                <c:if test = "${i.status eq 'paid'}">
+                <c:if test = "${i.status eq 'PAID'}">
                     <form method="post"  action = "/flowershop/user/OrderClosedService">
                         <td style="background-color:rgb(255, 255, 255)"><button type="submit" name="idOrder" value="${i.idOrder}"> Закрыть заказ </button></td>
                     </form>

@@ -32,43 +32,28 @@ public class FlowerDAOImpl implements FlowerDAO {
 
     @Override
     public List<Flower> getAllFlowers() throws InternalException {
-        try {
-            TypedQuery<Flower> q = entityManager.createQuery("select f from Flower f", Flower.class);
-            return q.getResultList();
-        }
-       catch (Exception e){
-           throw new InternalException(InternalException.ERROR_DAO_FLOWERS_FIND, new Throwable(e));
-       }
+        TypedQuery<Flower> q = entityManager.createQuery("select f from Flower f", Flower.class);
+        return q.getResultList();
     }
 
     @Override
     @Transactional
-    public void updateQtyStock(Flower flower)throws InternalException{
-        try {
-            Query q = entityManager.createQuery("update Flower f set f.qtyStock = :qty where f.idFlower = :id");
-            q.setParameter("id", flower.getIdFlower());
-            q.setParameter("qty", flower.getQtyStock());
-            q.executeUpdate();
-            entityManager.flush();
-        }
-        catch (Exception e){
-            throw new InternalException(InternalException.ERROR_DAO_FLOWERS_UPDATE, new Throwable(e));
-        }
+    public void updateQtyStock(Flower flower) throws InternalException {
+        Query q = entityManager.createQuery("update Flower f set f.qtyStock = :qty where f.idFlower = :id");
+        q.setParameter("id", flower.getIdFlower());
+        q.setParameter("qty", flower.getQtyStock());
+        q.executeUpdate();
+        entityManager.flush();
     }
 
     @Override
-    public List<Flower> searchFlower(String request)throws InternalException {
-        try {
-            TypedQuery<Flower> q = entityManager.createQuery( request, Flower.class);
-            return q.getResultList();
-        }
-        catch (Exception e){
-            throw new InternalException(InternalException.ERROR_DAO_FLOWERS_FIND, new Throwable(e));
-        }
+    public List<Flower> searchFlower(String request) throws InternalException {
+        TypedQuery<Flower> q = entityManager.createQuery("select f from Flower f " + request, Flower.class);
+        return q.getResultList();
     }
 
     @Override
-    public void addFlowerQTY(Integer flowerQTY){
+    public void addFlowerQTY(Integer flowerQTY) {
         Query q = entityManager.createQuery("update Flower f set f.qtyStock = f.qtyStock + :qty");
         q.setParameter("qty", flowerQTY);
         q.executeUpdate();

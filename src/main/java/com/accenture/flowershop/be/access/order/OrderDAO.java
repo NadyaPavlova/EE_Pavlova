@@ -11,5 +11,4 @@ public interface OrderDAO {
     void updateStatus(Order order) throws InternalException;
     Order getOrderById(Long id) throws InternalException;
     List<Order> getAllOrdersUser(Long id) throws InternalException;
-    void updateClosingDate (Order order) throws InternalException;
 }

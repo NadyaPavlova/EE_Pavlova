@@ -46,7 +46,7 @@ public class Filter {
             return "select f from Flower f " ;
         }
 
-        return "select f from Flower f where " + request;
+        return "where " + request;
     }
 
     public String getMinPrice() {

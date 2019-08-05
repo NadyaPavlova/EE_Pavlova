@@ -42,18 +42,13 @@ public class BasketAddServlet extends HttpServlet {
             UserDTO userDTO = (UserDTO) session.getAttribute("user");
 
             //определяем количество цветов для отправки в корзину, если строка пустая помещаем один цветок
-            int qty;
-            if (req.getParameter("quantity") == "") {
-                qty = 1;
-            } else {
+            int qty = 1;
+            if (!req.getParameter("quantity").isEmpty()) {
                 qty = Integer.parseInt(req.getParameter("quantity"));
             }
 
-            //добавляем цветы в корзну
-            addBasket(basket, flowerDTO, qty);
-
-            //считаем сумму корзины
-            priceBasket(basket, userDTO.getDiscount());
+            addItemToBasket(basket, flowerDTO, qty);
+            calcBasketTotalPrice(basket, userDTO.getDiscount());
 
             session.setAttribute("basket", basket);
             req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
@@ -64,9 +59,7 @@ public class BasketAddServlet extends HttpServlet {
 
     }
 
-
-    public void addBasket(OrderDTO basket, FlowerDTO flower, int qty) {
-
+    private void addItemToBasket(OrderDTO basket, FlowerDTO flower, int qty) {
         for (OrderItemDTO order : basket.getBasketList()) {
             if (order.getFlowerDTO().getIdFlower().equals(flower.getIdFlower())) {
                 order.setQtyFlower(order.getQtyFlower() + qty);
@@ -81,8 +74,7 @@ public class BasketAddServlet extends HttpServlet {
         basket.getBasketList().add(orderItem);
     }
 
-
-    private void priceBasket(OrderDTO basket, int discount) {
+    private void calcBasketTotalPrice(OrderDTO basket, int discount) {
         BigDecimal price = BigDecimal.ZERO;
         for (OrderItemDTO order : basket.getBasketList()) {
             price=price.add(order.getPriceFlower());

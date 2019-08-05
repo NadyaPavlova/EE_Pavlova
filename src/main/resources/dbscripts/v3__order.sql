@@ -3,8 +3,8 @@ create table ORDERS(
 idOrder LONG PRIMARY KEY,
 idUser number(10, 0),
 priceSum decimal(15,2),
-creationDate date,
-closingDate date,
-status varchar2 default 'generated' check(status in ('generated', 'paid', 'closed')),
+creationDate DATE,
+closingDate DATE,
+status varchar2 default 'GENERATED' check(status in ('GENERATED', 'PAID', 'CLOSED')),
 foreign key (idUser) references users(idUser)
 );

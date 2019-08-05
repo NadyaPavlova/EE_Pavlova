@@ -49,9 +49,5 @@ public class RegistrationServlet extends HttpServlet {
             req.setAttribute("errorRegistration","Ошибка при регистрации, проверьте данные!");
             req.getRequestDispatcher("/registration.jsp").forward(req, resp);
         }
-/*        catch (JdbcSQLException e){
-            req.setAttribute("errorLogin","Пользователь с такой почтой уже зарегистрирован!");
-            req.getRequestDispatcher("/registration.jsp").forward(req, resp);
-        }*/
     }
 }

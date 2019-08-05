@@ -23,76 +23,49 @@ public class OrderDAOImpl implements OrderDAO {
     @Override
     @Transactional
     public void saveOrder(Order order) throws InternalException {
-        try {
-            this.entityManager.persist(order);
-            this.entityManager.flush();
-        }catch (Exception e) {
-            throw new InternalException(InternalException.ERROR_DAO_ORDER, new Throwable(e));
-        }
+        this.entityManager.persist(order);
+        this.entityManager.flush();
     }
 
 
-    @Override
-    public List<Order> getAllOrders() throws InternalException {
-        try {
-            TypedQuery<Order> q = entityManager.createQuery("select o from Order o", Order.class);
+        @Override
+        public List<Order> getAllOrders () throws InternalException {
+            TypedQuery<Order> q = entityManager.createQuery("select o from Order o order by (o.creationDate, o.status)", Order.class);
             return q.getResultList();
-        }catch (Exception e) {
-            throw new InternalException(InternalException.ERROR_DAO_ORDER_FIND, new Throwable(e));
-    }
+        }
 
-    }
-
-    @Override
-    public List<Order> getAllOrdersUser(Long id) throws InternalException {
-        try {
+        @Override
+        public List<Order> getAllOrdersUser (Long id) throws InternalException {
             TypedQuery<Order> q = entityManager.createQuery("select o from Order o where o.user.idUser = :id", Order.class);
             q.setParameter("id", id);
             return q.getResultList();
-        }catch (Exception e) {
-            throw new InternalException(InternalException.ERROR_DAO_ORDER_FIND, new Throwable(e));
         }
-    }
 
-    @Override
-    public Order getOrderById(Long id) throws InternalException {
-        try {
+        @Override
+        public Order getOrderById (Long id) throws InternalException {
             TypedQuery<Order> q = entityManager.createQuery("select o from Order o where o.idOrder = :id", Order.class);
             q.setParameter("id", id);
             return q.getSingleResult();
-        }catch (Exception e) {
-            throw new InternalException(InternalException.ERROR_DAO_ORDER_FIND, new Throwable(e));
         }
-    }
 
-    @Override
-    @Transactional
-    public void updateStatus(Order order) throws InternalException{
-        try {
+        @Override
+        @Transactional
+        public void updateStatus (Order order) throws InternalException {
             Query q = entityManager.createQuery("update Order o set o.status = :st where o.idOrder = :id");
             q.setParameter("id", order.getIdOrder());
-            q.setParameter("st",order.getStatus());
+            q.setParameter("st", order.getStatus());
             q.executeUpdate();
             entityManager.flush();
         }
-        catch (Exception e) {
-            throw new InternalException(InternalException.ERROR_DAO_ORDER_UPDATE, new Throwable(e));
-        }
-    }
 
-    @Override
+/*    @Override
     @Transactional
-    public void updateClosingDate (Order order)throws InternalException{
-        try {
-            Query q = entityManager.createQuery("update Order o set o.closingDate = :date where o.idOrder = :id");
-            q.setParameter("id", order.getIdOrder());
-            q.setParameter("date",order.getClosingDate());
-            q.executeUpdate();
-            entityManager.flush();
-        }
-        catch (Exception e) {
-            throw new InternalException(InternalException.ERROR_DAO_ORDER_UPDATE, new Throwable(e));
-        }
+    public void updateClosingDate(Order order) throws InternalException {
+        Query q = entityManager.createQuery("update Order o set o.closingDate = :date where o.idOrder = :id");
+        q.setParameter("id", order.getIdOrder());
+        q.setParameter("date", order.getClosingDate());
+        q.executeUpdate();
+        entityManager.flush();
+    }*/
     }
-}
 

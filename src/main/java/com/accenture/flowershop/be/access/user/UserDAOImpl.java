@@ -24,17 +24,25 @@ public class UserDAOImpl implements UserDAO {
     }
 
 
-  @Override
-   public User getUserByLogin(String login) throws InternalException{
+    @Override
+    public User getUserByLogin(String login) throws InternalException {
         try {
             TypedQuery<User> q;
             q = entityManager.createQuery("Select u from User u where u.login = :login", User.class);
             q.setParameter("login", login);
             return q.getSingleResult();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new InternalException(InternalException.ERROR_DAO_USER_FIND, new Throwable(e));
         }
+    }
+
+
+    @Override
+    public User getUserById(Long id) {
+        TypedQuery<User> q;
+        q = entityManager.createQuery("Select u from User u where u.idUser = :id", User.class);
+        q.setParameter("id", id);
+        return q.getSingleResult();
     }
 
 
@@ -44,23 +52,21 @@ public class UserDAOImpl implements UserDAO {
         try {
             entityManager.persist(user);
             entityManager.flush();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new InternalException(InternalException.ERROR_DAO_USER, new Throwable(e));
         }
     }
 
     @Override
     @Transactional
-    public void updateMoney(User user) throws InternalException{
+    public void updateMoney(User user) throws InternalException {
         try {
             Query q = entityManager.createQuery("update User u set u.money = :balance where u.idUser = :id");
             q.setParameter("id", user.getIdUser());
             q.setParameter("balance", user.getMoney());
             q.executeUpdate();
             entityManager.flush();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new InternalException(InternalException.ERROR_DAO_USER_UPDATE, new Throwable(e));
         }
 
@@ -68,12 +74,12 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     @Transactional
-    public void updateDiscount(Long idUser, Integer discount){
+    public void updateDiscount(Long idUser, Integer discount) {
 
-            Query q = entityManager.createQuery("update User u set u.discount = :discountnew where u.idUser = :id");
-            q.setParameter("id", idUser);
-            q.setParameter("discountnew", discount);
-            q.executeUpdate();
-            entityManager.flush();
-        }
+        Query q = entityManager.createQuery("update User u set u.discount = :discountnew where u.idUser = :id");
+        q.setParameter("id", idUser);
+        q.setParameter("discountnew", discount);
+        q.executeUpdate();
+        entityManager.flush();
+    }
 }

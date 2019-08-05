@@ -4,7 +4,10 @@ import com.accenture.flowershop.be.entity.flower.Flower;
 import com.accenture.flowershop.be.entity.order.Order;
 import com.accenture.flowershop.be.entity.orderItem.OrderItem;
 import com.accenture.flowershop.be.entity.user.User;
-import com.accenture.flowershop.fe.dto.*;
+import com.accenture.flowershop.fe.dto.FlowerDTO;
+import com.accenture.flowershop.fe.dto.OrderDTO;
+import com.accenture.flowershop.fe.dto.OrderItemDTO;
+import com.accenture.flowershop.fe.dto.UserDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +31,10 @@ public class Mapper {
         return flower;
     }
 
-    public static Order mapper(UserDTO userDTO, OrderDTO orderDTO){
+    public static Order mapper(OrderDTO orderDTO){
+
         Order order = new Order();
-        order.setUser(mapper(userDTO));
+        order.setUser(mapper(orderDTO.getUserDTO()));
         order.setItemList(mapper(orderDTO.getBasketList(),order));
         order.setPriceSum(orderDTO.getPriceSum());
         order.setStatus(orderDTO.getStatus());
@@ -54,7 +58,7 @@ public class Mapper {
 
     public static List<OrderItem> mapper(List<OrderItemDTO> basketList,Order order){
         List<OrderItem> orderList = new ArrayList<>();
-        OrderItem orderItem = new OrderItem();
+        OrderItem orderItem;
         for (OrderItemDTO oiDTO: basketList) {
             orderItem = mapper(oiDTO,order);
             orderList.add(orderItem);
@@ -95,6 +99,7 @@ public class Mapper {
     }
     public static OrderDTO mapper(Order order){
         OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setUserDTO(mapper(order.getUser()));
         orderDTO.setPriceSum(order.getPriceSum());
         orderDTO.setIdOrder(order.getIdOrder());
         orderDTO.setStatus(order.getStatus());

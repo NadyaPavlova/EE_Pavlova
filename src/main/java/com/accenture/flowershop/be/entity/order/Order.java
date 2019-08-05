@@ -1,12 +1,16 @@
 package com.accenture.flowershop.be.entity.order;
 
+import com.accenture.flowershop.be.business.StatusOrders;
 import com.accenture.flowershop.be.entity.orderItem.OrderItem;
 import com.accenture.flowershop.be.entity.user.User;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
+
+import static java.time.LocalDate.now;
+
 @Entity
 @Table(name = "ORDERS")
 public class Order {
@@ -20,23 +24,25 @@ public class Order {
     @JoinColumn(name = "idUser")
     private User user;
 
-    @Column
     private BigDecimal priceSum;
 
     @OneToMany(mappedBy = "order", orphanRemoval = true, fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     private List <OrderItem> itemList;
 
-    @Column
-    private Date creationDate;
+    private LocalDate creationDate;
 
-    @Column
-    private Date closingDate;
+    private LocalDate closingDate;
 
-    @Column
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private StatusOrders status;
 
 
     public Order() {
+    }
+
+    public void close() {
+        this.setStatus(StatusOrders.CLOSED);
+        this.setClosingDate(now());
     }
 
     public Long getIdOrder() {
@@ -71,27 +77,27 @@ public class Order {
         this.itemList = itemList;
     }
 
-    public Date getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
 
-    public Date getClosingDate() {
+    public LocalDate getClosingDate() {
         return closingDate;
     }
 
-    public void setClosingDate(Date closingDate) {
+    public void setClosingDate(LocalDate closingDate) {
         this.closingDate = closingDate;
     }
 
-    public String getStatus() {
+    public StatusOrders getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusOrders status) {
         this.status = status;
     }
 

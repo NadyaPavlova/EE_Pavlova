@@ -8,48 +8,48 @@ import java.math.BigDecimal;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idUser")
-    @SequenceGenerator(name="idUser", sequenceName = "seq_user", allocationSize = 1, initialValue = 1)
-    @Column(name="idUser")
+    @SequenceGenerator(name = "idUser", sequenceName = "seq_user", allocationSize = 1, initialValue = 1)
+    @Column(name = "idUser")
     private Long idUser;
 
     @Column(name = "login")
-    private String  login;
+    private String login;
 
     @Column(name = "password")
     private String password;
 
-    @Column (name = "lastName")
+    @Column(name = "lastName")
     private String lastName;
 
-    @Column (name = "firstName")
+    @Column(name = "firstName")
     private String firstName;
 
-    @Column (name = "middleName")
+    @Column(name = "middleName")
     private String middleName;
 
-    @Column (name = "email")
+    @Column(name = "email")
     private String email;
 
-    @Column (name = "phoneNumber")
+    @Column(name = "phoneNumber")
     private String phoneNumber;
 
-    @Column (name = "money")
+    @Column(name = "money")
     private BigDecimal money;
 
-    @Column (name = "discount")
+    @Column(name = "discount")
     private Integer discount;
 
-    @Column (name = "admin")
+    @Column(name = "admin")
     private Integer admin;
 
 
-    public User(){
+    public User() {
         money = new BigDecimal(3000);
         discount = 3;
         admin = 0;
     }
 
-    public User(String email, String password , String lastName, String firstName, String middleName, String phoneNumber){
+    public User(String email, String password, String lastName, String firstName, String middleName, String phoneNumber) {
         this.login = email;
         this.password = password;
         this.firstName = firstName;
@@ -63,6 +63,9 @@ public class User {
 
     }
 
+    public void pay(BigDecimal price) {
+        money = money.subtract(price);
+    }
 
     public String getLogin() {
         return login;

@@ -1,22 +1,25 @@
 package com.accenture.flowershop.fe.dto;
 
+import com.accenture.flowershop.be.business.StatusOrders;
+
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class OrderDTO {
 
     private Long idOrder;
 
+    private UserDTO userDTO;
+
     private List<OrderItemDTO> basketList = new ArrayList<>();
 
-    private  String status;
+    private StatusOrders status;
 
+    private LocalDate creationDate;
 
-    private Date creationDate;
-
-    private Date closingDate;
+    private LocalDate closingDate;
 
     private BigDecimal priceSum;
 
@@ -27,6 +30,14 @@ public class OrderDTO {
 
     public void setIdOrder(Long idOrder) {
         this.idOrder = idOrder;
+    }
+
+    public UserDTO getUserDTO() {
+        return userDTO;
+    }
+
+    public void setUserDTO(UserDTO userDTO) {
+        this.userDTO = userDTO;
     }
 
     public List<OrderItemDTO> getBasketList() {
@@ -41,27 +52,27 @@ public class OrderDTO {
         this.basketList = basketList;
     }
 
-    public String getStatus() {
+    public StatusOrders getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusOrders status) {
         this.status = status;
     }
 
-    public Date getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
 
-    public Date getClosingDate() {
+    public LocalDate getClosingDate() {
         return closingDate;
     }
 
-    public void setClosingDate(Date closingDate) {
+    public void setClosingDate(LocalDate closingDate) {
         this.closingDate = closingDate;
     }
 

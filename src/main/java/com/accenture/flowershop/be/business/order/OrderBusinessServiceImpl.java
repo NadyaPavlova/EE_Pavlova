@@ -3,6 +3,7 @@ package com.accenture.flowershop.be.business.order;
 
 import com.accenture.flowershop.be.access.order.OrderDAO;
 import com.accenture.flowershop.be.business.InternalException;
+import com.accenture.flowershop.be.business.StatusOrders;
 import com.accenture.flowershop.be.business.flower.FlowerBusinessService;
 import com.accenture.flowershop.be.business.user.UserBusinessService;
 import com.accenture.flowershop.be.entity.order.Order;
@@ -13,8 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -32,11 +32,11 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 
 
     public OrderBusinessServiceImpl() {
-        LOG.info("CREATE:"+this.getClass()+";");
+        LOG.info("CREATE:" + this.getClass() + ";");
     }
 
     @Override
-    public Order getOrderById(Long id)  throws InternalException {
+    public Order getOrderById(Long id) throws InternalException {
         try {
             return orderDao.getOrderById(id);
         } catch (Exception e) {
@@ -64,10 +64,10 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 
     @Override
     @Transactional
-    public void addOrder(Order order) throws InternalException{
+    public void addOrder(Order order) throws InternalException {
         try {
-            order.setCreationDate(new Date(Calendar.getInstance().getTime().getTime()));
-            order.setStatus("generated");
+            order.setCreationDate(LocalDate.now());
+            order.setStatus(StatusOrders.GENERATED);
             orderDao.saveOrder(order);
         } catch (Exception e) {
             throw new InternalException(InternalException.ERROR_DAO_ORDER, new Throwable(e));
@@ -76,30 +76,23 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 
     @Override
     @Transactional
-    public void payOrder(Order order) throws InternalException{
-        try {
+    public void payOrder(Order order) throws InternalException {
+        if ((StatusOrders.GENERATED) == (order.getStatus())) {
             ubs.payOrder(order.getUser(), order.getPriceSum());
-            for (OrderItem orderItem: order.getItemList()) {
-                fbs.countingFlowers(orderItem.getFlower(),orderItem.getQtyFlower());
+            for (OrderItem orderItem : order.getItemList()) {
+                fbs.countingFlowers(orderItem.getFlower(), orderItem.getQtyFlower());
             }
-            order.setStatus("paid");
-            orderDao.updateStatus(order);
-        } catch (Exception e) {
-            throw new InternalException(InternalException.ERROR_DAO_ORDER_UPDATE, new Throwable(e));
+        } else {
+            return;
         }
-
+        order.setStatus(StatusOrders.PAID);
+        orderDao.updateStatus(order);
     }
 
     @Override
     @Transactional
-    public void closedOrder(Order order) throws InternalException{
-        try {
-            order.setStatus("closed");
-            order.setClosingDate(new Date(Calendar.getInstance().getTime().getTime()));
-            orderDao.updateStatus(order);
-            orderDao.updateClosingDate(order);
-        } catch (Exception e) {
-            throw new InternalException(InternalException.ERROR_DAO_ORDER_UPDATE, new Throwable(e));
-        }
+    public void closedOrder(Long id) throws InternalException {
+        Order order = getOrderById(id);
+        order.close();
     }
 }

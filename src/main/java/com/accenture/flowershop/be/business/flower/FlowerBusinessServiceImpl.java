@@ -19,51 +19,43 @@ public class FlowerBusinessServiceImpl implements FlowerBusinessService {
 
 
     public FlowerBusinessServiceImpl() {
-        LOG.info("CREATE:"+this.getClass()+";");
+        LOG.info("CREATE:" + this.getClass() + ";");
     }
 
     @Override
-    public List<Flower> getAllFlowers() throws InternalException{
+    public List<Flower> getAllFlowers() throws InternalException {
 
-        try {
-            return flowerDao.getAllFlowers();
-        }
-        catch (Exception e){
-            throw new InternalException(InternalException.ERROR_DAO_FLOWERS_FIND, new Throwable(e));
-        }
+        return flowerDao.getAllFlowers();
     }
 
     @Override
-    public Flower getFlowerById(Long id){
+    public Flower getFlowerById(Long id) {
         return flowerDao.getFlowerById(id);
     }
 
     @Override
     @Transactional
-    public void countingFlowers(Flower flower, int qty)throws InternalException{
-
-        try {
-            flower.setQtyStock(flower.getQtyStock()- qty);
-            flowerDao.updateQtyStock(flower);
-        }
-        catch (Exception e){
-            throw new InternalException(InternalException.ERROR_DAO_FLOWERS_UPDATE, new Throwable(e));
+    public void countingFlowers(Flower flower, int qty) throws InternalException {
+        if (flower.getQtyStock() >= qty) {
+            flower.reduceQtyStock(qty);
+            //flowerDao.updateQtyStock(flower);
+        } else {
+            new InternalException(InternalException.ERROR_DAO_FLOWERS_PAY, new Throwable());
         }
     }
 
     @Override
-    public List<Flower> searchFlower(String request)throws InternalException{
+    public List<Flower> searchFlower(String request) throws InternalException {
         try {
             return flowerDao.searchFlower(request);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new InternalException(InternalException.ERROR_DAO_FLOWERS_UPDATE, new Throwable(e));
         }
     }
 
     @Override
-    public void addFlowerQTY(Integer flowerQTY){
-            flowerDao.addFlowerQTY(flowerQTY);
+    public void addFlowerQTY(Integer flowerQTY) {
+        flowerDao.addFlowerQTY(flowerQTY);
     }
 
 }

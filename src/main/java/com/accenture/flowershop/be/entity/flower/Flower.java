@@ -64,6 +64,9 @@ public class Flower {
         this.qtyStock = qty;
     }
 
+    public void reduceQtyStock(int qty){
+        this.qtyStock = this.qtyStock - qty;
+    }
 
 }
 

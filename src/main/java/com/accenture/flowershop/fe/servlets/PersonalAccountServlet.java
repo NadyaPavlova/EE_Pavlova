@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.math.BigDecimal;
 
 @WebServlet(urlPatterns = "/personalAccountServlet")
 public class PersonalAccountServlet extends HttpServlet {
@@ -50,7 +49,6 @@ public class PersonalAccountServlet extends HttpServlet {
 
             //Проверка на кол-во доступных товаров и доступных средст у покупателя
             session.setAttribute("errCount", stockAvailability(basket));
-            session.setAttribute("errPrice", checkBasketPrice(basket, userDTO.getMoney()));
             session.setAttribute("basket", basket);
 
 
@@ -72,40 +70,14 @@ public class PersonalAccountServlet extends HttpServlet {
         catch (Exception e){
 
         }
-
-
-     /*   if(userDto.getRole().equals("user")) {
-            req.getRequestDispatcher("/mainPage.jsp").forward(req, resp);
-        }
-        else{
-            req.getRequestDispatcher("/adminMainPage.jsp").forward(req, resp);
-        }*/
     }
 
     private String stockAvailability(OrderDTO basket) {
         for (OrderItemDTO fl : basket.getBasketList()) {
             if (fl.getQtyFlower() > flowerBusinessService.getFlowerById(fl.getFlowerDTO().getIdFlower()).getQtyStock()) {
-                return "This number of flowers is not in stock";
+                return "Товара нет в наличии. ";
             }
         }
         return "";
     }
-
-
-    private String checkBasketPrice(OrderDTO basket, BigDecimal money) {
-        if(basket.getPriceSum().compareTo(money)<0) {
-            return "";
-        }
-        else {
-            return "Not enough money";
-        }
-    }
-
-/*    private void basketDiscount(OrderDTO basket, int discount) {
-        if (basket.getPriceSum().compareTo(BigDecimal.ZERO) != 0) {
-            BigDecimal discountBig = new BigDecimal(discount).divide(new BigDecimal(100));
-            basket.setPriceSum(basket.getPriceSum().subtract(basket.getPriceSum().multiply(discountBig)));
-            basket.setPriceSum(basket.getPriceSum().setScale(2));
-        }
-    }*/
 }

@@ -10,5 +10,5 @@ public interface FlowerBusinessService {
      Flower getFlowerById(Long id);
      void countingFlowers(Flower flower, int qty) throws InternalException;
      List<Flower> searchFlower(String request) throws InternalException;
-     public void addFlowerQTY(Integer flowerQTY);
+     void addFlowerQTY(Integer flowerQTY);
 }

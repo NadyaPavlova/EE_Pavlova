@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.listener.MessageListenerContainer;
 
+import javax.annotation.PostConstruct;
 import javax.jms.*;
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
@@ -26,18 +27,31 @@ public class JmsConfig {
 
     @Value("${exportPath}")
     String properyPath;
+    Connection connection;
+    Session session;
+    Queue inQueue;
+    Queue outQueue;
+
+    @PostConstruct
+    void init() {
+        try {
+            ConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
+            Connection connection = connectionFactory.createConnection();
+            connection.setClientID("OUT_QUEUE");
+            session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+            inQueue = session.createQueue("IN_QUEUE");
+            outQueue = session.createQueue("OUT_QUEUE");
+            connection.start();
+        }
+       catch (JMSException e){
+
+       }
+    }
+
     @Bean
     @Autowired
     public MessageListenerContainer containerFactory() {
         try {
-            String url = ActiveMQConnectionFactory.DEFAULT_BROKER_URL;
-            ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
-            Connection connection = connectionFactory.createConnection();
-            Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            Queue inQueue = session.createQueue("IN_QUEUE");
-            //Queue outQueue = session.createQueue("OUT_QUEUE");
-            connection.start();
-            //MessageProducer messageProducer = session.createProducer(outQueue);
             MessageConsumer messageConsumer = session.createConsumer(inQueue);
             messageConsumer.setMessageListener(new MessageListener() {
                 @Override
@@ -51,7 +65,7 @@ public class JmsConfig {
                         DiscountRequest dr = (DiscountRequest)xmlConverter.doUnMarshalling(body);
                         ubs.setDiscount(dr.getCustomerId(), dr.getNewDiscount());
                     } catch (Exception ex) {
-                        ex.printStackTrace();
+                        ex.printStackTrace();//todo log
                     }
                 }
             });
@@ -65,17 +79,9 @@ public class JmsConfig {
 
 
     public void sendInOutQueue(String fileName) {
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(properyPath + fileName);
-            ConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
-            Connection connection = connectionFactory.createConnection();
-            connection.setClientID("OUT_QUEUE");
-            Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            Queue queue = ((Session) session).createQueue("OUT_QUEUE");
-            MessageProducer messageProducer = session.createProducer(queue);
+        try (FileOutputStream fos = new FileOutputStream(properyPath + fileName)){
+            MessageProducer messageProducer = session.createProducer(outQueue);
             BufferedReader bufferedReader = new BufferedReader(new FileReader(properyPath + "/" + fileName));
-            connection.start();
             String line;
             String text = "";
             while ((line = bufferedReader.readLine()) != null) {
@@ -83,9 +89,7 @@ public class JmsConfig {
             }
             Message msg = session.createTextMessage(text);
             messageProducer.send(msg);
-            connection.close();
             bufferedReader.close();
-            fos.close();
         }
         catch (Exception e) {
             e.printStackTrace();

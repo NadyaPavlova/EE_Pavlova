@@ -11,5 +11,5 @@ public interface OrderBusinessService {
     List<Order> getAllOrders() throws InternalException;
     void payOrder(Order order) throws InternalException;
     Order getOrderById(Long id) throws InternalException;
-    void closedOrder(Order order) throws InternalException;
+    void closedOrder(Long id) throws InternalException;
 }
