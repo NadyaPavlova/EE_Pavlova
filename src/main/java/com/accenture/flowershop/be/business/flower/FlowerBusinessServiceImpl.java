@@ -36,11 +36,11 @@ public class FlowerBusinessServiceImpl implements FlowerBusinessService {
     @Override
     @Transactional
     public void countingFlowers(Flower flower, int qty) throws InternalException {
-        if (flower.getQtyStock() >= qty) {
+        if (qty <= flower.getQtyStock()) {
             flower.reduceQtyStock(qty);
-            //flowerDao.updateQtyStock(flower);
+            flowerDao.updateQtyStock(flower);
         } else {
-            new InternalException(InternalException.ERROR_DAO_FLOWERS_PAY, new Throwable());
+           throw new InternalException(InternalException.ERROR_DAO_FLOWERS_PAY, new Throwable());
         }
     }
 

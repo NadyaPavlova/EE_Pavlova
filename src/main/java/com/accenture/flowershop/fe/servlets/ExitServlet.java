@@ -31,14 +31,9 @@ public class ExitServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
             HttpSession session = req.getSession(false);
             LOG.info("USER "+ ((UserDTO)session.getAttribute("user")).getLogin()+" LOGGED OUT");
             session.invalidate();
             resp.sendRedirect("/flowershop/login.jsp");
-        }
-        catch (Exception e) {
-            req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
-        }
     }
 }

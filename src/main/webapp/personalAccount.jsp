@@ -100,7 +100,7 @@
             <td> Заказ №${i.idOrder}</td>
             <td>${i.userDTO.lastName} ${i.userDTO.firstName}</td>
             <td> ${i.status} </td>
-            <td> Создан:< value="${i.creationDate}"></td>
+            <td> Создан:"${i.creationDate}"</td>
             <td>
                 <c:if test = "${i.status eq 'CLOSED'}">
                      Закрыт:<value="${i.closingDate}"/>

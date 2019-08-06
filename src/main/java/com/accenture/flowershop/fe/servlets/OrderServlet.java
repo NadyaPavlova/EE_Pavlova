@@ -5,6 +5,7 @@ import com.accenture.flowershop.be.business.Mapper;
 import com.accenture.flowershop.be.business.flower.FlowerBusinessService;
 import com.accenture.flowershop.be.business.order.OrderBusinessService;
 import com.accenture.flowershop.fe.dto.OrderDTO;
+import com.accenture.flowershop.fe.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -47,7 +48,10 @@ public class OrderServlet extends HttpServlet {
         //очистка корзины
         orderDTO = new OrderDTO();
         orderDTO.setPriceSum(BigDecimal.ZERO);
+        UserDTO userDTO = (UserDTO) session.getAttribute("user");
+        orderDTO.setUserDTO(userDTO);
         session.setAttribute("basket", orderDTO);
+
         req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
     }
 

@@ -42,9 +42,6 @@ public class Filter {
             request += "f.price <= "+maxPrice;
         }
 
-        if(request.isEmpty()){
-            return "select f from Flower f " ;
-        }
 
         return "where " + request;
     }

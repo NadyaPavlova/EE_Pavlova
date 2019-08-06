@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.NoResultException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -45,19 +46,15 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     }
 
     @Override
-    public List<Order> getAllOrders() throws InternalException {
-        try {
-            return orderDao.getAllOrders();
-        } catch (Exception e) {
-            throw new InternalException(InternalException.ERROR_DAO_ORDER_FIND, new Throwable(e));
-        }
+    public List<Order> getAllOrders(){
+        return orderDao.getAllOrders();
     }
 
     @Override
     public List<Order> getAllOrdersUser(Long id) throws InternalException {
         try {
             return orderDao.getAllOrdersUser(id);
-        } catch (Exception e) {
+        } catch (NoResultException e) {
             throw new InternalException(InternalException.ERROR_DAO_ORDER_FIND, new Throwable(e));
         }
     }
@@ -75,7 +72,7 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor=InternalException.class)
     public void payOrder(Order order) throws InternalException {
         if ((StatusOrders.GENERATED) == (order.getStatus())) {
             ubs.payOrder(order.getUser(), order.getPriceSum());

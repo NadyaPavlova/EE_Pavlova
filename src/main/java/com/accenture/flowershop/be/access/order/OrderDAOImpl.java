@@ -5,10 +5,7 @@ import com.accenture.flowershop.be.entity.order.Order;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
 
 @Repository
@@ -29,7 +26,7 @@ public class OrderDAOImpl implements OrderDAO {
 
 
         @Override
-        public List<Order> getAllOrders () throws InternalException {
+        public List<Order> getAllOrders () {
             TypedQuery<Order> q = entityManager.createQuery("select o from Order o order by (o.creationDate, o.status)", Order.class);
             return q.getResultList();
         }
@@ -42,7 +39,7 @@ public class OrderDAOImpl implements OrderDAO {
         }
 
         @Override
-        public Order getOrderById (Long id) throws InternalException {
+        public Order getOrderById (Long id) throws NoResultException {
             TypedQuery<Order> q = entityManager.createQuery("select o from Order o where o.idOrder = :id", Order.class);
             q.setParameter("id", id);
             return q.getSingleResult();
