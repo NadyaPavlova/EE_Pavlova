@@ -4,6 +4,8 @@ package com.accenture.flowershop.be.business;
 import com.accenture.flowershop.be.business.user.UserBusinessService;
 import com.accenture.flowershop.fe.dto.DiscountRequest;
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -23,15 +25,15 @@ public class JmsConfig {
     private XMLConverter xmlConverter;
 
     @Autowired
-    UserBusinessService ubs;
+    private UserBusinessService ubs;
 
     @Value("${exportPath}")
-    String properyPath;
-    Connection connection;
-    Session session;
-    Queue inQueue;
-    Queue outQueue;
-
+    private String properyPath;
+    private Connection connection;
+    private Session session;
+    private Queue inQueue;
+    private Queue outQueue;
+    private static final Logger LOG = LoggerFactory.getLogger(JmsConfig.class);
     @PostConstruct
     void init() {
         try {
@@ -65,12 +67,12 @@ public class JmsConfig {
                         DiscountRequest dr = (DiscountRequest)xmlConverter.doUnMarshalling(body);
                         ubs.setDiscount(dr.getCustomerId(), dr.getNewDiscount());
                     } catch (Exception ex) {
-                        ex.printStackTrace();//todo log
+                        LOG.info("Ошибка при прослушивании очереди :" + this.getClass() + ";");
                     }
                 }
             });
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.info("Ошибка при прослушивании очереди :" + this.getClass() + ";");
         }
        return null;
     }
@@ -92,7 +94,7 @@ public class JmsConfig {
             bufferedReader.close();
         }
         catch (Exception e) {
-            e.printStackTrace();
+            LOG.info("Ошибка при прослушивании очереди :" + this.getClass() + ";");
         }
     }
 }

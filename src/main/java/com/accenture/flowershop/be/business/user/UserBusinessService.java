@@ -11,5 +11,4 @@ public interface UserBusinessService {
     User getUserByLogin(String login) throws InternalException;
     void payOrder(User user, BigDecimal price) throws InternalException;
     void setDiscount(Long idUser, Integer discount);
-    User getUserByLogin(Long id);
 }

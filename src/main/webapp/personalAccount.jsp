@@ -92,7 +92,7 @@
         </form>
    </c:if>
     <h2 style="color: rgb(71, 160, 240)">Заказы</h2>
-    <p style="color: red"> ${ErrorPay} </p>
+    <p style="color: red"> ${ErrorOrder} </p>
     <c:forEach items = "${orders}" var="i">
 
     <table style="text-align:center; width:100%;">

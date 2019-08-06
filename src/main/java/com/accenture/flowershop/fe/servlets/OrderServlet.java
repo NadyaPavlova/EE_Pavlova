@@ -42,7 +42,7 @@ public class OrderServlet extends HttpServlet {
             obs.addOrder(Mapper.mapper(orderDTO));
         }
         catch (InternalException e){
-            req.setAttribute("ErrorPay",e);
+            req.setAttribute("ErrorOrder",e);
             req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
         }
         //очистка корзины

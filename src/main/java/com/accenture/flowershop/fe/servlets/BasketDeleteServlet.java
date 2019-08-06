@@ -41,10 +41,10 @@ public class BasketDeleteServlet extends HttpServlet {
         OrderDTO basket = (OrderDTO)session.getAttribute("basket");
         UserDTO userDTO = (UserDTO) session.getAttribute("user");
         //удаляем цветок из корзины
-        deleteFlowerBasket(basket, flowerDTO);
+        removeFlowerOfBasket(basket, flowerDTO);
 
         //считаем сумму корзины
-        priceBasket(basket, userDTO.getDiscount());
+        coutingPriceToBasket(basket, userDTO.getDiscount());
 
         session.setAttribute("basket",basket);
 
@@ -52,7 +52,7 @@ public class BasketDeleteServlet extends HttpServlet {
     }
 
 
-    private void deleteFlowerBasket(OrderDTO basket, FlowerDTO flower){
+    private void removeFlowerOfBasket(OrderDTO basket, FlowerDTO flower){
         for (OrderItemDTO orderItem : basket.getBasketList()) {
             if (orderItem.getFlowerDTO().getIdFlower() == flower.getIdFlower()) {
                 orderItem.setQtyFlower(orderItem.getQtyFlower() - 1);
@@ -65,7 +65,7 @@ public class BasketDeleteServlet extends HttpServlet {
         }
     }
 
-    private void priceBasket(OrderDTO basket, int discount) {
+    private void coutingPriceToBasket(OrderDTO basket, int discount) {
         BigDecimal price = BigDecimal.ZERO;
         for (OrderItemDTO order : basket.getBasketList()) {
             price=price.add(order.getPriceFlower());

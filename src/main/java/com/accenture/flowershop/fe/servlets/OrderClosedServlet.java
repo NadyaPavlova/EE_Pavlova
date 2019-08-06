@@ -1,5 +1,6 @@
 package com.accenture.flowershop.fe.servlets;
 
+import com.accenture.flowershop.be.business.InternalException;
 import com.accenture.flowershop.be.business.flower.FlowerBusinessService;
 import com.accenture.flowershop.be.business.order.OrderBusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,9 @@ public class OrderClosedServlet extends HttpServlet {
             obs.closedOrder(Long.parseLong(req.getParameter("idOrder")));
             req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
         }
-        catch (Exception e){
+        catch (InternalException e){
+            req.setAttribute("ErrorOrder",e);
+            req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
         }
     }
 }

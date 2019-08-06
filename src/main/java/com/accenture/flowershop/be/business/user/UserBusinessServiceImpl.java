@@ -28,7 +28,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 
     @Value("${exportPath}")
     String properyPath;
-    private static final Logger LOG = LoggerFactory.getLogger(UserDAO.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UserBusinessService.class);
 
     public UserBusinessServiceImpl() {
         LOG.info("CREATE:" + this.getClass() + ";");
@@ -60,8 +60,6 @@ public class UserBusinessServiceImpl implements UserBusinessService {
             // отправляем пользователя в очередь и сохроняем его в xml
             xmlConverter.convertFromObjectToXML(user, "user" + user.getIdUser() + ".xml");
             jmsConfig.sendInOutQueue("user" + user.getIdUser() + ".xml");
-            /*jmsConfig.connectionFactory();
-            jmsConfig.containerFactory(getUnmarshaller());*/
         } catch (Exception e) {
             throw new InternalException(InternalException.ERROR_DAO_USER_FIND, new Throwable(e));
         }
@@ -75,11 +73,6 @@ public class UserBusinessServiceImpl implements UserBusinessService {
         } catch (Exception e) {
             throw new InternalException(InternalException.ERROR_DAO_USER_FIND, new Throwable(e));
         }
-    }
-
-    @Override
-    public User getUserByLogin(Long id) {
-        return userDao.getUserById(id);
     }
 
     @Override

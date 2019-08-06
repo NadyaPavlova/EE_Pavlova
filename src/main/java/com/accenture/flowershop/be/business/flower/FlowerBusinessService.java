@@ -9,6 +9,6 @@ public interface FlowerBusinessService {
      List<Flower> getAllFlowers() throws InternalException;
      Flower getFlowerById(Long id);
      void countingFlowers(Flower flower, int qty) throws InternalException;
-     List<Flower> searchFlower(String request) throws InternalException;
      void addFlowerQTY(Integer flowerQTY);
+     List<Flower> filterFlower(String name, String minPrice, String maxPrice);
 }

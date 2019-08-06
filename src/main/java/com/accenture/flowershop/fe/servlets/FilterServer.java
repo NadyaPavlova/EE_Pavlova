@@ -1,6 +1,5 @@
 package com.accenture.flowershop.fe.servlets;
 
-import com.accenture.flowershop.be.business.Filter;
 import com.accenture.flowershop.be.business.flower.FlowerBusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -26,15 +25,7 @@ public class FilterServer extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            Filter filter = new Filter(req.getParameter("nameFlower"), req.getParameter("minPrice"), req.getParameter("maxPrice"));
-            String str = filter.toString();
-            req.setAttribute("flowerStockFilter", flowerBusinessService.searchFlower(str));
-            req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
-
-        }
-        catch (Exception e) {
-            req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
-        }
+        req.setAttribute("flowerStockFilter", flowerBusinessService.filterFlower(req.getParameter("nameFlower"), req.getParameter("minPrice"), req.getParameter("maxPrice")));
+        req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
     }
 }

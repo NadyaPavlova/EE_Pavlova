@@ -68,7 +68,8 @@ public class PersonalAccountServlet extends HttpServlet {
             req.getRequestDispatcher("/personalAccount.jsp").forward(req, resp);
         }
         catch (Exception e){
-
+            req.setAttribute("errorLoginPassword","Произошла ошибка. Повторите вход в систему");
+            req.getRequestDispatcher("/login.jsp").forward(req, resp);
         }
     }
 

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -45,17 +46,22 @@ public class FlowerBusinessServiceImpl implements FlowerBusinessService {
     }
 
     @Override
-    public List<Flower> searchFlower(String request) throws InternalException {
-        try {
-            return flowerDao.searchFlower(request);
-        } catch (Exception e) {
-            throw new InternalException(InternalException.ERROR_DAO_FLOWERS_UPDATE, new Throwable(e));
-        }
-    }
-
-    @Override
     public void addFlowerQTY(Integer flowerQTY) {
         flowerDao.addFlowerQTY(flowerQTY);
+    }
+
+
+    @Override
+    public List<Flower> filterFlower(String name, String minPrice, String maxPrice) {
+        BigDecimal min= new BigDecimal(00.00);
+        BigDecimal max= new BigDecimal(10000.00);
+        if(!minPrice.isEmpty()){
+            min= new BigDecimal(minPrice);
+        }
+        if(!maxPrice.isEmpty()){
+            max= new BigDecimal(maxPrice);
+        }
+        return flowerDao.searchFlower(name, min, max);
     }
 
 }

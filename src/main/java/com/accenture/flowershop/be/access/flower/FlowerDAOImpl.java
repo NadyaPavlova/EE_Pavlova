@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Repository
@@ -47,8 +48,16 @@ public class FlowerDAOImpl implements FlowerDAO {
     }
 
     @Override
-    public List<Flower> searchFlower(String request) throws InternalException {
+    public List<Flower> searchFlower(String request) {
         TypedQuery<Flower> q = entityManager.createQuery("select f from Flower f " + request, Flower.class);
+        return q.getResultList();
+    }
+
+    @Override
+    public List<Flower> searchFlower(String name, BigDecimal minPrice, BigDecimal maxPrice) {
+        TypedQuery<Flower> q = entityManager.createQuery("select f from Flower f where f.nameFlower like '%"+name+"%' and f.price between :minPrice and :maxPrice", Flower.class);
+        q.setParameter("minPrice", minPrice);
+        q.setParameter("maxPrice", maxPrice);
         return q.getResultList();
     }
 

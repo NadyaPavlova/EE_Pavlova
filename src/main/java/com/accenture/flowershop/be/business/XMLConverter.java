@@ -29,10 +29,8 @@ public class XMLConverter {
 
     public void convertFromObjectToXML(Object object, String fileName) throws IOException {
         try {
-
             FileOutputStream os = new FileOutputStream(properyPath + "/" + fileName);
             getMarshaller().marshal(object, new StreamResult(os));
-
         } catch (Exception e) {
             throw e;
         }

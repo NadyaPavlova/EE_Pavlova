@@ -30,7 +30,7 @@ public class ExitServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
             HttpSession session = req.getSession(false);
             LOG.info("USER "+ ((UserDTO)session.getAttribute("user")).getLogin()+" LOGGED OUT");
             session.invalidate();
