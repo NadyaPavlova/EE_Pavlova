@@ -59,6 +59,7 @@
 
    <c:if test = "${role eq 'User'}">
         <h2 style="color: rgb(139, 20, 155)">Корзина</h2>
+        <p style="color: red"> ${errorAddBasket} </p>
         <form method="post" action="/flowershop/user/BasketDeleteServlet">
             <table style=" text-align:center; width:100%;" >
                 <tr style="background-color:rgb(162, 77, 147)">

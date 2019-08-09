@@ -56,7 +56,7 @@ public class LoginServlet extends HttpServlet {
             currentUser = ubs.login(login, password);
             UserDTO userDTO = mapper.map(currentUser, UserDTO.class);
             session.setAttribute("user", userDTO);
-            LOG.info("USER " + session.getAttribute("user") + " LOGGED IN.");
+            LOG.info("Пользователь " + session.getAttribute("user") + " авторизовался в системе.");
             if (currentUser.isAdmin() == 1) {
                 session.setAttribute("role", "Admin");
             } else {

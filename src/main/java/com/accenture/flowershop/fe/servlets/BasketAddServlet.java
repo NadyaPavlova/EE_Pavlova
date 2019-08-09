@@ -1,5 +1,6 @@
 package com.accenture.flowershop.fe.servlets;
 
+import com.accenture.flowershop.be.business.InternalException;
 import com.accenture.flowershop.be.business.flower.FlowerBusinessService;
 import com.accenture.flowershop.fe.dto.FlowerDTO;
 import com.accenture.flowershop.fe.dto.OrderDTO;
@@ -48,6 +49,9 @@ public class BasketAddServlet extends HttpServlet {
             int qty = 1;
             if (!req.getParameter("quantity").isEmpty()) {
                 qty = Integer.parseInt(req.getParameter("quantity"));
+                if(qty<=0){
+                    throw new InternalException(InternalException.ERROR_ADD_BASKET, new Throwable());
+                }
             }
 
             addItemToBasket(basket, flowerDTO, qty);
@@ -55,9 +59,9 @@ public class BasketAddServlet extends HttpServlet {
 
             session.setAttribute("basket", basket);
             req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
-        }catch (Exception e) {
+        }catch (InternalException e) {
             e.printStackTrace();
-            req.setAttribute("errorAddBasket","Ошибка при добавление товара в корзину!");
+            req.setAttribute("errorAddBasket",e.getMessage());
             req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
         }
 

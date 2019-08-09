@@ -79,7 +79,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     @Transactional
     public void payOrder(User user, BigDecimal price) throws InternalException {
         try {
-            if (user.getMoney().compareTo(price) >= 0) {
+            if ((user.getMoney().compareTo(price) >= 0) && (price.compareTo(BigDecimal.ZERO)>=0)){
                 user.pay(price);
                 userDao.updateMoney(user);
             } else {

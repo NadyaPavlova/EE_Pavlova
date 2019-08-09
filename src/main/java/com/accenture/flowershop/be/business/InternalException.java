@@ -17,6 +17,8 @@ public class InternalException extends Exception{
     public static final String ERROR_ORDER_PAY_NO_MONEY = "Заказ не оплачен. Пополните счет";
     public static final String ERROR_ORDER_PAY = "Ошибка при оплате заказа. Повторите попытку позже";
 
+    public static final String ERROR_ADD_BASKET = "Ошибка при добавление товара в корзину";
+
 
     public InternalException(String message, Throwable cause){
         super(message, cause);
