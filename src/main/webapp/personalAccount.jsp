@@ -67,7 +67,7 @@
                     <td>Кол-во</td>
                     <td>Цена</td>
                 </tr>
-                <c:forEach items = "${basket.basketList}" var="iterator">
+                <c:forEach items = "${basket.itemList}" var="iterator">
                     <tr style="background-color: rgb(204, 140, 203)">
                         <td>${iterator.flowerDTO.idFlower}</td>
                         <td>${iterator.flowerDTO.nameFlower}</td>
@@ -103,7 +103,7 @@
             <td> Создан:"${i.creationDate}"</td>
             <td>
                 <c:if test = "${i.status eq 'CLOSED'}">
-                     Закрыт:<value="${i.closingDate}"/>
+                     Закрыт:"${i.closingDate}"
                 </c:if>
             </td>
             <c:if test = "${role eq 'User'}">
@@ -131,7 +131,7 @@
                 <td>Цена</td>
              </tr>
 
-            <c:forEach items = "${i.basketList}" var="iterator">
+            <c:forEach items = "${i.itemList}" var="iterator">
                 <tr style="background-color:rgb(165, 212, 255)">
                     <td>${iterator.flowerDTO.idFlower}</td>
                     <td>${iterator.flowerDTO.nameFlower}</td>

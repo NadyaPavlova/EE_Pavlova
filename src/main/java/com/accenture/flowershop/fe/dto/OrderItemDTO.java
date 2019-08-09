@@ -1,15 +1,17 @@
 package com.accenture.flowershop.fe.dto;
 
+import org.dozer.Mapping;
+
 import java.math.BigDecimal;
 
 public class OrderItemDTO {
     private FlowerDTO flowerDTO;
     private BigDecimal priceFlower;
     private int qtyFlower;
-
+    private OrderDTO orderDTO;
     public OrderItemDTO() {
     }
-
+    @Mapping("flower")
     public FlowerDTO getFlowerDTO() {
         return flowerDTO;
     }
@@ -17,7 +19,7 @@ public class OrderItemDTO {
     public void setFlowerDTO(FlowerDTO flowerDTO) {
         this.flowerDTO = flowerDTO;
     }
-
+    @Mapping("price")
     public BigDecimal getPriceFlower() {
         return priceFlower;
     }
@@ -32,5 +34,13 @@ public class OrderItemDTO {
 
     public void setQtyFlower(int qtyFlower) {
         this.qtyFlower = qtyFlower;
+    }
+    @Mapping("order")
+    public OrderDTO getOrderDTO() {
+        return orderDTO;
+    }
+
+    public void setOrderDTO(OrderDTO orderDTO) {
+        this.orderDTO = orderDTO;
     }
 }

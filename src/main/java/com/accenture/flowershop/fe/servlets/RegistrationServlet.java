@@ -43,7 +43,7 @@ public class RegistrationServlet extends HttpServlet {
             String email = req.getParameter("email");
             String password = req.getParameter("password");
             ubs.registration(email, password, lastName, firstName, middleName, phoneNumber);
-            LOG.info("USER "+email+" CREATED.");
+            LOG.info("Пользователь "+email+" создан.");
             req.getRequestDispatcher("/login.jsp").forward(req, resp);}
         catch (Exception e){
             req.setAttribute("errorRegistration","Ошибка при регистрации, проверьте данные!");

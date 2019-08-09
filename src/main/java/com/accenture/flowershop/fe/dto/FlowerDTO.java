@@ -1,10 +1,5 @@
 package com.accenture.flowershop.fe.dto;
 
-import com.accenture.flowershop.be.business.InternalException;
-import com.accenture.flowershop.be.business.flower.FlowerBusinessService;
-import com.accenture.flowershop.be.entity.flower.Flower;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.math.BigDecimal;
 
 public class FlowerDTO {
@@ -13,9 +8,12 @@ public class FlowerDTO {
     private BigDecimal price;
     private Integer qtyStock;
 
-    @Autowired
-    private FlowerBusinessService fbs;
-
+    public FlowerDTO(Long idFlower, String nameFlower, BigDecimal price, Integer qtyStock) {
+        this.idFlower = idFlower;
+        this.nameFlower = nameFlower;
+        this.price = price;
+        this.qtyStock = qtyStock;
+    }
 
     public FlowerDTO() {
     }
@@ -28,14 +26,6 @@ public class FlowerDTO {
         this.qtyStock = qtyStock;
     }
 
-    public Flower getFlowerById(Long id) throws InternalException{
-        try {
-            return fbs.getFlowerById(id);
-        }
-        catch (Exception e){
-            throw new InternalException(InternalException.ERROR_DAO_FLOWERS_FIND, new Throwable(e));
-        }
-    }
 
     public Long getIdFlower() {
         return idFlower;

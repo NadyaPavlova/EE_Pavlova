@@ -1,11 +1,12 @@
 package com.accenture.flowershop.fe.dto;
 
 import com.accenture.flowershop.be.business.StatusOrders;
+import org.dozer.Mapping;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class OrderDTO {
 
@@ -13,18 +14,19 @@ public class OrderDTO {
 
     private UserDTO userDTO;
 
-    private List<OrderItemDTO> basketList = new ArrayList<>();
+    private List<OrderItemDTO> itemList = new ArrayList<>();
 
     private StatusOrders status;
 
-    private LocalDate creationDate;
+    private String creationDate;
 
-    private LocalDate closingDate;
+    private String closingDate;
 
     private BigDecimal priceSum;
 
 
     public OrderDTO() {
+
     }
     public Long getIdOrder() { return idOrder; }
 
@@ -32,6 +34,7 @@ public class OrderDTO {
         this.idOrder = idOrder;
     }
 
+    @Mapping("user")
     public UserDTO getUserDTO() {
         return userDTO;
     }
@@ -40,16 +43,16 @@ public class OrderDTO {
         this.userDTO = userDTO;
     }
 
-    public List<OrderItemDTO> getBasketList() {
-        return basketList;
+    public List<OrderItemDTO> getItemList() {
+        return itemList;
     }
 
-    public void setBasketList(List<OrderItemDTO> basketList) {
-        this.basketList = basketList;
+    public void setItemList(List<OrderItemDTO> itemList) {
+        this.itemList = itemList;
     }
 
-    public OrderDTO(List<OrderItemDTO> basketList) {
-        this.basketList = basketList;
+    public OrderDTO(List<OrderItemDTO> itemList) {
+        this.itemList = itemList;
     }
 
     public StatusOrders getStatus() {
@@ -60,19 +63,19 @@ public class OrderDTO {
         this.status = status;
     }
 
-    public LocalDate getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDate creationDate) {
+    public void setCreationDate(String  creationDate) {
         this.creationDate = creationDate;
     }
 
-    public LocalDate getClosingDate() {
+    public String getClosingDate() {
         return closingDate;
     }
 
-    public void setClosingDate(LocalDate closingDate) {
+    public void setClosingDate(String  closingDate) {
         this.closingDate = closingDate;
     }
 

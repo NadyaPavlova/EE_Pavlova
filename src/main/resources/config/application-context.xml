@@ -80,5 +80,6 @@
 
     <jaxws:endpoint id="FlowerStockWebService1" implementor="#FlowerStockWebService"
                     address="/FlowerStockWebService"/>
+    <bean id="mapper" class="org.dozer.DozerBeanMapper"/>
 
 </beans>

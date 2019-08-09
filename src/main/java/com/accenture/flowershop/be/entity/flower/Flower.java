@@ -25,11 +25,11 @@ public class Flower {
     public Flower() {
     }
 
-    public Flower(Long idFlower, String nameFlower, BigDecimal price, Integer qty) {
+    public Flower(Long idFlower, String nameFlower, BigDecimal price, Integer qtyStock) {
         this.idFlower = idFlower;
         this.nameFlower = nameFlower;
         this.price = price;
-        this.qtyStock = qty;
+        this.qtyStock = qtyStock;
     }
 
     public Long getIdFlower() {

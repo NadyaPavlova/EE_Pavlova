@@ -1,11 +1,12 @@
 package com.accenture.flowershop.fe.servlets;
 
 import com.accenture.flowershop.be.business.InternalException;
-import com.accenture.flowershop.be.business.Mapper;
 import com.accenture.flowershop.be.business.flower.FlowerBusinessService;
 import com.accenture.flowershop.be.business.order.OrderBusinessService;
+import com.accenture.flowershop.be.entity.order.Order;
 import com.accenture.flowershop.fe.dto.OrderDTO;
 import com.accenture.flowershop.fe.dto.UserDTO;
+import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -28,6 +29,9 @@ public class OrderServlet extends HttpServlet {
 
     @Autowired
     FlowerBusinessService fbs;
+
+    @Autowired
+    DozerBeanMapper mapper;
     @Override
     public void init(ServletConfig config) throws ServletException {
         SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
@@ -39,10 +43,10 @@ public class OrderServlet extends HttpServlet {
         OrderDTO orderDTO = (OrderDTO) session.getAttribute("basket");
         //Перевод в сущность и запись в БД
         try{
-            obs.addOrder(Mapper.mapper(orderDTO));
+            obs.addOrder(mapper.map(orderDTO, Order.class));
         }
         catch (InternalException e){
-            req.setAttribute("ErrorOrder",e);
+            req.setAttribute("ErrorOrder",e.getMessage());
             req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
         }
         //очистка корзины

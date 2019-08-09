@@ -30,7 +30,7 @@ public class OrderPayServlet extends HttpServlet {
             req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
         }
         catch (InternalException e){
-            req.setAttribute("ErrorOrder",e);
+            req.setAttribute("ErrorOrder",e.getMessage());
             req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
         }
         catch (Exception e){

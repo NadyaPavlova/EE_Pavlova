@@ -1,11 +1,11 @@
 package com.accenture.flowershop.fe.servlets;
 
-import com.accenture.flowershop.be.business.Mapper;
 import com.accenture.flowershop.be.business.flower.FlowerBusinessService;
 import com.accenture.flowershop.fe.dto.FlowerDTO;
 import com.accenture.flowershop.fe.dto.OrderDTO;
 import com.accenture.flowershop.fe.dto.OrderItemDTO;
 import com.accenture.flowershop.fe.dto.UserDTO;
+import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -25,6 +25,9 @@ public class BasketAddServlet extends HttpServlet {
 
     @Autowired
     FlowerBusinessService fbs;
+    @Autowired
+    DozerBeanMapper mapper;
+
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -36,7 +39,7 @@ public class BasketAddServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             Long flowerId = Long.parseLong(req.getParameter("idFlower"));
-            FlowerDTO flowerDTO = Mapper.mapper(fbs.getFlowerById(flowerId));
+            FlowerDTO flowerDTO = mapper.map(fbs.getFlowerById(flowerId), FlowerDTO.class);
             HttpSession session = req.getSession(false);
             OrderDTO basket = (OrderDTO) session.getAttribute("basket");
             UserDTO userDTO = (UserDTO) session.getAttribute("user");
@@ -53,6 +56,7 @@ public class BasketAddServlet extends HttpServlet {
             session.setAttribute("basket", basket);
             req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
         }catch (Exception e) {
+            e.printStackTrace();
             req.setAttribute("errorAddBasket","Ошибка при добавление товара в корзину!");
             req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
         }
@@ -60,7 +64,7 @@ public class BasketAddServlet extends HttpServlet {
     }
 
     private void addItemToBasket(OrderDTO basket, FlowerDTO flower, int qty) {
-        for (OrderItemDTO order : basket.getBasketList()) {
+        for (OrderItemDTO order : basket.getItemList()) {
             if (order.getFlowerDTO().getIdFlower().equals(flower.getIdFlower())) {
                 order.setQtyFlower(order.getQtyFlower() + qty);
                 order.setPriceFlower(flower.getPrice().multiply(new BigDecimal(order.getQtyFlower())));
@@ -68,15 +72,16 @@ public class BasketAddServlet extends HttpServlet {
             }
         }
         OrderItemDTO orderItem = new OrderItemDTO();
+        orderItem.setOrderDTO(basket);
         orderItem.setFlowerDTO(flower);
         orderItem.setQtyFlower(qty);
         orderItem.setPriceFlower(flower.getPrice().multiply(new BigDecimal(orderItem.getQtyFlower())));
-        basket.getBasketList().add(orderItem);
+        basket.getItemList().add(orderItem);
     }
 
     private void calcBasketTotalPrice(OrderDTO basket, int discount) {
         BigDecimal price = BigDecimal.ZERO;
-        for (OrderItemDTO order : basket.getBasketList()) {
+        for (OrderItemDTO order : basket.getItemList()) {
             price=price.add(order.getPriceFlower());
         }
         BigDecimal discountBig = new BigDecimal(discount).divide(new BigDecimal(100));

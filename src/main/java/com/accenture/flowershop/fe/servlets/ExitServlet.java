@@ -32,7 +32,7 @@ public class ExitServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
             HttpSession session = req.getSession(false);
-            LOG.info("USER "+ ((UserDTO)session.getAttribute("user")).getLogin()+" LOGGED OUT");
+            LOG.info("Пользователь "+ ((UserDTO)session.getAttribute("user")).getLogin()+" вышел из системы");
             session.invalidate();
             resp.sendRedirect("/flowershop/login.jsp");
     }

@@ -1,12 +1,12 @@
 package com.accenture.flowershop.fe.servlets;
 
-import com.accenture.flowershop.be.business.Mapper;
 import com.accenture.flowershop.be.business.flower.FlowerBusinessService;
 import com.accenture.flowershop.be.business.order.OrderBusinessService;
 import com.accenture.flowershop.be.business.user.UserBusinessService;
 import com.accenture.flowershop.be.entity.user.User;
 import com.accenture.flowershop.fe.dto.OrderDTO;
 import com.accenture.flowershop.fe.dto.UserDTO;
+import org.dozer.DozerBeanMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +31,8 @@ public class LoginServlet extends HttpServlet {
     private UserBusinessService ubs;
     @Autowired
     private OrderBusinessService obs;
+    @Autowired
+    DozerBeanMapper mapper;
 
     private static final Logger LOG = LoggerFactory.getLogger(LoginServlet.class);
 
@@ -44,7 +46,6 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         req.setCharacterEncoding("utf-8");
         resp.setCharacterEncoding("utf-8");
         String login = req.getParameter("login");
@@ -53,7 +54,7 @@ public class LoginServlet extends HttpServlet {
         try {
             User currentUser;
             currentUser = ubs.login(login, password);
-            UserDTO userDTO = Mapper.mapper(currentUser);
+            UserDTO userDTO = mapper.map(currentUser, UserDTO.class);
             session.setAttribute("user", userDTO);
             LOG.info("USER " + session.getAttribute("user") + " LOGGED IN.");
             if (currentUser.isAdmin() == 1) {
@@ -68,6 +69,7 @@ public class LoginServlet extends HttpServlet {
             req.getRequestDispatcher("/personalAccountServlet").forward(req, resp);
         }
         catch (Exception e){
+            e.printStackTrace();
             req.setAttribute("errorLoginPassword","Ошибка в логине и/или пароле!");
             req.getRequestDispatcher("/login.jsp").forward(req, resp);
         }

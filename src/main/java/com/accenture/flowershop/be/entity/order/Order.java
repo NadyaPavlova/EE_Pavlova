@@ -9,8 +9,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-import static java.time.LocalDate.now;
-
 @Entity
 @Table(name = "ORDERS")
 public class Order {
@@ -42,7 +40,7 @@ public class Order {
 
     public void close() {
         this.setStatus(StatusOrders.CLOSED);
-        this.setClosingDate(now());
+        this.setClosingDate(LocalDate.now());
     }
 
     public Long getIdOrder() {
