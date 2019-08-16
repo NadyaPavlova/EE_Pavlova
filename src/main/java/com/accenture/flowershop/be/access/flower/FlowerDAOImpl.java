@@ -40,8 +40,8 @@ public class FlowerDAOImpl implements FlowerDAO {
     @Override
     @Transactional
     public void updateQtyStock(Flower flower) throws InternalException {
-        Query q = entityManager.createQuery("update Flower f set f.qtyStock = :qty where f.idFlower = :id");
-        q.setParameter("id", flower.getIdFlower());
+        Query q = entityManager.createQuery("update Flower f set f.qtyStock = :qty where f.id = :id");
+        q.setParameter("id", flower.getId());
         q.setParameter("qty", flower.getQtyStock());
         q.executeUpdate();
         entityManager.flush();

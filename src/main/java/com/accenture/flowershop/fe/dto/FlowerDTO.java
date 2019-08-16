@@ -1,5 +1,7 @@
 package com.accenture.flowershop.fe.dto;
 
+import org.dozer.Mapping;
+
 import java.math.BigDecimal;
 
 public class FlowerDTO {
@@ -26,7 +28,7 @@ public class FlowerDTO {
         this.qtyStock = qtyStock;
     }
 
-
+    @Mapping("id")
     public Long getIdFlower() {
         return idFlower;
     }

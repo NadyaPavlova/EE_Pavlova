@@ -33,7 +33,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User getUserById(Long id) {
         TypedQuery<User> q;
-        q = entityManager.createQuery("Select u from User u where u.idUser = :id", User.class);
+        q = entityManager.createQuery("Select u from User u where u.id = :id", User.class);
         q.setParameter("id", id);
         return q.getSingleResult();
     }
@@ -49,8 +49,8 @@ public class UserDAOImpl implements UserDAO {
     @Override
     @Transactional
     public void updateMoney(User user) {
-        Query q = entityManager.createQuery("update User u set u.money = :balance where u.idUser = :id");
-        q.setParameter("id", user.getIdUser());
+        Query q = entityManager.createQuery("update User u set u.money = :balance where u.id = :id");
+        q.setParameter("id", user.getId());
         q.setParameter("balance", user.getMoney());
         q.executeUpdate();
         entityManager.flush();
@@ -60,7 +60,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     @Transactional
     public void updateDiscount(Long idUser, Integer discount) {
-        Query q = entityManager.createQuery("update User u set u.discount = :discountnew where u.idUser = :id");
+        Query q = entityManager.createQuery("update User u set u.discount = :discountnew where u.id = :id");
         q.setParameter("id", idUser);
         q.setParameter("discountnew", discount);
         q.executeUpdate();

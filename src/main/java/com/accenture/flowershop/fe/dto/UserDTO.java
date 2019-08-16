@@ -1,5 +1,7 @@
 package com.accenture.flowershop.fe.dto;
 
+import org.dozer.Mapping;
+
 import java.math.BigDecimal;
 
 public class UserDTO {
@@ -89,7 +91,7 @@ public class UserDTO {
     public void setAdmin(Integer admin) {
         this.admin = admin;
     }
-
+    @Mapping("id")
     public Long getIdUser() {
         return idUser;
     }

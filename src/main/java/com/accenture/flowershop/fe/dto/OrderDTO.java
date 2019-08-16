@@ -28,6 +28,7 @@ public class OrderDTO {
     public OrderDTO() {
 
     }
+    @Mapping("id")
     public Long getIdOrder() { return idOrder; }
 
     public void setIdOrder(Long idOrder) {

@@ -1,10 +1,10 @@
 package com.accenture.flowershop.be.business.user;
 
-import com.accenture.flowershop.be.access.user.UserDAO;
 import com.accenture.flowershop.be.business.InternalException;
 import com.accenture.flowershop.be.business.JmsConfig;
 import com.accenture.flowershop.be.business.XMLConverter;
 import com.accenture.flowershop.be.entity.user.User;
+import com.accenture.flowershop.be.repository.UserRepository;
 import org.h2.message.DbException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +17,9 @@ import java.math.BigDecimal;
 
 @Service
 public class UserBusinessServiceImpl implements UserBusinessService {
+
     @Autowired
-    private UserDAO userDao;
+    private UserRepository userRepository;
 
     @Autowired
     private XMLConverter xmlConverter;
@@ -38,7 +39,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     public User login(String email, String password) throws InternalException {
 
         User user;
-        if ((user = userDao.getUserByLogin(email)) != null) {
+        if ((user = userRepository.getUserByLogin(email)) != null) {
             if (user.getPassword().equals(password)) {
                 return user;
             }
@@ -56,10 +57,10 @@ public class UserBusinessServiceImpl implements UserBusinessService {
             User user = new User(email, password, lastName, firstName, middleName, phoneNumber);
             user.setDiscount(3);
             user.setMoney(new BigDecimal(2000.0));
-            userDao.addUser(user);
+            userRepository.save(user);
             // отправляем пользователя в очередь и сохроняем его в xml
-            xmlConverter.convertFromObjectToXML(user, "user" + user.getIdUser() + ".xml");
-            jmsConfig.sendInOutQueue("user" + user.getIdUser() + ".xml");
+            xmlConverter.convertFromObjectToXML(user, "user" + user.getId() + ".xml");
+            jmsConfig.sendInOutQueue("user" + user.getId() + ".xml");
         } catch (Exception e) {
             throw new InternalException(InternalException.ERROR_DAO_USER_FIND, new Throwable(e));
         }
@@ -69,7 +70,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     @Override
     public User getUserByLogin(String login) throws InternalException {
         try {
-            return userDao.getUserByLogin(login);
+            return userRepository.getUserByLogin(login);
         } catch (Exception e) {
             throw new InternalException(InternalException.ERROR_DAO_USER_FIND, new Throwable(e));
         }
@@ -81,7 +82,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
         try {
             if ((user.getMoney().compareTo(price) >= 0) && (price.compareTo(BigDecimal.ZERO)>=0)){
                 user.pay(price);
-                userDao.updateMoney(user);
+                userRepository.saveAndFlush(user);
             } else {
                 throw new InternalException(InternalException.ERROR_DAO_ORDER_UPDATE, new Throwable());
             }
@@ -92,6 +93,10 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 
     @Override
     public void setDiscount(Long idUser, Integer discount) {
-        userDao.updateDiscount(idUser, discount);
+        userRepository.save(getById(idUser));
+    }
+    @Override
+    public User getById(Long id){
+        return userRepository.findOne(id);
     }
 }

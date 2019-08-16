@@ -16,7 +16,7 @@ public class Order {
     @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "idOrder")
     @SequenceGenerator(name="idOrder", sequenceName = "seq_order", allocationSize = 1, initialValue = 1)
     @Column(name="idOrder")
-    private Long idOrder;
+    private Long id;
 
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "idUser")
@@ -35,6 +35,7 @@ public class Order {
     private StatusOrders status;
 
 
+
     public Order() {
     }
 
@@ -43,12 +44,12 @@ public class Order {
         this.setClosingDate(LocalDate.now());
     }
 
-    public Long getIdOrder() {
-        return idOrder;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdOrder(Long idOrder) {
-        this.idOrder = idOrder;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public User getUser() {

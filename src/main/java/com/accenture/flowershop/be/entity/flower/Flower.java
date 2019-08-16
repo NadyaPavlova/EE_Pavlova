@@ -11,7 +11,7 @@ public class Flower {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idFlower")
     @SequenceGenerator(name="idFlower", sequenceName = "seq_flower")
     @Column(name="idFlower")
-    private Long idFlower;
+    private Long id;
 
     @Column(name = "nameFlower")
     private String nameFlower;
@@ -26,18 +26,18 @@ public class Flower {
     }
 
     public Flower(Long idFlower, String nameFlower, BigDecimal price, Integer qtyStock) {
-        this.idFlower = idFlower;
+        this.id = idFlower;
         this.nameFlower = nameFlower;
         this.price = price;
         this.qtyStock = qtyStock;
     }
 
-    public Long getIdFlower() {
-        return idFlower;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdFlower(Long idFlower) {
-        this.idFlower = idFlower;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNameFlower() {

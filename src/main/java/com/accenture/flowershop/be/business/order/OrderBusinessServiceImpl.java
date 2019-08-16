@@ -8,6 +8,7 @@ import com.accenture.flowershop.be.business.flower.FlowerBusinessService;
 import com.accenture.flowershop.be.business.user.UserBusinessService;
 import com.accenture.flowershop.be.entity.order.Order;
 import com.accenture.flowershop.be.entity.orderItem.OrderItem;
+import com.accenture.flowershop.be.repository.OrderRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import java.util.List;
 @Service
 public class OrderBusinessServiceImpl implements OrderBusinessService {
     @Autowired
-    private OrderDAO orderDao;
+    private OrderRepository orderRepository;
 
     @Autowired
     private UserBusinessService ubs;
@@ -39,7 +40,7 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     @Override
     public Order getOrderById(Long id) throws InternalException {
         try {
-            return orderDao.getOrderById(id);
+            return orderRepository.getOrderById(id);
         } catch (Exception e) {
             throw new InternalException(InternalException.ERROR_DAO_ORDER_FIND, new Throwable(e));
         }
@@ -47,13 +48,14 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 
     @Override
     public List<Order> getAllOrders(){
-        return orderDao.getAllOrders();
+
+        return orderRepository.getByAdmin();
     }
 
     @Override
     public List<Order> getAllOrdersUser(Long id) throws InternalException {
         try {
-            return orderDao.getAllOrdersUser(id);
+            return orderRepository.getByUser(id);
         } catch (NoResultException e) {
             throw new InternalException(InternalException.ERROR_DAO_ORDER_FIND, new Throwable(e));
         }
@@ -65,7 +67,7 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
         try {
             order.setCreationDate(LocalDate.now());
             order.setStatus(StatusOrders.GENERATED);
-            orderDao.saveOrder(order);
+            orderRepository.saveAndFlush(order);
         } catch (Exception e) {
             throw new InternalException(InternalException.ERROR_DAO_ORDER, new Throwable(e));
         }
@@ -83,7 +85,7 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
             return;
         }
         order.setStatus(StatusOrders.PAID);
-        orderDao.updateStatus(order);
+        orderRepository.save(order);
     }
 
     @Override

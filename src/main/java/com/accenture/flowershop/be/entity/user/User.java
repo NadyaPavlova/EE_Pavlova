@@ -10,7 +10,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idUser")
     @SequenceGenerator(name = "idUser", sequenceName = "seq_user", allocationSize = 1, initialValue = 1)
     @Column(name = "idUser")
-    private Long idUser;
+    private Long id;
 
     @Column(name = "login")
     private String login;
@@ -147,12 +147,12 @@ public class User {
         this.admin = admin;
     }
 
-    public Long getIdUser() {
-        return idUser;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Integer getAdmin() {

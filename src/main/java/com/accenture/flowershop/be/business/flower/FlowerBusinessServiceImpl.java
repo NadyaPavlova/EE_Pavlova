@@ -3,6 +3,7 @@ package com.accenture.flowershop.be.business.flower;
 import com.accenture.flowershop.be.access.flower.FlowerDAO;
 import com.accenture.flowershop.be.business.InternalException;
 import com.accenture.flowershop.be.entity.flower.Flower;
+import com.accenture.flowershop.be.repository.FlowerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,11 @@ import java.util.List;
 
 @Service
 public class FlowerBusinessServiceImpl implements FlowerBusinessService {
+
+
     @Autowired
-    private FlowerDAO flowerDao;
+    private FlowerRepository flowerRepository;
+
     private static final Logger LOG = LoggerFactory.getLogger(FlowerDAO.class);
 
 
@@ -25,13 +29,12 @@ public class FlowerBusinessServiceImpl implements FlowerBusinessService {
 
     @Override
     public List<Flower> getAllFlowers() throws InternalException {
-
-        return flowerDao.getAllFlowers();
+        return flowerRepository.findAll();
     }
 
     @Override
     public Flower getFlowerById(Long id) {
-        return flowerDao.getFlowerById(id);
+        return flowerRepository.getFlowerById(id);
     }
 
     @Override
@@ -39,15 +42,19 @@ public class FlowerBusinessServiceImpl implements FlowerBusinessService {
     public void countingFlowers(Flower flower, int qty) throws InternalException {
         if (qty <= flower.getQtyStock()) {
             flower.reduceQtyStock(qty);
-            flowerDao.updateQtyStock(flower);
+            flowerRepository.save(flower);
         } else {
            throw new InternalException(InternalException.ERROR_DAO_FLOWERS_PAY, new Throwable());
         }
     }
 
     @Override
+    @Transactional
     public void addFlowerQTY(Integer flowerQTY) {
-        flowerDao.addFlowerQTY(flowerQTY);
+        List<Flower> flowerList = flowerRepository.findAll();
+        for (Flower flower : flowerList) {
+            flower.setQtyStock(flower.getQtyStock() + flowerQTY);
+        }
     }
 
 
@@ -61,7 +68,7 @@ public class FlowerBusinessServiceImpl implements FlowerBusinessService {
         if(!maxPrice.isEmpty()){
             max= new BigDecimal(maxPrice);
         }
-        return flowerDao.searchFlower(name, min, max);
+        return flowerRepository.searchFlower(name, min, max);
     }
 
 }
