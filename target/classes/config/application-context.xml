@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:jee="http://www.springframework.org/schema/jee"
+        xmlns:tx="http://www.springframework.org/schema/tx"
+        xmlns:jaxws="http://cxf.apache.org/jaxws"
+        xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+
+
+        xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+       	http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/jee
+        http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+        http://cxf.apache.org/jaxws
+        http://cxf.apache.org/schemas/jaxws.xsd
+        http://www.springframework.org/schema/data/jpa
+        http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-3.2.xsd"
+>
+
+    <context:annotation-config/>
+    <context:component-scan base-package="com.accenture.flowershop.*"/>
+    <jee:jndi-lookup id="dataSource" jndi-name="jdbc/flowerShopDS "/>
+
+    <bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate">
+        <property name="dataSource" ref="dataSource"/>     <!-- reference to datasource bean-->
+        <property name="locations">
+            <array>
+                <value>dbscripts</value>
+            </array>   <!-- scripts location folder -->
+        </property>
+        <property name="baselineOnMigrate" value="false"/>
+        <property name="outOfOrder" value="true"/>
+        <property name="sqlMigrationPrefix" value="v"/>
+        <property name="sqlMigrationSeparator" value="__"/>
+        <property name="placeholderPrefix" value="@{"/>
+        <property name="placeholderSuffix" value="}"/>
+    </bean>
+
+    <jpa:repositories base-package="com.accenture.flowershop.be.repository"/>
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.h2.Driver" />
+        <property name="url" value="jdbc:h2:~/flowershop" />
+        <property name="username" value="sa" />
+        <property name="password" value="1234" />
+    </bean>
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+          depends-on="flyway">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+        </property>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">none</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.orm.jpa.JpaTransactionManager" id="transactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+
+    <tx:annotation-driven/>
+
+    <context:property-placeholder location = "classpath:conf.properties"/>
+
+    <bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller" >
+        <property name="mappingLocation" value="classpath:mapping.xml" />
+    </bean>
+
+    <bean id="XMLConverter" class="com.accenture.flowershop.be.business.XMLConverter">
+        <property name="marshaller" ref="castorMarshaller" />
+        <property name="unmarshaller" ref="castorMarshaller" />
+    </bean>
+
+    <bean id="FlowerStockWebService" class="com.accenture.flowershop.fe.ws.FlowerStockWebServiceImpl" />
+
+    <jaxws:endpoint id="FlowerStockWebService1" implementor="#FlowerStockWebService"
+                    address="/FlowerStockWebService"/>
+    <bean id="mapper" class="org.dozer.DozerBeanMapper"/>
+    <aop:aspectj-autoproxy/>
+
+    <context:component-scan base-package="com.accenture.flowershop.fe.ws"/>
+</beans>
