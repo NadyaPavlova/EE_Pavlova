@@ -99,7 +99,7 @@
     <table style="text-align:center; width:100%;">
         <tr style="background-color:rgb(26, 180, 253)">
             <td> Заказ №${i.idOrder}</td>
-            <td>${i.userDTO.lastName} ${i.userDTO.firstName}</td>
+            <td><a href="/flowershop/rest/user/${i.userDTO.idUser}">${i.userDTO.lastName} ${i.userDTO.firstName}</a></td>
             <td> ${i.status} </td>
             <td> Создан:"${i.creationDate}"</td>
             <td>

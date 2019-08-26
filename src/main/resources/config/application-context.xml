@@ -5,7 +5,11 @@
         xmlns:context="http://www.springframework.org/schema/context"
         xmlns:jee="http://www.springframework.org/schema/jee"
         xmlns:tx="http://www.springframework.org/schema/tx"
-        xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+        xmlns:jaxws="http://cxf.apache.org/jaxws"
+        xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+
+
         xsi:schemaLocation="
         http://www.springframework.org/schema/beans
        	http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -18,7 +22,9 @@
         http://cxf.apache.org/jaxws
         http://cxf.apache.org/schemas/jaxws.xsd
         http://www.springframework.org/schema/data/jpa
-        http://www.springframework.org/schema/data/jpa/spring-jpa.xsd"
+        http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-3.2.xsd"
 >
 
     <context:annotation-config/>
@@ -85,5 +91,7 @@
     <jaxws:endpoint id="FlowerStockWebService1" implementor="#FlowerStockWebService"
                     address="/FlowerStockWebService"/>
     <bean id="mapper" class="org.dozer.DozerBeanMapper"/>
+    <aop:aspectj-autoproxy/>
 
+    <context:component-scan base-package="com.accenture.flowershop.fe.ws"/>
 </beans>

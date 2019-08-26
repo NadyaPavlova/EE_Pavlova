@@ -3,6 +3,7 @@ package com.accenture.flowershop.be.business.order;
 
 import com.accenture.flowershop.be.access.order.OrderDAO;
 import com.accenture.flowershop.be.business.InternalException;
+import com.accenture.flowershop.be.business.Secured;
 import com.accenture.flowershop.be.business.StatusOrders;
 import com.accenture.flowershop.be.business.flower.FlowerBusinessService;
 import com.accenture.flowershop.be.business.user.UserBusinessService;
@@ -47,6 +48,7 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     }
 
     @Override
+    @Secured
     public List<Order> getAllOrders(){
 
         return orderRepository.getByAdmin();
@@ -90,6 +92,7 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 
     @Override
     @Transactional
+
     public void closedOrder(Long id) throws InternalException {
         Order order = getOrderById(id);
         order.close();
