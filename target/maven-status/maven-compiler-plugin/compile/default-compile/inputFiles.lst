@@ -12,7 +12,6 @@ C:\Users\nadezhda.pavlova\IdeaProjects\flowershop\src\main\java\com\accenture\fl
 C:\Users\nadezhda.pavlova\IdeaProjects\flowershop\src\main\java\com\accenture\flowershop\fe\servlets\LoginServlet.java
 C:\Users\nadezhda.pavlova\IdeaProjects\flowershop\src\main\java\com\accenture\flowershop\fe\dto\OrderItemDTO.java
 C:\Users\nadezhda.pavlova\IdeaProjects\flowershop\src\main\java\com\accenture\flowershop\fe\servlets\BasketAddServlet.java
-C:\Users\nadezhda.pavlova\IdeaProjects\flowershop\src\main\java\com\accenture\flowershop\fe\ws\rest\UserController2.java
 C:\Users\nadezhda.pavlova\IdeaProjects\flowershop\src\main\java\com\accenture\flowershop\be\business\user\UserBusinessService.java
 C:\Users\nadezhda.pavlova\IdeaProjects\flowershop\src\main\java\com\accenture\flowershop\fe\servlets\ExitServlet.java
 C:\Users\nadezhda.pavlova\IdeaProjects\flowershop\src\main\java\com\accenture\flowershop\be\business\checkAdmin.java
@@ -34,6 +33,7 @@ C:\Users\nadezhda.pavlova\IdeaProjects\flowershop\src\main\java\com\accenture\fl
 C:\Users\nadezhda.pavlova\IdeaProjects\flowershop\src\main\java\com\accenture\flowershop\be\repository\UserRepository.java
 C:\Users\nadezhda.pavlova\IdeaProjects\flowershop\src\main\java\com\accenture\flowershop\fe\servlets\OrderClosedServlet.java
 C:\Users\nadezhda.pavlova\IdeaProjects\flowershop\src\main\java\com\accenture\flowershop\Application.java
+C:\Users\nadezhda.pavlova\IdeaProjects\flowershop\src\main\java\com\accenture\flowershop\fe\ws\mvc\UserController2.java
 C:\Users\nadezhda.pavlova\IdeaProjects\flowershop\src\main\java\com\accenture\flowershop\be\entity\user\User.java
 C:\Users\nadezhda.pavlova\IdeaProjects\flowershop\src\main\java\com\accenture\flowershop\be\business\DaoPerformanceAspect.java
 C:\Users\nadezhda.pavlova\IdeaProjects\flowershop\src\main\java\com\accenture\flowershop\fe\dto\OrderDTO.java
