@@ -29,6 +29,7 @@ com\accenture\flowershop\be\access\flower\FlowerDAOImpl.class
 com\accenture\flowershop\be\entity\orderItem\OrderItem.class
 com\accenture\flowershop\fe\servlets\FilterServer.class
 com\accenture\flowershop\be\entity\order\Order.class
+com\accenture\flowershop\be\business\DaoPerformanceAspect.class
 com\accenture\flowershop\be\repository\FlowerRepository.class
 com\accenture\flowershop\be\repository\OrderRepository.class
 com\accenture\flowershop\be\business\order\OrderBusinessService.class

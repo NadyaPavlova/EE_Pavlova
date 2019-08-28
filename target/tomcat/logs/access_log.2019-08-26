@@ -1,8 +1,0 @@
-0:0:0:0:0:0:0:1 - - [26/Aug/2019:14:35:38 +0300] "GET /rest/user/2 HTTP/1.1" 404 - http-bio-8080-exec-1 0
-0:0:0:0:0:0:0:1 - - [26/Aug/2019:14:35:54 +0300] "GET /flowershop/rest/user/2 HTTP/1.1" 404 967 http-bio-8080-exec-3 335
-0:0:0:0:0:0:0:1 - - [26/Aug/2019:14:35:58 +0300] "GET /flowershop/user/2 HTTP/1.1" 404 985 http-bio-8080-exec-4 4
-0:0:0:0:0:0:0:1 - - [26/Aug/2019:14:36:10 +0300] "GET //user/2 HTTP/1.1" 404 - http-bio-8080-exec-6 0
-0:0:0:0:0:0:0:1 - - [26/Aug/2019:14:36:13 +0300] "GET /flowershop/user/2 HTTP/1.1" 404 985 http-bio-8080-exec-7 2
-0:0:0:0:0:0:0:1 - - [26/Aug/2019:14:41:11 +0300] "GET /flowershop/ HTTP/1.1" 200 575 http-bio-8080-exec-9 1788
-0:0:0:0:0:0:0:1 - - [26/Aug/2019:14:41:15 +0300] "GET /flowershop/ws HTTP/1.1" 200 1142 http-bio-8080-exec-9 23
-0:0:0:0:0:0:0:1 - - [26/Aug/2019:14:41:15 +0300] "GET /flowershop/ws/?stylesheet=1 HTTP/1.1" 200 367 http-bio-8080-exec-9 23

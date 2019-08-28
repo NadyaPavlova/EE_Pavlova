@@ -24,7 +24,7 @@
                         email.onblur = function() {
                             if(email.value != ""){
                                 $.ajax({
-                                    url: "http://localhost:8080/flowershop/ws/rest/login/user/"+this.value,
+                                    url: "http://localhost:8080/flowershop/rest/login/user/"+this.value,
                                     type: "GET",
                                     success: function(data) {
                                         if(data == "false"){
