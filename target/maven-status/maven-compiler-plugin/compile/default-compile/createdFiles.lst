@@ -1,6 +1,7 @@
 com\accenture\flowershop\be\access\order\OrderDAO.class
 com\accenture\flowershop\be\entity\user\User.class
 com\accenture\flowershop\fe\dto\UserDTO.class
+com\accenture\flowershop\fe\ws\mvc\OrderController.class
 com\accenture\flowershop\be\repository\UserRepository.class
 com\accenture\flowershop\fe\servlets\OrderServlet.class
 com\accenture\flowershop\be\business\user\UserBusinessService.class
@@ -25,7 +26,6 @@ com\accenture\flowershop\be\business\JmsConfig.class
 com\accenture\flowershop\Application.class
 com\accenture\flowershop\be\business\JmsConfig$1.class
 com\accenture\flowershop\be\access\flower\FlowerDAOImpl.class
-com\accenture\flowershop\fe\ws\mvc\UserController2.class
 com\accenture\flowershop\be\entity\orderItem\OrderItem.class
 com\accenture\flowershop\fe\servlets\FilterServer.class
 com\accenture\flowershop\be\entity\order\Order.class
@@ -39,9 +39,12 @@ com\accenture\flowershop\be\business\StatusOrders.class
 com\accenture\flowershop\fe\dto\FlowerDTO.class
 com\accenture\flowershop\fe\dto\OrderItemDTO.class
 com\accenture\flowershop\fe\servlets\OrderPayServlet.class
+com\accenture\flowershop\fe\ws\mvc\UserController.class
 com\accenture\flowershop\fe\servlets\BasketDeleteServlet.class
 com\accenture\flowershop\fe\ws\rest\LoginCheckServer.class
 com\accenture\flowershop\be\access\user\UserDAOImpl.class
+com\accenture\flowershop\fe\ws\mvc\FlowerController.class
 com\accenture\flowershop\be\business\user\UserBusinessServiceImpl.class
 com\accenture\flowershop\be\business\order\OrderBusinessServiceImpl.class
 com\accenture\flowershop\be\entity\flower\Flower.class
+com\accenture\flowershop\fe\ws\mvc\SessionFactory.class
