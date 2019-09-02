@@ -2,17 +2,17 @@ package com.accenture.flowershop.fe.ws.mvc;
 
 import com.accenture.flowershop.be.business.InternalException;
 import com.accenture.flowershop.be.business.user.UserBusinessService;
+import com.accenture.flowershop.be.entity.user.User;
 import com.accenture.flowershop.fe.dto.UserDTO;
 import org.dozer.DozerBeanMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.QueryParam;
 
 @RestController
@@ -26,7 +26,7 @@ public class UserController {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
-    UserController(){
+    public UserController(){
         System.out.println("=== UserController создан ===");
     }
 
@@ -35,6 +35,12 @@ public class UserController {
         HttpSession session = SessionFactory.getSession(false);
         UserDTO userDTO = (UserDTO) session.getAttribute("user");
         return userDTO;
+    }
+
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public User getUserById (@PathVariable("id") Long id) {
+        return userBusinessService.getById(id);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -50,16 +56,18 @@ public class UserController {
         return "You logged in";
     }
 
-    @RequestMapping(value = "/registration", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String registration(@QueryParam("email") String email,@QueryParam("password") String password,@QueryParam("lastName") String lastName,@QueryParam("firstName") String firstName,@QueryParam("middleName") String middleName,@QueryParam("phoneNumber") String phoneNumber){
+    @RequestMapping(value = "/registration",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String registration(@RequestBody @NotNull User user){
         try {
-            userBusinessService.registration(email, password, lastName, firstName, middleName, phoneNumber);
+            userBusinessService.registration(user.getEmail(), user.getPassword(), user.getLastName(), user.getFirstName(), user.getMiddleName(), user.getPhoneNumber());
+            return "You are registered";
         }
         catch (InternalException e){
             return e.getMessage();
         }
-        return "You are registered";
+
     }
+
     @RequestMapping(value = "/exit", method = RequestMethod.GET)
     void exit(){
         HttpSession session = SessionFactory.getSession(false);

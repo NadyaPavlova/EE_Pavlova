@@ -1,5 +1,6 @@
 package com.accenture.flowershop.fe.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.dozer.Mapping;
 
 import java.math.BigDecimal;
@@ -8,6 +9,7 @@ public class OrderItemDTO {
     private FlowerDTO flowerDTO;
     private BigDecimal priceFlower;
     private int qtyFlower;
+    @JsonIgnore
     private OrderDTO orderDTO;
     public OrderItemDTO() {
     }

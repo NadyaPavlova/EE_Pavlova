@@ -63,6 +63,7 @@ public class User {
 
     }
 
+
     public void pay(BigDecimal price) {
         money = money.subtract(price);
     }

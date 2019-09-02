@@ -14,7 +14,7 @@ public class UserDTO {
     private String phoneNumber;
     private BigDecimal money;
     private Integer discount;
-    private Integer admin;
+    private Boolean admin;
 
 
     public UserDTO(){
@@ -84,11 +84,11 @@ public class UserDTO {
         this.discount = discount;
     }
 
-    public Integer isAdmin() {
+    public Boolean isAdmin() {
         return admin;
     }
 
-    public void setAdmin(Integer admin) {
+    public void setAdmin(Boolean admin) {
         this.admin = admin;
     }
     @Mapping("id")
@@ -100,7 +100,7 @@ public class UserDTO {
         this.idUser = idUser;
     }
 
-    public Integer getAdmin() {
+    public Boolean getAdmin() {
         return admin;
     }
 

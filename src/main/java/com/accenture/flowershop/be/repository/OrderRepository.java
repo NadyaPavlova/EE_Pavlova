@@ -11,7 +11,7 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Long> {
     Order getOrderById(long id);
     @Query(value = "select o from Order o order by (o.creationDate, o.status)")
-    List<Order> getByAdmin();
+    List<Order> getAllOrders();
     @Query(value = "select o from Order o where o.user.id = :id")
     List<Order> getByUser(@Param("id")Long id);
     Order saveAndFlush(Order order);

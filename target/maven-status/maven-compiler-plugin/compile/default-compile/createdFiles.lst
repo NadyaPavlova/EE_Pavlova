@@ -12,8 +12,8 @@ com\accenture\flowershop\fe\servlets\PersonalAccountServlet.class
 com\accenture\flowershop\fe\servlets\ExitServlet.class
 com\accenture\flowershop\fe\dto\OrderDTO.class
 com\accenture\flowershop\fe\servlets\OrderClosedServlet.class
-com\accenture\flowershop\be\business\Secured.class
 com\accenture\flowershop\fe\dto\DiscountRequest.class
+com\accenture\flowershop\be\business\aspects\SecurityAspect.class
 com\accenture\flowershop\be\business\flower\FlowerBusinessService.class
 com\accenture\flowershop\fe\ws\FlowerStockWebServiceImpl.class
 com\accenture\flowershop\fe\ws\FlowerStockWebService.class
@@ -21,7 +21,6 @@ com\accenture\flowershop\be\access\user\UserDAO.class
 com\accenture\flowershop\be\business\InternalException.class
 com\accenture\flowershop\be\access\order\OrderDAOImpl.class
 com\accenture\flowershop\fe\servlets\LoginServlet.class
-com\accenture\flowershop\be\business\checkAdmin.class
 com\accenture\flowershop\be\business\JmsConfig.class
 com\accenture\flowershop\Application.class
 com\accenture\flowershop\be\business\JmsConfig$1.class
@@ -36,6 +35,7 @@ com\accenture\flowershop\be\business\order\OrderBusinessService.class
 com\accenture\flowershop\fe\servlets\RegistrationServlet.class
 com\accenture\flowershop\be\business\XMLConverter.class
 com\accenture\flowershop\be\business\StatusOrders.class
+com\accenture\flowershop\be\business\annotation\SecuredAnnotation.class
 com\accenture\flowershop\fe\dto\FlowerDTO.class
 com\accenture\flowershop\fe\dto\OrderItemDTO.class
 com\accenture\flowershop\fe\servlets\OrderPayServlet.class

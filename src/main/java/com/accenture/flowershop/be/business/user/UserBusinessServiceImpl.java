@@ -55,8 +55,6 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 
         try {
             User user = new User(email, password, lastName, firstName, middleName, phoneNumber);
-            user.setDiscount(3);
-            user.setMoney(new BigDecimal(2000.0));
             userRepository.save(user);
             // отправляем пользователя в очередь и сохроняем его в xml
             xmlConverter.convertFromObjectToXML(user, "user" + user.getId() + ".xml");

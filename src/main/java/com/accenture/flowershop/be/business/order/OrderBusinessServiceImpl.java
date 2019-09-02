@@ -3,13 +3,14 @@ package com.accenture.flowershop.be.business.order;
 
 import com.accenture.flowershop.be.access.order.OrderDAO;
 import com.accenture.flowershop.be.business.InternalException;
-import com.accenture.flowershop.be.business.Secured;
 import com.accenture.flowershop.be.business.StatusOrders;
+import com.accenture.flowershop.be.business.annotation.SecuredAnnotation;
 import com.accenture.flowershop.be.business.flower.FlowerBusinessService;
 import com.accenture.flowershop.be.business.user.UserBusinessService;
 import com.accenture.flowershop.be.entity.order.Order;
 import com.accenture.flowershop.be.entity.orderItem.OrderItem;
 import com.accenture.flowershop.be.repository.OrderRepository;
+import com.accenture.flowershop.fe.ws.mvc.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,10 +49,9 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     }
 
     @Override
-    @Secured
+    @SecuredAnnotation(onlyAdmin = true)
     public List<Order> getAllOrders(){
-
-        return orderRepository.getByAdmin();
+        return orderRepository.getAllOrders();
     }
 
     @Override
@@ -78,13 +78,15 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     @Override
     @Transactional(rollbackFor=InternalException.class)
     public void payOrder(Order order) throws InternalException {
-        if ((StatusOrders.GENERATED) == (order.getStatus())) {
-            ubs.payOrder(order.getUser(), order.getPriceSum());
-            for (OrderItem orderItem : order.getItemList()) {
-                fbs.countingFlowers(orderItem.getFlower(), orderItem.getQtyFlower());
+        if(SessionFactory.getSession(false).getAttribute("user").equals(order.getUser())){
+            if ((StatusOrders.GENERATED) == (order.getStatus())) {
+                ubs.payOrder(order.getUser(), order.getPriceSum());
+                for (OrderItem orderItem : order.getItemList()) {
+                    fbs.countingFlowers(orderItem.getFlower(), orderItem.getQtyFlower());
+                }
+            } else {
+                return;
             }
-        } else {
-            return;
         }
         order.setStatus(StatusOrders.PAID);
         orderRepository.save(order);

@@ -62,10 +62,13 @@ public class FlowerBusinessServiceImpl implements FlowerBusinessService {
     public List<Flower> filterFlower(String name, String minPrice, String maxPrice) {
         BigDecimal min= new BigDecimal(00.00);
         BigDecimal max= new BigDecimal(10000.00);
-        if(!minPrice.isEmpty()){
+        if(name==null){
+            name="";
+        }
+        if((minPrice!=null)&&(!minPrice.isEmpty())){
             min= new BigDecimal(minPrice);
         }
-        if(!maxPrice.isEmpty()){
+        if((maxPrice!=null)&&(!maxPrice.isEmpty())){
             max= new BigDecimal(maxPrice);
         }
         return flowerRepository.searchFlower(name, min, max);
