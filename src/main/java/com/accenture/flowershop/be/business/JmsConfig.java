@@ -29,7 +29,6 @@ public class JmsConfig {
 
     @Value("${exportPath}")
     private String properyPath;
-    private Connection connection;
     private Session session;
     private Queue inQueue;
     private Queue outQueue;

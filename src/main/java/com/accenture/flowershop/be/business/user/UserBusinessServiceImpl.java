@@ -95,6 +95,6 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     }
     @Override
     public User getById(Long id){
-        return userRepository.findOne(id);
+        return userRepository.getUserById(id);
     }
 }
