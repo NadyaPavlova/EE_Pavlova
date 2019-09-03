@@ -94,7 +94,6 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 
     @Override
     @Transactional
-
     public void closedOrder(Long id) throws InternalException {
         Order order = getOrderById(id);
         order.close();

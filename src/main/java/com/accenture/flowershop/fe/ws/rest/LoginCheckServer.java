@@ -1,7 +1,6 @@
 package com.accenture.flowershop.fe.ws.rest;
 
 
-import com.accenture.flowershop.be.business.annotation.SecuredAnnotation;
 import com.accenture.flowershop.be.business.user.UserBusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,7 +21,6 @@ public class LoginCheckServer {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/user/{name}")
-    @SecuredAnnotation
     public boolean checkUserList(@PathParam("name") String username) {
         try {
             if(ubs.getUserByLogin(username) != null) {

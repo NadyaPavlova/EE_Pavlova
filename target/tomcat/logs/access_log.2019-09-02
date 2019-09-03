@@ -1,4 +1,0 @@
-0:0:0:0:0:0:0:1 - - [02/Sep/2019:17:27:51 +0300] "GET /flowershop/mvc/flower/all HTTP/1.1" 500 10446 http-bio-8080-exec-1 11313
-0:0:0:0:0:0:0:1 - - [02/Sep/2019:17:30:21 +0300] "POST /flowershop/mvc/user/registration?email=asd@ya.ru&password=asd&lastName=Art&firstName=Second&middleName=Dark&phoneNumber=8944 HTTP/1.1" 400 968 http-bio-8080-exec-2 260
-0:0:0:0:0:0:0:1 - - [02/Sep/2019:17:30:37 +0300] "POST /flowershop/mvc/user/login?login=asd@ya.ru&password=asd HTTP/1.1" 200 13 http-bio-8080-exec-3 946
-0:0:0:0:0:0:0:1 - - [02/Sep/2019:17:30:56 +0300] "GET /flowershop/mvc/flower/all HTTP/1.1" 500 10446 http-bio-8080-exec-4 13063

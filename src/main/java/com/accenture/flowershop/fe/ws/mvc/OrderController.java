@@ -1,6 +1,7 @@
 package com.accenture.flowershop.fe.ws.mvc;
 
 import com.accenture.flowershop.be.business.InternalException;
+import com.accenture.flowershop.be.business.annotation.SecuredAnnotation;
 import com.accenture.flowershop.be.business.order.OrderBusinessService;
 import com.accenture.flowershop.be.entity.order.Order;
 import com.accenture.flowershop.fe.dto.OrderDTO;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/order")
@@ -35,7 +39,8 @@ public class OrderController {
         }
     }
 
-    @RequestMapping(value = "pay/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/pay/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @SecuredAnnotation(onlyAdmin = false)
     public String payOrder(@PathVariable("id") Long id){
         try{
             orderBusinessService.payOrder(orderBusinessService.getOrderById(id));
@@ -46,8 +51,8 @@ public class OrderController {
         }
     }
 
-    @RequestMapping(value = "create", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String payOrder(@PathVariable("id")Order order){
+    @RequestMapping(value = "/create", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String payOrder(Order order){
         try{
             orderBusinessService.addOrder(order);
             return "Order is created";
@@ -55,5 +60,26 @@ public class OrderController {
         catch (InternalException e) {
             return e.getMessage();
         }
+    }
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @SecuredAnnotation(onlyAdmin = true)
+    public List<OrderDTO> allOrders(){
+        try{
+            return mapperListDTO(orderBusinessService.getAllOrders());
+        }
+        catch (InternalException e) {
+            return null;
+        }
+    }
+
+    public List<OrderDTO> mapperListDTO(List<Order> ordersList){
+        List<OrderDTO> orderDTOList = new ArrayList<>();
+        OrderDTO orderDTO;
+        for (Order order: ordersList) {
+            orderDTO = mapper.map(order,OrderDTO.class);
+            orderDTOList.add(orderDTO);
+        }
+        return orderDTOList;
     }
 }

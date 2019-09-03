@@ -1,6 +1,5 @@
 package com.accenture.flowershop.fe.ws.mvc;
 
-import com.accenture.flowershop.be.business.annotation.SecuredAnnotation;
 import com.accenture.flowershop.be.business.flower.FlowerBusinessService;
 import com.accenture.flowershop.be.entity.flower.Flower;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,7 @@ public class FlowerController {
         return flowerList;
     }
 
-    @SecuredAnnotation(onlyAdmin = false)
+
     @RequestMapping(value = "/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Flower> flowerAll () {
         List<Flower> flowerList = flowerBusinessService.filterFlower("", "", "");
