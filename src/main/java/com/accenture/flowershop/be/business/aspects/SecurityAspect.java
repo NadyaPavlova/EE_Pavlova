@@ -19,11 +19,11 @@ public class SecurityAspect {
     public void secure(final JoinPoint jp, SecuredAnnotation securedAnnotation) throws Throwable{
         HttpSession session = SessionFactory.getSession(false);
         if (session == null) {
-            throw new InternalException(InternalException.ERROR_DAO_USER_FIND, new Throwable());
+            throw new InternalException(InternalException.ERROR_SESSION_NULL);
         }
         UserDTO userDTO = (UserDTO) session.getAttribute("user");
         if (userDTO.getAdmin() != securedAnnotation.onlyAdmin()){
-            throw new InternalException(InternalException.ERROR_DAO_USER_FIND, new Throwable());
+            throw new InternalException(InternalException.ERROR_ACCESS);
         }
 
     }

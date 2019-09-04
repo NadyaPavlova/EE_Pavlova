@@ -93,6 +93,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     public void setDiscount(Long idUser, Integer discount) {
         userRepository.save(getById(idUser));
     }
+
     @Override
     public User getById(Long id){
         return userRepository.getUserById(id);

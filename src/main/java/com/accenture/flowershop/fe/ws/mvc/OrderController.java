@@ -39,6 +39,16 @@ public class OrderController {
         }
     }
 
+    @RequestMapping(value = "/all/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<OrderDTO> getOrderAllById(@PathVariable("id") Long id){
+        try{
+            return mapperListDTO(orderBusinessService.getAllOrdersUser(id));
+        }
+        catch (InternalException e) {
+            return null;
+        }
+    }
+
     @RequestMapping(value = "/pay/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @SecuredAnnotation(onlyAdmin = false)
     public String payOrder(@PathVariable("id") Long id){

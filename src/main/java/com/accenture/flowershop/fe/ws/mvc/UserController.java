@@ -1,6 +1,7 @@
 package com.accenture.flowershop.fe.ws.mvc;
 
 import com.accenture.flowershop.be.business.InternalException;
+import com.accenture.flowershop.be.business.annotation.SecuredAnnotation;
 import com.accenture.flowershop.be.business.user.UserBusinessService;
 import com.accenture.flowershop.be.entity.user.User;
 import com.accenture.flowershop.fe.dto.UserDTO;
@@ -37,9 +38,10 @@ public class UserController {
         return userDTO;
     }
 
-
+    @SecuredAnnotation(onlyAdmin = true)
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public User getUserById (@PathVariable("id") Long id) {
+
         return userBusinessService.getById(id);
     }
 
